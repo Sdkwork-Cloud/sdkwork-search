@@ -1,7 +1,8 @@
 import type { SearchDocument } from './search-document';
 
-export interface SearchResult {
+export interface SearchPromotionItem {
   document: SearchDocument;
-  matchedOn: 'title' | 'keyword' | 'description' | 'group' | 'scope';
+  placement: string;
+  reasonCodes: string[];
   score: number;
 }

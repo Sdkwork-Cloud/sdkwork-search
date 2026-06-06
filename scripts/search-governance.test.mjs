@@ -87,6 +87,8 @@ function checkFamily({
   sdkType,
   expectedOperations,
   routeManifest,
+  forbiddenSchemas = [],
+  forbiddenGeneratedPatterns = [],
 }) {
   assertFile(`sdks/${family}/README.md`);
   assertFile(`sdks/${family}/.sdkwork-assembly.json`);
@@ -129,6 +131,14 @@ function checkFamily({
   assertEqual(openApi.info?.["x-sdkwork-api-authority"], authority, `${authority} info authority`);
   assertEqual(openApi.info?.["x-sdkwork-sdk-family"], family, `${authority} info family`);
   assertEqual(sdkgen["x-sdkwork-derived-from"], `openapi/${authority}.openapi.yaml`, `${authority} sdkgen source`);
+  for (const schemaName of forbiddenSchemas) {
+    if (openApi.components?.schemas?.[schemaName]) {
+      fail(`${authority} must not include unreferenced or foreign-surface schema ${schemaName}`);
+    }
+    if (sdkgen.components?.schemas?.[schemaName]) {
+      fail(`${authority} sdkgen input must not include unreferenced or foreign-surface schema ${schemaName}`);
+    }
+  }
   assertEqual(manifest.kind, "sdkwork.route.manifest", `${family} route manifest kind`);
   assertEqual(manifest.owner, "sdkwork-search", `${family} route owner`);
   assertEqual(manifest.domain, "search", `${family} route domain`);
@@ -175,6 +185,24 @@ function checkFamily({
     for (const parameter of operation.parameters ?? []) {
       if (["keyword", "search", "searchQuery", "search_query"].includes(parameter.name)) {
         fail(`${authority} ${operation.operationId} uses forbidden generic search parameter ${parameter.name}`);
+      }
+    }
+  }
+
+  const generatedSourceRoot = path.join(
+    ROOT,
+    "sdks",
+    family,
+    `${family}-typescript`,
+    "generated",
+    "server-openapi",
+    "src",
+  );
+  for (const file of walkFiles(generatedSourceRoot).filter((entry) => /\.(ts|tsx)$/.test(entry))) {
+    const content = readFileSync(file, "utf8");
+    for (const pattern of forbiddenGeneratedPatterns) {
+      if (pattern.test(content)) {
+        fail(`${family} generated output contains foreign-surface API/type in ${file}: ${pattern}`);
       }
     }
   }
@@ -235,6 +263,240 @@ function checkCurrentRepoOwnership() {
   }
 }
 
+function checkSearchProviderSolutionArchitecture() {
+  const servicePath = path.join(
+    ROOT,
+    "packages/common/search/sdkwork-search-service/src/searchService.ts",
+  );
+  const contractsPath = path.join(
+    ROOT,
+    "packages/common/search/sdkwork-search-contracts/src/search.ts",
+  );
+  const service = readFileSync(servicePath, "utf8");
+  const contracts = readFileSync(contractsPath, "utf8");
+
+  for (const expected of [
+    "createAlgoliaProvider",
+    "createElasticsearchProvider",
+    "createPostgresqlSearchProvider",
+    "createMemorySearchProvider",
+    "createExternalSearchProvider",
+    "createMeilisearchProvider",
+    "createOpenSearchProvider",
+    "createSdkworkSearchSolutionSet",
+    "createTypesenseProvider",
+    "createVectorSearchProvider",
+  ]) {
+    if (!service.includes(`export function ${expected}`)) {
+      fail(`search service must expose provider solution factory ${expected}`);
+    }
+  }
+
+  if (!service.includes("SDKWORK_POSTGRESQL_SEARCH_PROVIDER_MANIFEST")) {
+    fail("search service must anchor the default PostgreSQL solution to the canonical manifest");
+  }
+
+  if (!service.includes("SdkworkPostgresqlSearchRepository")) {
+    fail("search service must expose a PostgreSQL repository adapter port for real database execution");
+  }
+
+  if (!service.includes("assertExternalProviderImplementsCapabilities")) {
+    fail("search service must validate external provider capability declarations against adapters");
+  }
+
+  if (!service.includes('document_indexing: "upsertDocument"')) {
+    fail("search service must route document_indexing capabilities through provider upsertDocument adapters");
+  }
+
+  if (!service.includes("recommendationStrategies?: readonly SdkworkRecommendationStrategyInput[]")) {
+    fail("search service must expose recommendation strategy injection points for extensible recommendation solutions");
+  }
+
+  if (!service.includes("strategies: recommendationStrategies")) {
+    fail("search service must pass recommendation strategy definitions into local PostgreSQL/memory recommendation execution");
+  }
+
+  if (!service.includes("syncIndex(") || !service.includes("createSdkworkSearchIndexSyncPlan")) {
+    fail("search service must expose an index synchronization pipeline backed by shared sync plans");
+  }
+
+  if (!contracts.includes("export const SDKWORK_POSTGRESQL_SEARCH_PROVIDER_MANIFEST")) {
+    fail("search contracts must export the canonical PostgreSQL provider manifest");
+  }
+
+  if (!contracts.includes('"postgresql"') || !contracts.includes('"pg_trgm"')) {
+    fail("search contracts must keep PostgreSQL/pg_trgm as the default search module declaration");
+  }
+
+  for (const expected of [
+    "SDKWORK_POSTGRESQL_RECOMMENDATION_STRATEGY",
+    "SDKWORK_POSTGRESQL_RECOMMENDATION_STRATEGIES",
+    "createSdkworkRecommendationStrategyRegistry",
+    "selectSdkworkRecommendationStrategy",
+    "normalizeSdkworkRecommendationStrategyDefinition",
+  ]) {
+    if (!contracts.includes(`export function ${expected}`) && !contracts.includes(`export const ${expected}`)) {
+      fail(`search contracts must expose recommendation strategy architecture ${expected}`);
+    }
+  }
+
+  for (const expectedType of ["collaborative", "content", "hybrid", "popular", "semantic"]) {
+    if (!contracts.includes(`"${expectedType}"`)) {
+      fail(`search contracts must support recommendation strategy type ${expectedType}`);
+    }
+  }
+
+  if (!contracts.includes('strategyId: "postgresql-hybrid"')) {
+    fail("search contracts must make PostgreSQL hybrid the default recommendation strategy");
+  }
+
+  if (!contracts.includes('"popular_signal"') || !contracts.includes('"semantic_signal"') || !contracts.includes('"collaborative_signal"')) {
+    fail("search contracts must emit explainable recommendation strategy signals");
+  }
+
+  for (const expected of [
+    "SdkworkSearchIndexDefinition",
+    "normalizeSdkworkSearchIndexDefinition",
+    "mapSdkworkSearchIndexSourceItems",
+    "createSdkworkSearchIndexSyncPlan",
+    "SdkworkSearchIndexSyncResponse",
+  ]) {
+    if (!contracts.includes(expected)) {
+      fail(`search contracts must expose search index synchronization architecture ${expected}`);
+    }
+  }
+}
+
+function checkRecommendationStrategyGovernance() {
+  const backendOpenApi = readJson(
+    "sdks/sdkwork-search-backend-sdk/openapi/sdkwork-search-backend-api.openapi.yaml",
+  );
+  const backendSdkgen = readJson(
+    "sdks/sdkwork-search-backend-sdk/openapi/sdkwork-search-backend-api.sdkgen.yaml",
+  );
+  if (!backendOpenApi || !backendSdkgen) {
+    return;
+  }
+
+  for (const [label, openApi] of [
+    ["backend OpenAPI", backendOpenApi],
+    ["backend SDK input", backendSdkgen],
+  ]) {
+    const enumValues = openApi.components?.schemas?.SearchRecommendationStrategy?.properties?.strategyType?.enum;
+    for (const expectedType of ["collaborative", "content", "hybrid", "popular", "semantic"]) {
+      if (!enumValues?.includes(expectedType)) {
+        fail(`${label} SearchRecommendationStrategy must include strategy type ${expectedType}`);
+      }
+    }
+  }
+
+  const contractsTest = readFileSync(
+    path.join(
+      ROOT,
+      "packages/common/search/sdkwork-search-contracts/tests/searchContracts.test.ts",
+    ),
+    "utf8",
+  );
+  const serviceTest = readFileSync(
+    path.join(
+      ROOT,
+      "packages/common/search/sdkwork-search-service/tests/searchService.test.ts",
+    ),
+    "utf8",
+  );
+
+  if (!contractsTest.includes("declares PostgreSQL hybrid as the default recommendation strategy")) {
+    fail("search contracts tests must lock PostgreSQL hybrid as the default recommendation strategy");
+  }
+  if (!serviceTest.includes("keeps PostgreSQL as the default recommendation engine")) {
+    fail("search service tests must keep PostgreSQL default when external recommendation providers exist");
+  }
+}
+
+function checkProviderSecretBoundary() {
+  const backendOpenApi = readJson(
+    "sdks/sdkwork-search-backend-sdk/openapi/sdkwork-search-backend-api.openapi.yaml",
+  );
+  const backendSdkgen = readJson(
+    "sdks/sdkwork-search-backend-sdk/openapi/sdkwork-search-backend-api.sdkgen.yaml",
+  );
+  if (!backendOpenApi || !backendSdkgen) {
+    return;
+  }
+
+  for (const [label, openApi] of [
+    ["backend OpenAPI", backendOpenApi],
+    ["backend SDK input", backendSdkgen],
+  ]) {
+    const schemas = openApi.components?.schemas ?? {};
+    const provider = schemas.SearchProvider;
+    const createRequest = schemas.SearchProviderCreateRequest;
+    const updateRequest = schemas.SearchProviderUpdateRequest;
+    const providerConfig = provider?.properties?.config;
+
+    if (!providerConfig?.description?.includes("Non-secret")) {
+      fail(`${label} SearchProvider.config must document that response config is non-secret only`);
+    }
+    if (provider?.properties?.secretConfig) {
+      fail(`${label} SearchProvider response must not expose secretConfig`);
+    }
+    if (provider?.properties?.apiKey || provider?.properties?.token || provider?.properties?.secret) {
+      fail(`${label} SearchProvider response must not expose raw credential-shaped properties`);
+    }
+
+    for (const [schemaName, schema] of [
+      ["SearchProviderCreateRequest", createRequest],
+      ["SearchProviderUpdateRequest", updateRequest],
+    ]) {
+      const secretConfig = schema?.properties?.secretConfig;
+      if (!secretConfig) {
+        fail(`${label} ${schemaName} must accept secretConfig for provider credentials`);
+        continue;
+      }
+      if (secretConfig.writeOnly !== true) {
+        fail(`${label} ${schemaName}.secretConfig must be writeOnly`);
+      }
+      if (!secretConfig.description?.includes("write-only")) {
+        fail(`${label} ${schemaName}.secretConfig must document write-only credential semantics`);
+      }
+    }
+  }
+
+  const generatedProviderType = path.join(
+    ROOT,
+    "sdks/sdkwork-search-backend-sdk/sdkwork-search-backend-sdk-typescript/generated/server-openapi/src/types/search-provider.ts",
+  );
+  const generatedCreateType = path.join(
+    ROOT,
+    "sdks/sdkwork-search-backend-sdk/sdkwork-search-backend-sdk-typescript/generated/server-openapi/src/types/search-provider-create-request.ts",
+  );
+  const generatedUpdateType = path.join(
+    ROOT,
+    "sdks/sdkwork-search-backend-sdk/sdkwork-search-backend-sdk-typescript/generated/server-openapi/src/types/search-provider-update-request.ts",
+  );
+
+  for (const file of [generatedProviderType, generatedCreateType, generatedUpdateType]) {
+    if (!existsSync(file)) {
+      fail(`Missing generated provider SDK type: ${file}`);
+      return;
+    }
+  }
+
+  const providerType = readFileSync(generatedProviderType, "utf8");
+  const createType = readFileSync(generatedCreateType, "utf8");
+  const updateType = readFileSync(generatedUpdateType, "utf8");
+
+  if (/\b(secretConfig|apiKey|token|secret)\??:/.test(providerType)) {
+    fail("Generated SearchProvider response type must not expose provider credential fields");
+  }
+  if (!createType.includes("secretConfig?: Record<string, unknown>;")) {
+    fail("Generated SearchProviderCreateRequest type must expose write-only secretConfig");
+  }
+  if (!updateType.includes("secretConfig?: Record<string, unknown>;")) {
+    fail("Generated SearchProviderUpdateRequest type must expose write-only secretConfig");
+  }
+}
+
 function checkAppbaseResiduals() {
   if (!existsSync(APPBASE_ROOT)) {
     fail(`sdkwork-appbase root not found: ${APPBASE_ROOT}`);
@@ -291,9 +553,40 @@ checkFamily({
   prefix: "/app/v3/api",
   sdkType: "app",
   routeManifest: "sdkwork-routes-search-app-api.route-manifest.json",
+  forbiddenSchemas: [
+    "SearchAbExperiment",
+    "SearchAbExperimentCreateRequest",
+    "SearchEmbeddingJob",
+    "SearchEmbeddingJobCreateRequest",
+    "SearchIndexUpdateRequest",
+    "SearchProvider",
+    "SearchProviderCreateRequest",
+    "SearchProviderHealthCheck",
+    "SearchProviderUpdateRequest",
+    "SearchRankingProfile",
+    "SearchRecommendationStrategy",
+    "SearchSynonym",
+  ],
+  forbiddenGeneratedPatterns: [
+    /SearchAbExperiment/,
+    /SearchEmbeddingJob/,
+    /SearchProvider/,
+    /SearchRankingProfile/,
+    /SearchRecommendationStrategy/,
+    /SearchSynonym/,
+    /SearchIndexUpdateRequest/,
+    /SearchIndexDeleteResponse/,
+    /bulkUpsert/,
+  ],
   expectedOperations: [
     { method: "POST", path: "/app/v3/api/search/queries" },
     { method: "GET", path: "/app/v3/api/search/indexes" },
+    { method: "GET", path: "/app/v3/api/search/suggestions" },
+    { method: "POST", path: "/app/v3/api/search/recommendations" },
+    { method: "POST", path: "/app/v3/api/search/promotions" },
+    { method: "POST", path: "/app/v3/api/search/events" },
+    { method: "GET", path: "/app/v3/api/search/recent_queries" },
+    { method: "POST", path: "/app/v3/api/search/semantic_queries" },
   ],
 });
 
@@ -303,15 +596,65 @@ checkFamily({
   prefix: "/backend/v3/api",
   sdkType: "backend",
   routeManifest: "sdkwork-routes-search-backend-api.route-manifest.json",
+  forbiddenSchemas: [
+    "SearchRecentQuery",
+    "SearchRecentQueryListResponse",
+    "SearchSemanticQueryRequest",
+    "SearchSemanticQueryResponse",
+    "SearchSemanticResult",
+    "SearchSuggestionsResponse",
+    "SearchUserEvent",
+    "SearchUserEventResponse",
+  ],
+  forbiddenGeneratedPatterns: [
+    /SearchRecentQuery/,
+    /SearchSemantic/,
+    /SearchSuggestions/,
+    /SearchUserEvent/,
+    /semanticQueries/,
+    /recentQueries/,
+  ],
   expectedOperations: [
     { method: "GET", path: "/backend/v3/api/search/indexes" },
     { method: "POST", path: "/backend/v3/api/search/indexes" },
+    { method: "PATCH", path: "/backend/v3/api/search/indexes/{indexId}" },
+    { method: "DELETE", path: "/backend/v3/api/search/indexes/{indexId}" },
     { method: "PUT", path: "/backend/v3/api/search/indexes/{indexId}/documents/{documentId}" },
+    { method: "POST", path: "/backend/v3/api/search/indexes/{indexId}/documents/bulk_upsert" },
     { method: "DELETE", path: "/backend/v3/api/search/indexes/{indexId}/documents/{documentId}" },
+    { method: "GET", path: "/backend/v3/api/search/synonyms" },
+    { method: "POST", path: "/backend/v3/api/search/synonyms" },
+    { method: "DELETE", path: "/backend/v3/api/search/synonyms/{synonymId}" },
+    { method: "GET", path: "/backend/v3/api/search/ranking_profiles" },
+    { method: "POST", path: "/backend/v3/api/search/ranking_profiles" },
+    { method: "PATCH", path: "/backend/v3/api/search/ranking_profiles/{profileId}" },
+    { method: "GET", path: "/backend/v3/api/search/recommendation_strategies" },
+    { method: "POST", path: "/backend/v3/api/search/recommendation_strategies" },
+    { method: "PATCH", path: "/backend/v3/api/search/recommendation_strategies/{strategyId}" },
+    { method: "GET", path: "/backend/v3/api/search/promotions" },
+    { method: "POST", path: "/backend/v3/api/search/promotions" },
+    { method: "PATCH", path: "/backend/v3/api/search/promotions/{promotionId}" },
+    { method: "DELETE", path: "/backend/v3/api/search/promotions/{promotionId}" },
+    { method: "GET", path: "/backend/v3/api/search/embedding_jobs" },
+    { method: "POST", path: "/backend/v3/api/search/embedding_jobs" },
+    { method: "POST", path: "/backend/v3/api/search/embedding_jobs/{jobId}/retry" },
+    { method: "GET", path: "/backend/v3/api/search/ab_experiments" },
+    { method: "POST", path: "/backend/v3/api/search/ab_experiments" },
+    { method: "PATCH", path: "/backend/v3/api/search/ab_experiments/{experimentId}" },
+    { method: "POST", path: "/backend/v3/api/search/ab_experiments/{experimentId}/assignments" },
+    { method: "POST", path: "/backend/v3/api/search/jobs/rebuild" },
+    { method: "GET", path: "/backend/v3/api/search/analytics/overview" },
+    { method: "GET", path: "/backend/v3/api/search/providers" },
+    { method: "POST", path: "/backend/v3/api/search/providers" },
+    { method: "PATCH", path: "/backend/v3/api/search/providers/{providerId}" },
+    { method: "POST", path: "/backend/v3/api/search/providers/{providerId}/health_checks" },
   ],
 });
 checkRouteCrates();
 checkCurrentRepoOwnership();
+checkSearchProviderSolutionArchitecture();
+checkRecommendationStrategyGovernance();
+checkProviderSecretBoundary();
 checkAppbaseResiduals();
 
 if (failures.length > 0) {

@@ -87,6 +87,78 @@
       }
     },
     {
+      "method": "PATCH",
+      "path": "/backend/v3/api/search/indexes/{indexId}",
+      "operationId": "search.indexes.update",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.indexes.write",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_indexes_update"
+      },
+      "schemas": {
+        "request": "SearchIndexUpdateRequest",
+        "response": "SearchIndexResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.index.update",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/backend/v3/api/search/indexes/{indexId}",
+      "operationId": "search.indexes.delete",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.indexes.write",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_indexes_delete"
+      },
+      "schemas": {
+        "request": null,
+        "response": "SearchIndexDeleteResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.index.delete",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
       "method": "PUT",
       "path": "/backend/v3/api/search/indexes/{indexId}/documents/{documentId}",
       "operationId": "search.documents.upsert",
@@ -123,6 +195,42 @@
       }
     },
     {
+      "method": "POST",
+      "path": "/backend/v3/api/search/indexes/{indexId}/documents/bulk_upsert",
+      "operationId": "search.documents.bulkUpsert",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.documents.write",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_documents_bulkUpsert"
+      },
+      "schemas": {
+        "request": "SearchDocumentBulkUpsertRequest",
+        "response": "SearchDocumentBulkUpsertResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.document.bulk_upsert",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
       "method": "DELETE",
       "path": "/backend/v3/api/search/indexes/{indexId}/documents/{documentId}",
       "operationId": "search.documents.delete",
@@ -155,6 +263,942 @@
       },
       "extensions": {
         "x-sdkwork-audit-event": "search.document.delete",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/backend/v3/api/search/synonyms",
+      "operationId": "search.synonyms.list",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.synonyms.read",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_synonyms_list"
+      },
+      "schemas": {
+        "request": null,
+        "response": "SearchSynonymListResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.synonym.list",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/backend/v3/api/search/synonyms",
+      "operationId": "search.synonyms.create",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.synonyms.write",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_synonyms_create"
+      },
+      "schemas": {
+        "request": "SearchSynonymCreateRequest",
+        "response": "SearchSynonymResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.synonym.create",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/backend/v3/api/search/synonyms/{synonymId}",
+      "operationId": "search.synonyms.delete",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.synonyms.write",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_synonyms_delete"
+      },
+      "schemas": {
+        "request": null,
+        "response": "SearchSynonymDeleteResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.synonym.delete",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/backend/v3/api/search/ranking_profiles",
+      "operationId": "search.rankingProfiles.list",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.ranking_profiles.read",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_rankingProfiles_list"
+      },
+      "schemas": {
+        "request": null,
+        "response": "SearchRankingProfileListResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.ranking_profile.list",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/backend/v3/api/search/ranking_profiles",
+      "operationId": "search.rankingProfiles.create",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.ranking_profiles.write",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_rankingProfiles_create"
+      },
+      "schemas": {
+        "request": "SearchRankingProfileCreateRequest",
+        "response": "SearchRankingProfileResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.ranking_profile.create",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/backend/v3/api/search/ranking_profiles/{profileId}",
+      "operationId": "search.rankingProfiles.update",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.ranking_profiles.write",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_rankingProfiles_update"
+      },
+      "schemas": {
+        "request": "SearchRankingProfileUpdateRequest",
+        "response": "SearchRankingProfileResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.ranking_profile.update",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/backend/v3/api/search/recommendation_strategies",
+      "operationId": "search.recommendationStrategies.list",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.recommendation_strategies.read",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_recommendationStrategies_list"
+      },
+      "schemas": {
+        "request": null,
+        "response": "SearchRecommendationStrategyListResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.recommendation_strategy.list",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/backend/v3/api/search/recommendation_strategies",
+      "operationId": "search.recommendationStrategies.create",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.recommendation_strategies.write",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_recommendationStrategies_create"
+      },
+      "schemas": {
+        "request": "SearchRecommendationStrategyCreateRequest",
+        "response": "SearchRecommendationStrategyResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.recommendation_strategy.create",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/backend/v3/api/search/recommendation_strategies/{strategyId}",
+      "operationId": "search.recommendationStrategies.update",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.recommendation_strategies.write",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_recommendationStrategies_update"
+      },
+      "schemas": {
+        "request": "SearchRecommendationStrategyUpdateRequest",
+        "response": "SearchRecommendationStrategyResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.recommendation_strategy.update",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/backend/v3/api/search/promotions",
+      "operationId": "search.promotions.list",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.promotions.read",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_promotions_list"
+      },
+      "schemas": {
+        "request": null,
+        "response": "SearchPromotionListResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.promotion.list",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/backend/v3/api/search/promotions",
+      "operationId": "search.promotions.create",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.promotions.write",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_promotions_create"
+      },
+      "schemas": {
+        "request": "SearchPromotionCreateRequest",
+        "response": "SearchPromotionAdminResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.promotion.create",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/backend/v3/api/search/promotions/{promotionId}",
+      "operationId": "search.promotions.update",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.promotions.write",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_promotions_update"
+      },
+      "schemas": {
+        "request": "SearchPromotionUpdateRequest",
+        "response": "SearchPromotionAdminResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.promotion.update",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/backend/v3/api/search/promotions/{promotionId}",
+      "operationId": "search.promotions.delete",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.promotions.write",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_promotions_delete"
+      },
+      "schemas": {
+        "request": null,
+        "response": "SearchPromotionDeleteResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.promotion.delete",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/backend/v3/api/search/embedding_jobs",
+      "operationId": "search.embeddingJobs.list",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.embedding_jobs.read",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_embeddingJobs_list"
+      },
+      "schemas": {
+        "request": null,
+        "response": "SearchEmbeddingJobListResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.embedding_job.list",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/backend/v3/api/search/embedding_jobs",
+      "operationId": "search.embeddingJobs.create",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.embedding_jobs.write",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_embeddingJobs_create"
+      },
+      "schemas": {
+        "request": "SearchEmbeddingJobCreateRequest",
+        "response": "SearchEmbeddingJobResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.embedding_job.create",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/backend/v3/api/search/embedding_jobs/{jobId}/retry",
+      "operationId": "search.embeddingJobs.retry",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.embedding_jobs.write",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_embeddingJobs_retry"
+      },
+      "schemas": {
+        "request": null,
+        "response": "SearchEmbeddingJobResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.embedding_job.retry",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/backend/v3/api/search/ab_experiments",
+      "operationId": "search.abExperiments.list",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.ab_experiments.read",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_abExperiments_list"
+      },
+      "schemas": {
+        "request": null,
+        "response": "SearchAbExperimentListResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.ab_experiment.list",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/backend/v3/api/search/ab_experiments",
+      "operationId": "search.abExperiments.create",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.ab_experiments.write",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_abExperiments_create"
+      },
+      "schemas": {
+        "request": "SearchAbExperimentCreateRequest",
+        "response": "SearchAbExperimentResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.ab_experiment.create",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/backend/v3/api/search/ab_experiments/{experimentId}",
+      "operationId": "search.abExperiments.update",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.ab_experiments.write",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_abExperiments_update"
+      },
+      "schemas": {
+        "request": "SearchAbExperimentUpdateRequest",
+        "response": "SearchAbExperimentResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.ab_experiment.update",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/backend/v3/api/search/ab_experiments/{experimentId}/assignments",
+      "operationId": "search.abExperiments.assign",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.ab_experiments.write",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_abExperiments_assign"
+      },
+      "schemas": {
+        "request": "SearchAbAssignmentRequest",
+        "response": "SearchAbAssignmentResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.ab_experiment.assign",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/backend/v3/api/search/jobs/rebuild",
+      "operationId": "search.jobs.rebuild.create",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.jobs.write",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_jobs_rebuild_create"
+      },
+      "schemas": {
+        "request": "SearchRebuildJobRequest",
+        "response": "SearchIndexJobResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.job.rebuild.create",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/backend/v3/api/search/analytics/overview",
+      "operationId": "search.analytics.overview.retrieve",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.analytics.read",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_analytics_overview_retrieve"
+      },
+      "schemas": {
+        "request": null,
+        "response": "SearchAnalyticsOverview",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.analytics.overview.retrieve",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/backend/v3/api/search/providers",
+      "operationId": "search.providers.list",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.providers.read",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_providers_list"
+      },
+      "schemas": {
+        "request": null,
+        "response": "SearchProviderListResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.provider.list",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/backend/v3/api/search/providers",
+      "operationId": "search.providers.create",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.providers.write",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_providers_create"
+      },
+      "schemas": {
+        "request": "SearchProviderCreateRequest",
+        "response": "SearchProviderResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.provider.create",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/backend/v3/api/search/providers/{providerId}",
+      "operationId": "search.providers.update",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.providers.write",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_providers_update"
+      },
+      "schemas": {
+        "request": "SearchProviderUpdateRequest",
+        "response": "SearchProviderResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.provider.update",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/backend/v3/api/search/providers/{providerId}/health_checks",
+      "operationId": "search.providers.healthChecks.create",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.providers.write",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_providers_healthChecks_create"
+      },
+      "schemas": {
+        "request": null,
+        "response": "SearchProviderHealthCheckResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.provider.health_check.create",
         "x-sdkwork-request-context": "BackendRequestContext"
       }
     }

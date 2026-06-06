@@ -1,14 +1,429 @@
 import { backendApiPath } from './paths';
 import type { HttpClient } from '../http/client';
 
-import type { SearchDocumentDeleteResponse, SearchDocumentResponse, SearchDocumentUpsertRequest, SearchIndexCreateRequest, SearchIndexListResponse, SearchIndexResponse } from '../types';
+import type { SearchAbAssignmentRequest, SearchAbAssignmentResponse, SearchAbExperimentCreateRequest, SearchAbExperimentListResponse, SearchAbExperimentResponse, SearchAbExperimentUpdateRequest, SearchAnalyticsOverview, SearchDocumentBulkUpsertRequest, SearchDocumentBulkUpsertResponse, SearchDocumentDeleteResponse, SearchDocumentResponse, SearchDocumentUpsertRequest, SearchEmbeddingJobCreateRequest, SearchEmbeddingJobListResponse, SearchEmbeddingJobResponse, SearchIndexCreateRequest, SearchIndexDeleteResponse, SearchIndexJobResponse, SearchIndexListResponse, SearchIndexResponse, SearchIndexUpdateRequest, SearchPromotionAdminResponse, SearchPromotionCreateRequest, SearchPromotionDeleteResponse, SearchPromotionListResponse, SearchPromotionUpdateRequest, SearchProviderCreateRequest, SearchProviderHealthCheckResponse, SearchProviderListResponse, SearchProviderResponse, SearchProviderUpdateRequest, SearchRankingProfileCreateRequest, SearchRankingProfileListResponse, SearchRankingProfileResponse, SearchRankingProfileUpdateRequest, SearchRebuildJobRequest, SearchRecommendationStrategyCreateRequest, SearchRecommendationStrategyListResponse, SearchRecommendationStrategyResponse, SearchRecommendationStrategyUpdateRequest, SearchSynonymCreateRequest, SearchSynonymDeleteResponse, SearchSynonymListResponse, SearchSynonymResponse } from '../types';
 
+
+export class SearchProvidersHealthChecksApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** Run a search provider health check. */
+  async create(providerId: string): Promise<SearchProviderHealthCheckResponse> {
+    return this.client.post<SearchProviderHealthCheckResponse>(backendApiPath(`/search/providers/${serializePathParameter(providerId, { name: 'providerId', style: 'simple', explode: false })}/health_checks`));
+  }
+}
+
+export interface SearchProvidersListParams {
+  q?: string;
+  page?: number;
+  pageSize?: number;
+}
+
+export interface SearchProvidersCreateParams {
+  idempotencyKey?: string;
+}
+
+export class SearchProvidersApi {
+  private client: HttpClient;
+  public readonly healthChecks: SearchProvidersHealthChecksApi;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+    this.healthChecks = new SearchProvidersHealthChecksApi(client);
+  }
+
+
+/** List configured search providers. */
+  async list(params?: SearchProvidersListParams): Promise<SearchProviderListResponse> {
+    const query = buildQueryString([
+      { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+      { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+      { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+    ]);
+    return this.client.get<SearchProviderListResponse>(appendQueryString(backendApiPath(`/search/providers`), query));
+  }
+
+/** Create a search provider configuration. */
+  async create(body: SearchProviderCreateRequest, params?: SearchProvidersCreateParams): Promise<SearchProviderResponse> {
+    const requestHeaders = buildRequestHeaders(
+      {
+        'Idempotency-Key': { value: params?.idempotencyKey, style: 'simple', explode: false },
+      },
+      {}
+    );
+    return this.client.post<SearchProviderResponse>(backendApiPath(`/search/providers`), body, undefined, requestHeaders, 'application/json');
+  }
+
+/** Update a search provider configuration. */
+  async update(providerId: string, body: SearchProviderUpdateRequest): Promise<SearchProviderResponse> {
+    return this.client.patch<SearchProviderResponse>(backendApiPath(`/search/providers/${serializePathParameter(providerId, { name: 'providerId', style: 'simple', explode: false })}`), body, undefined, undefined, 'application/json');
+  }
+}
+
+export class SearchAnalyticsOverviewApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** Retrieve search analytics overview. */
+  async retrieve(): Promise<SearchAnalyticsOverview> {
+    return this.client.get<SearchAnalyticsOverview>(backendApiPath(`/search/analytics/overview`));
+  }
+}
+
+export class SearchAnalyticsApi {
+  private client: HttpClient;
+  public readonly overview: SearchAnalyticsOverviewApi;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+    this.overview = new SearchAnalyticsOverviewApi(client);
+  }
+
+}
+
+export interface SearchJobsRebuildCreateParams {
+  idempotencyKey?: string;
+}
+
+export class SearchJobsRebuildApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** Create a search index rebuild job. */
+  async create(body: SearchRebuildJobRequest, params?: SearchJobsRebuildCreateParams): Promise<SearchIndexJobResponse> {
+    const requestHeaders = buildRequestHeaders(
+      {
+        'Idempotency-Key': { value: params?.idempotencyKey, style: 'simple', explode: false },
+      },
+      {}
+    );
+    return this.client.post<SearchIndexJobResponse>(backendApiPath(`/search/jobs/rebuild`), body, undefined, requestHeaders, 'application/json');
+  }
+}
+
+export class SearchJobsApi {
+  private client: HttpClient;
+  public readonly rebuild: SearchJobsRebuildApi;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+    this.rebuild = new SearchJobsRebuildApi(client);
+  }
+
+}
+
+export interface SearchAbExperimentsListParams {
+  q?: string;
+  page?: number;
+  pageSize?: number;
+}
+
+export interface SearchAbExperimentsCreateParams {
+  idempotencyKey?: string;
+}
+
+export interface SearchAbExperimentsAssignParams {
+  idempotencyKey?: string;
+}
+
+export class SearchAbExperimentsApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** List search A/B experiments. */
+  async list(params?: SearchAbExperimentsListParams): Promise<SearchAbExperimentListResponse> {
+    const query = buildQueryString([
+      { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+      { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+      { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+    ]);
+    return this.client.get<SearchAbExperimentListResponse>(appendQueryString(backendApiPath(`/search/ab_experiments`), query));
+  }
+
+/** Create a search A/B experiment. */
+  async create(body: SearchAbExperimentCreateRequest, params?: SearchAbExperimentsCreateParams): Promise<SearchAbExperimentResponse> {
+    const requestHeaders = buildRequestHeaders(
+      {
+        'Idempotency-Key': { value: params?.idempotencyKey, style: 'simple', explode: false },
+      },
+      {}
+    );
+    return this.client.post<SearchAbExperimentResponse>(backendApiPath(`/search/ab_experiments`), body, undefined, requestHeaders, 'application/json');
+  }
+
+/** Update a search A/B experiment. */
+  async update(experimentId: string, body: SearchAbExperimentUpdateRequest): Promise<SearchAbExperimentResponse> {
+    return this.client.patch<SearchAbExperimentResponse>(backendApiPath(`/search/ab_experiments/${serializePathParameter(experimentId, { name: 'experimentId', style: 'simple', explode: false })}`), body, undefined, undefined, 'application/json');
+  }
+
+/** Assign a subject to a search A/B experiment variant. */
+  async assign(experimentId: string, body: SearchAbAssignmentRequest, params?: SearchAbExperimentsAssignParams): Promise<SearchAbAssignmentResponse> {
+    const requestHeaders = buildRequestHeaders(
+      {
+        'Idempotency-Key': { value: params?.idempotencyKey, style: 'simple', explode: false },
+      },
+      {}
+    );
+    return this.client.post<SearchAbAssignmentResponse>(backendApiPath(`/search/ab_experiments/${serializePathParameter(experimentId, { name: 'experimentId', style: 'simple', explode: false })}/assignments`), body, undefined, requestHeaders, 'application/json');
+  }
+}
+
+export interface SearchEmbeddingJobsListParams {
+  q?: string;
+  page?: number;
+  pageSize?: number;
+}
+
+export interface SearchEmbeddingJobsCreateParams {
+  idempotencyKey?: string;
+}
+
+export class SearchEmbeddingJobsApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** List semantic embedding jobs. */
+  async list(params?: SearchEmbeddingJobsListParams): Promise<SearchEmbeddingJobListResponse> {
+    const query = buildQueryString([
+      { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+      { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+      { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+    ]);
+    return this.client.get<SearchEmbeddingJobListResponse>(appendQueryString(backendApiPath(`/search/embedding_jobs`), query));
+  }
+
+/** Create a semantic embedding job. */
+  async create(body: SearchEmbeddingJobCreateRequest, params?: SearchEmbeddingJobsCreateParams): Promise<SearchEmbeddingJobResponse> {
+    const requestHeaders = buildRequestHeaders(
+      {
+        'Idempotency-Key': { value: params?.idempotencyKey, style: 'simple', explode: false },
+      },
+      {}
+    );
+    return this.client.post<SearchEmbeddingJobResponse>(backendApiPath(`/search/embedding_jobs`), body, undefined, requestHeaders, 'application/json');
+  }
+
+/** Retry a semantic embedding job. */
+  async retry(jobId: string): Promise<SearchEmbeddingJobResponse> {
+    return this.client.post<SearchEmbeddingJobResponse>(backendApiPath(`/search/embedding_jobs/${serializePathParameter(jobId, { name: 'jobId', style: 'simple', explode: false })}/retry`));
+  }
+}
+
+export interface SearchPromotionsListParams {
+  q?: string;
+  page?: number;
+  pageSize?: number;
+}
+
+export interface SearchPromotionsCreateParams {
+  idempotencyKey?: string;
+}
+
+export class SearchPromotionsApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** List search promotions. */
+  async list(params?: SearchPromotionsListParams): Promise<SearchPromotionListResponse> {
+    const query = buildQueryString([
+      { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+      { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+      { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+    ]);
+    return this.client.get<SearchPromotionListResponse>(appendQueryString(backendApiPath(`/search/promotions`), query));
+  }
+
+/** Create a search promotion. */
+  async create(body: SearchPromotionCreateRequest, params?: SearchPromotionsCreateParams): Promise<SearchPromotionAdminResponse> {
+    const requestHeaders = buildRequestHeaders(
+      {
+        'Idempotency-Key': { value: params?.idempotencyKey, style: 'simple', explode: false },
+      },
+      {}
+    );
+    return this.client.post<SearchPromotionAdminResponse>(backendApiPath(`/search/promotions`), body, undefined, requestHeaders, 'application/json');
+  }
+
+/** Update a search promotion. */
+  async update(promotionId: string, body: SearchPromotionUpdateRequest): Promise<SearchPromotionAdminResponse> {
+    return this.client.patch<SearchPromotionAdminResponse>(backendApiPath(`/search/promotions/${serializePathParameter(promotionId, { name: 'promotionId', style: 'simple', explode: false })}`), body, undefined, undefined, 'application/json');
+  }
+
+/** Delete a search promotion. */
+  async delete(promotionId: string): Promise<SearchPromotionDeleteResponse> {
+    return this.client.delete<SearchPromotionDeleteResponse>(backendApiPath(`/search/promotions/${serializePathParameter(promotionId, { name: 'promotionId', style: 'simple', explode: false })}`));
+  }
+}
+
+export interface SearchRecommendationStrategiesListParams {
+  q?: string;
+  page?: number;
+  pageSize?: number;
+}
+
+export interface SearchRecommendationStrategiesCreateParams {
+  idempotencyKey?: string;
+}
+
+export class SearchRecommendationStrategiesApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** List search recommendation strategies. */
+  async list(params?: SearchRecommendationStrategiesListParams): Promise<SearchRecommendationStrategyListResponse> {
+    const query = buildQueryString([
+      { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+      { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+      { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+    ]);
+    return this.client.get<SearchRecommendationStrategyListResponse>(appendQueryString(backendApiPath(`/search/recommendation_strategies`), query));
+  }
+
+/** Create a search recommendation strategy. */
+  async create(body: SearchRecommendationStrategyCreateRequest, params?: SearchRecommendationStrategiesCreateParams): Promise<SearchRecommendationStrategyResponse> {
+    const requestHeaders = buildRequestHeaders(
+      {
+        'Idempotency-Key': { value: params?.idempotencyKey, style: 'simple', explode: false },
+      },
+      {}
+    );
+    return this.client.post<SearchRecommendationStrategyResponse>(backendApiPath(`/search/recommendation_strategies`), body, undefined, requestHeaders, 'application/json');
+  }
+
+/** Update a search recommendation strategy. */
+  async update(strategyId: string, body: SearchRecommendationStrategyUpdateRequest): Promise<SearchRecommendationStrategyResponse> {
+    return this.client.patch<SearchRecommendationStrategyResponse>(backendApiPath(`/search/recommendation_strategies/${serializePathParameter(strategyId, { name: 'strategyId', style: 'simple', explode: false })}`), body, undefined, undefined, 'application/json');
+  }
+}
+
+export interface SearchRankingProfilesListParams {
+  q?: string;
+  page?: number;
+  pageSize?: number;
+}
+
+export interface SearchRankingProfilesCreateParams {
+  idempotencyKey?: string;
+}
+
+export class SearchRankingProfilesApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** List search ranking profiles. */
+  async list(params?: SearchRankingProfilesListParams): Promise<SearchRankingProfileListResponse> {
+    const query = buildQueryString([
+      { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+      { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+      { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+    ]);
+    return this.client.get<SearchRankingProfileListResponse>(appendQueryString(backendApiPath(`/search/ranking_profiles`), query));
+  }
+
+/** Create a search ranking profile. */
+  async create(body: SearchRankingProfileCreateRequest, params?: SearchRankingProfilesCreateParams): Promise<SearchRankingProfileResponse> {
+    const requestHeaders = buildRequestHeaders(
+      {
+        'Idempotency-Key': { value: params?.idempotencyKey, style: 'simple', explode: false },
+      },
+      {}
+    );
+    return this.client.post<SearchRankingProfileResponse>(backendApiPath(`/search/ranking_profiles`), body, undefined, requestHeaders, 'application/json');
+  }
+
+/** Update a search ranking profile. */
+  async update(profileId: string, body: SearchRankingProfileUpdateRequest): Promise<SearchRankingProfileResponse> {
+    return this.client.patch<SearchRankingProfileResponse>(backendApiPath(`/search/ranking_profiles/${serializePathParameter(profileId, { name: 'profileId', style: 'simple', explode: false })}`), body, undefined, undefined, 'application/json');
+  }
+}
+
+export interface SearchSynonymsListParams {
+  q?: string;
+  page?: number;
+  pageSize?: number;
+}
+
+export interface SearchSynonymsCreateParams {
+  idempotencyKey?: string;
+}
+
+export class SearchSynonymsApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** List search synonyms for backend administration. */
+  async list(params?: SearchSynonymsListParams): Promise<SearchSynonymListResponse> {
+    const query = buildQueryString([
+      { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+      { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+      { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+    ]);
+    return this.client.get<SearchSynonymListResponse>(appendQueryString(backendApiPath(`/search/synonyms`), query));
+  }
+
+/** Create a search synonym. */
+  async create(body: SearchSynonymCreateRequest, params?: SearchSynonymsCreateParams): Promise<SearchSynonymResponse> {
+    const requestHeaders = buildRequestHeaders(
+      {
+        'Idempotency-Key': { value: params?.idempotencyKey, style: 'simple', explode: false },
+      },
+      {}
+    );
+    return this.client.post<SearchSynonymResponse>(backendApiPath(`/search/synonyms`), body, undefined, requestHeaders, 'application/json');
+  }
+
+/** Delete a search synonym. */
+  async delete(synonymId: string): Promise<SearchSynonymDeleteResponse> {
+    return this.client.delete<SearchSynonymDeleteResponse>(backendApiPath(`/search/synonyms/${serializePathParameter(synonymId, { name: 'synonymId', style: 'simple', explode: false })}`));
+  }
+}
+
+export interface SearchDocumentsBulkUpsertParams {
+  idempotencyKey?: string;
+}
 
 export class SearchDocumentsApi {
   private client: HttpClient;
-  
-  constructor(client: HttpClient) { 
-    this.client = client; 
+
+  constructor(client: HttpClient) {
+    this.client = client;
   }
 
 
@@ -20,6 +435,17 @@ export class SearchDocumentsApi {
 /** Delete a document from a search index. */
   async delete(indexId: string, documentId: string): Promise<SearchDocumentDeleteResponse> {
     return this.client.delete<SearchDocumentDeleteResponse>(backendApiPath(`/search/indexes/${serializePathParameter(indexId, { name: 'indexId', style: 'simple', explode: false })}/documents/${serializePathParameter(documentId, { name: 'documentId', style: 'simple', explode: false })}`));
+  }
+
+/** Bulk upsert documents into a search index. */
+  async bulkUpsert(indexId: string, body: SearchDocumentBulkUpsertRequest, params?: SearchDocumentsBulkUpsertParams): Promise<SearchDocumentBulkUpsertResponse> {
+    const requestHeaders = buildRequestHeaders(
+      {
+        'Idempotency-Key': { value: params?.idempotencyKey, style: 'simple', explode: false },
+      },
+      {}
+    );
+    return this.client.post<SearchDocumentBulkUpsertResponse>(backendApiPath(`/search/indexes/${serializePathParameter(indexId, { name: 'indexId', style: 'simple', explode: false })}/documents/bulk_upsert`), body, undefined, requestHeaders, 'application/json');
   }
 }
 
@@ -35,9 +461,9 @@ export interface SearchIndexesCreateParams {
 
 export class SearchIndexesApi {
   private client: HttpClient;
-  
-  constructor(client: HttpClient) { 
-    this.client = client; 
+
+  constructor(client: HttpClient) {
+    this.client = client;
   }
 
 
@@ -61,17 +487,45 @@ export class SearchIndexesApi {
     );
     return this.client.post<SearchIndexResponse>(backendApiPath(`/search/indexes`), body, undefined, requestHeaders, 'application/json');
   }
+
+/** Update a search index. */
+  async update(indexId: string, body: SearchIndexUpdateRequest): Promise<SearchIndexResponse> {
+    return this.client.patch<SearchIndexResponse>(backendApiPath(`/search/indexes/${serializePathParameter(indexId, { name: 'indexId', style: 'simple', explode: false })}`), body, undefined, undefined, 'application/json');
+  }
+
+/** Delete a search index. */
+  async delete(indexId: string): Promise<SearchIndexDeleteResponse> {
+    return this.client.delete<SearchIndexDeleteResponse>(backendApiPath(`/search/indexes/${serializePathParameter(indexId, { name: 'indexId', style: 'simple', explode: false })}`));
+  }
 }
 
 export class SearchApi {
   private client: HttpClient;
   public readonly indexes: SearchIndexesApi;
   public readonly documents: SearchDocumentsApi;
-  
-  constructor(client: HttpClient) { 
+  public readonly synonyms: SearchSynonymsApi;
+  public readonly rankingProfiles: SearchRankingProfilesApi;
+  public readonly recommendationStrategies: SearchRecommendationStrategiesApi;
+  public readonly promotions: SearchPromotionsApi;
+  public readonly embeddingJobs: SearchEmbeddingJobsApi;
+  public readonly abExperiments: SearchAbExperimentsApi;
+  public readonly jobs: SearchJobsApi;
+  public readonly analytics: SearchAnalyticsApi;
+  public readonly providers: SearchProvidersApi;
+
+  constructor(client: HttpClient) {
     this.client = client;
     this.indexes = new SearchIndexesApi(client);
-    this.documents = new SearchDocumentsApi(client); 
+    this.documents = new SearchDocumentsApi(client);
+    this.synonyms = new SearchSynonymsApi(client);
+    this.rankingProfiles = new SearchRankingProfilesApi(client);
+    this.recommendationStrategies = new SearchRecommendationStrategiesApi(client);
+    this.promotions = new SearchPromotionsApi(client);
+    this.embeddingJobs = new SearchEmbeddingJobsApi(client);
+    this.abExperiments = new SearchAbExperimentsApi(client);
+    this.jobs = new SearchJobsApi(client);
+    this.analytics = new SearchAnalyticsApi(client);
+    this.providers = new SearchProvidersApi(client);
   }
 
 }

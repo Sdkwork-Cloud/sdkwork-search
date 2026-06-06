@@ -11,6 +11,7 @@ export interface SdkworkSearchDocument {
   scope?: string;
   source?: string;
   title: string;
+  metadata?: Record<string, unknown>;
 }
 
 export interface SdkworkSearchGroup {
@@ -59,9 +60,163 @@ export interface SdkworkSearchCatalogSummary {
   totalGroups: number;
 }
 
+export interface SdkworkSearchIndexDefinitionInput {
+  capability?: string;
+  descriptionField?: string;
+  enabled?: boolean;
+  group?: string;
+  groupOrder?: number;
+  idField?: string;
+  indexId: string;
+  keywordFields?: readonly string[];
+  kind?: string;
+  metadataFields?: readonly string[];
+  orderField?: string;
+  providerId?: string;
+  scope?: string;
+  source?: string;
+  titleField?: string;
+}
+
+export interface SdkworkSearchIndexDefinition {
+  capability?: string;
+  descriptionField: string;
+  enabled: boolean;
+  group?: string;
+  groupOrder?: number;
+  idField: string;
+  indexId: string;
+  keywordFields: string[];
+  kind?: string;
+  metadataFields: string[];
+  orderField?: string;
+  providerId: string;
+  scope?: string;
+  source: string;
+  titleField: string;
+}
+
+export type SdkworkSearchIndexSyncMode = "delta" | "full" | "snapshot";
+
+export interface SdkworkSearchIndexSyncPlanOptions {
+  batchSize?: number;
+  requestId?: string;
+  syncMode?: SdkworkSearchIndexSyncMode;
+}
+
+export interface SdkworkSearchIndexSyncBatch {
+  batchNumber: number;
+  documents: SdkworkSearchDocument[];
+}
+
+export interface SdkworkSearchIndexSyncPlan {
+  batches: SdkworkSearchIndexSyncBatch[];
+  index: SdkworkSearchIndexDefinition;
+  indexId: string;
+  providerId: string;
+  requestId: string;
+  syncMode: SdkworkSearchIndexSyncMode;
+  totalBatches: number;
+  totalDocuments: number;
+}
+
+export interface SdkworkSearchIndexSyncResponse {
+  indexedAt: string;
+  indexedCount: number;
+  indexId: string;
+  providerId: string;
+  requestId: string;
+  syncMode: SdkworkSearchIndexSyncMode;
+  totalBatches: number;
+}
+
+export type SdkworkSearchProviderKind =
+  | "algolia"
+  | "custom"
+  | "elasticsearch"
+  | "meilisearch"
+  | "memory"
+  | "opensearch"
+  | "postgresql"
+  | "typesense"
+  | "vector";
+
+export type SdkworkSearchProviderCapability =
+  | "analytics"
+  | "document_indexing"
+  | "event_ingestion"
+  | "hybrid_search"
+  | "lexical_search"
+  | "promotions"
+  | "provider_health"
+  | "ranking_profiles"
+  | "recommendations"
+  | "semantic_search"
+  | "suggestions"
+  | "synonyms";
+
+export type SdkworkSearchProviderStatus =
+  | "active"
+  | "degraded"
+  | "disabled"
+  | "error"
+  | "unknown";
+
+export interface SdkworkSearchProviderManifest {
+  capabilities: SdkworkSearchProviderCapability[];
+  config?: Record<string, unknown>;
+  defaultFor: SdkworkSearchProviderCapability[];
+  displayName: string;
+  kind: SdkworkSearchProviderKind;
+  metadata?: Record<string, unknown>;
+  priority: number;
+  providerId: string;
+  status: SdkworkSearchProviderStatus;
+}
+
+export interface SdkworkSearchProviderManifestInput {
+  capabilities: readonly SdkworkSearchProviderCapability[];
+  config?: Record<string, unknown>;
+  defaultFor?: readonly SdkworkSearchProviderCapability[];
+  displayName: string;
+  kind: SdkworkSearchProviderKind;
+  metadata?: Record<string, unknown>;
+  priority: number;
+  providerId: string;
+  status: SdkworkSearchProviderStatus;
+}
+
+export interface SdkworkSearchProviderSelection {
+  allowDegraded?: boolean;
+  fallbackProviderId?: string;
+  preferredKind?: SdkworkSearchProviderKind;
+  providerId?: string;
+  requiredCapabilities?: readonly SdkworkSearchProviderCapability[];
+}
+
+export interface SdkworkSearchProviderRoutedRequest extends SdkworkSearchProviderSelection {
+  providerKind?: SdkworkSearchProviderKind;
+}
+
+export type SdkworkSearchProviderHealthStatus =
+  | "degraded"
+  | "healthy"
+  | "unavailable"
+  | "unknown";
+
+export interface SdkworkSearchProviderHealthCheck {
+  checkedAt: string;
+  details?: Record<string, unknown>;
+  latencyMs?: number;
+  providerId: string;
+  status: SdkworkSearchProviderHealthStatus;
+}
+
 export interface SdkworkSearchQueryRequest extends FilterSdkworkSearchCatalogOptions {
   page?: number;
   pageSize?: number;
+  providerId?: string;
+  providerKind?: SdkworkSearchProviderKind;
   q?: string;
   requestId?: string;
 }
@@ -80,6 +235,212 @@ export interface SdkworkSearchQueryResponse {
   requestId: string;
 }
 
+export interface SdkworkSearchSuggestionsRequest extends FilterSdkworkSearchCatalogOptions {
+  limit?: number;
+  providerId?: string;
+  providerKind?: SdkworkSearchProviderKind;
+  q?: string;
+  requestId?: string;
+}
+
+export interface SdkworkSearchSuggestion {
+  score: number;
+  source: "document" | "query";
+  text: string;
+}
+
+export interface SdkworkSearchSuggestionsResponse {
+  items: SdkworkSearchSuggestion[];
+  q: string;
+  requestId: string;
+}
+
+export interface SdkworkRecommendationContext extends FilterSdkworkSearchCatalogOptions {
+  placement?: string;
+  q?: string;
+  recentDocumentIds?: readonly string[];
+  userId?: string;
+}
+
+export interface SdkworkRecommendationRequest {
+  context?: SdkworkRecommendationContext;
+  limit?: number;
+  providerId?: string;
+  providerKind?: SdkworkSearchProviderKind;
+  requestId?: string;
+  strategyId?: string;
+}
+
+export type SdkworkRecommendationStrategyEngine =
+  | "custom"
+  | "external"
+  | "memory"
+  | "postgresql"
+  | "vector";
+
+export type SdkworkRecommendationStrategyStatus =
+  | "active"
+  | "archived"
+  | "draft"
+  | "paused";
+
+export type SdkworkRecommendationStrategyType =
+  | "collaborative"
+  | "content"
+  | "hybrid"
+  | "popular"
+  | "semantic";
+
+export interface SdkworkRecommendationStrategyDefinition {
+  config?: Record<string, unknown>;
+  default?: boolean;
+  engine: SdkworkRecommendationStrategyEngine;
+  metadata?: Record<string, unknown>;
+  priority?: number;
+  providerId?: string;
+  status: SdkworkRecommendationStrategyStatus;
+  strategyId: string;
+  strategyKey?: string;
+  strategyType: SdkworkRecommendationStrategyType;
+  title: string;
+}
+
+export interface SdkworkRecommendationStrategyInput {
+  config?: Record<string, unknown>;
+  default?: boolean;
+  engine?: SdkworkRecommendationStrategyEngine;
+  metadata?: Record<string, unknown>;
+  priority?: number;
+  providerId?: string;
+  status?: SdkworkRecommendationStrategyStatus;
+  strategyId: string;
+  strategyKey?: string;
+  strategyType?: SdkworkRecommendationStrategyType;
+  title?: string;
+}
+
+export interface SdkworkRecommendationStrategySelection {
+  allowInactive?: boolean;
+  providerId?: string;
+  strategyId?: string;
+  strategyType?: SdkworkRecommendationStrategyType;
+}
+
+export type SdkworkRecommendationStrategyRegistry =
+  Map<string, SdkworkRecommendationStrategyDefinition>;
+
+export interface CreateSdkworkRecommendationResponseOptions {
+  strategies?: readonly SdkworkRecommendationStrategyInput[];
+}
+
+export interface SdkworkRecommendationItem {
+  document: SdkworkSearchDocument;
+  reasonCodes: string[];
+  score: number;
+}
+
+export interface SdkworkRecommendationResponse {
+  items: SdkworkRecommendationItem[];
+  requestId: string;
+  strategyId: string;
+}
+
+export interface SdkworkPromotionContext extends FilterSdkworkSearchCatalogOptions {
+  placement: string;
+  q?: string;
+}
+
+export interface SdkworkPromotionRequest {
+  context: SdkworkPromotionContext;
+  limit?: number;
+  providerId?: string;
+  providerKind?: SdkworkSearchProviderKind;
+  requestId?: string;
+}
+
+export interface SdkworkPromotionItem {
+  document: SdkworkSearchDocument;
+  placement: string;
+  reasonCodes: string[];
+  score: number;
+}
+
+export interface SdkworkPromotionResponse {
+  items: SdkworkPromotionItem[];
+  placement: string;
+  requestId: string;
+}
+
+export type SdkworkSearchUserEventType =
+  | "click"
+  | "conversion"
+  | "dismiss"
+  | "impression"
+  | "save"
+  | "view";
+
+export interface SdkworkSearchUserEvent {
+  documentId?: string;
+  eventType: SdkworkSearchUserEventType;
+  indexId?: string;
+  metadata?: Record<string, unknown>;
+  occurredAt: string;
+  placement?: string;
+  providerId?: string;
+  q?: string;
+  requestId?: string;
+  resultPosition?: number;
+  surface: "app" | "backend" | "local";
+}
+
+export interface SdkworkSearchUserEventResponse {
+  accepted: boolean;
+  requestId: string;
+}
+
+export interface SdkworkSemanticSearchQueryRequest extends FilterSdkworkSearchCatalogOptions {
+  embeddingProvider?: string;
+  limit?: number;
+  providerId?: string;
+  providerKind?: SdkworkSearchProviderKind;
+  q: string;
+  requestId?: string;
+  semanticProfileId?: string;
+}
+
+export interface SdkworkSemanticSearchResult extends SdkworkRecommendationItem {
+  lexicalScore: number;
+  semanticScore?: number;
+}
+
+export interface SdkworkSemanticSearchQueryResponse {
+  embeddingProvider: string;
+  items: SdkworkSemanticSearchResult[];
+  mode: "hybrid" | "semantic";
+  q: string;
+  requestId: string;
+  semanticProfileId: string;
+}
+
+export interface SdkworkSearchAnalyticsOverviewInput {
+  failedEmbeddingJobs?: number;
+  indexedDocuments?: number;
+  promotionClicks?: number;
+  recommendationClicks?: number;
+  requestId?: string;
+  searchQueries?: number;
+}
+
+export interface SdkworkSearchAnalyticsOverview {
+  clickThroughRate: string;
+  failedEmbeddingJobs: number;
+  indexedDocuments: number;
+  promotionClicks: number;
+  recommendationClicks: number;
+  requestId: string;
+  searchQueries: number;
+}
+
 function toUniqueStrings(values: readonly string[] | undefined): string[] {
   const normalized: string[] = [];
   const unique = new Set<string>();
@@ -95,6 +456,241 @@ function toUniqueStrings(values: readonly string[] | undefined): string[] {
   }
 
   return normalized;
+}
+
+const SDKWORK_SEARCH_PROVIDER_CAPABILITIES: readonly SdkworkSearchProviderCapability[] = [
+  "analytics",
+  "document_indexing",
+  "event_ingestion",
+  "hybrid_search",
+  "lexical_search",
+  "promotions",
+  "provider_health",
+  "ranking_profiles",
+  "recommendations",
+  "semantic_search",
+  "suggestions",
+  "synonyms",
+];
+
+const SDKWORK_SEARCH_PROVIDER_KINDS: readonly SdkworkSearchProviderKind[] = [
+  "algolia",
+  "custom",
+  "elasticsearch",
+  "meilisearch",
+  "memory",
+  "opensearch",
+  "postgresql",
+  "typesense",
+  "vector",
+];
+
+const SDKWORK_SEARCH_PROVIDER_STATUSES: readonly SdkworkSearchProviderStatus[] = [
+  "active",
+  "degraded",
+  "disabled",
+  "error",
+  "unknown",
+];
+
+const SDKWORK_RECOMMENDATION_STRATEGY_TYPES: readonly SdkworkRecommendationStrategyType[] = [
+  "collaborative",
+  "content",
+  "hybrid",
+  "popular",
+  "semantic",
+];
+
+const SDKWORK_RECOMMENDATION_STRATEGY_STATUSES: readonly SdkworkRecommendationStrategyStatus[] = [
+  "active",
+  "archived",
+  "draft",
+  "paused",
+];
+
+const SDKWORK_RECOMMENDATION_STRATEGY_ENGINES: readonly SdkworkRecommendationStrategyEngine[] = [
+  "custom",
+  "external",
+  "memory",
+  "postgresql",
+  "vector",
+];
+
+function isSdkworkSearchProviderCapability(
+  value: string,
+): value is SdkworkSearchProviderCapability {
+  return SDKWORK_SEARCH_PROVIDER_CAPABILITIES.includes(value as SdkworkSearchProviderCapability);
+}
+
+function isSdkworkSearchProviderKind(value: string): value is SdkworkSearchProviderKind {
+  return SDKWORK_SEARCH_PROVIDER_KINDS.includes(value as SdkworkSearchProviderKind);
+}
+
+function isSdkworkSearchProviderStatus(value: string): value is SdkworkSearchProviderStatus {
+  return SDKWORK_SEARCH_PROVIDER_STATUSES.includes(value as SdkworkSearchProviderStatus);
+}
+
+function isSdkworkRecommendationStrategyEngine(
+  value: string,
+): value is SdkworkRecommendationStrategyEngine {
+  return SDKWORK_RECOMMENDATION_STRATEGY_ENGINES.includes(
+    value as SdkworkRecommendationStrategyEngine,
+  );
+}
+
+function isSdkworkRecommendationStrategyStatus(
+  value: string,
+): value is SdkworkRecommendationStrategyStatus {
+  return SDKWORK_RECOMMENDATION_STRATEGY_STATUSES.includes(
+    value as SdkworkRecommendationStrategyStatus,
+  );
+}
+
+function isSdkworkRecommendationStrategyType(
+  value: string | undefined,
+): value is SdkworkRecommendationStrategyType {
+  return SDKWORK_RECOMMENDATION_STRATEGY_TYPES.includes(
+    value as SdkworkRecommendationStrategyType,
+  );
+}
+
+function normalizeProviderCapabilities(
+  values: readonly SdkworkSearchProviderCapability[] | undefined,
+): SdkworkSearchProviderCapability[] {
+  return toUniqueStrings(values).filter(isSdkworkSearchProviderCapability);
+}
+
+function isSelectableProvider(
+  provider: SdkworkSearchProviderManifest,
+  requiredCapabilities: readonly SdkworkSearchProviderCapability[],
+  allowDegraded: boolean,
+): boolean {
+  if (provider.status !== "active" && !(allowDegraded && provider.status === "degraded")) {
+    return false;
+  }
+
+  return requiredCapabilities.every((capability) => provider.capabilities.includes(capability));
+}
+
+function compareProviderPriority(
+  left: SdkworkSearchProviderManifest,
+  right: SdkworkSearchProviderManifest,
+): number {
+  return (
+    right.priority - left.priority ||
+    left.providerId.localeCompare(right.providerId)
+  );
+}
+
+function clampPositiveInteger(value: number | undefined, fallback: number, max: number): number {
+  return Math.min(max, Math.max(1, Math.trunc(value ?? fallback)));
+}
+
+function createUniqueSet(values: readonly string[] | undefined): Set<string> {
+  return new Set(toUniqueStrings(values));
+}
+
+function readSourceValue(
+  source: Record<string, unknown>,
+  fieldName: string | undefined,
+): unknown {
+  if (!fieldName) {
+    return undefined;
+  }
+
+  return source[fieldName];
+}
+
+function sourceValueToString(value: unknown): string | undefined {
+  if (value === null || value === undefined) {
+    return undefined;
+  }
+
+  if (typeof value === "string") {
+    return value.trim() || undefined;
+  }
+
+  if (typeof value === "number" || typeof value === "boolean" || typeof value === "bigint") {
+    return String(value);
+  }
+
+  return undefined;
+}
+
+function sourceValueToInteger(value: unknown): number | undefined {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return Math.trunc(value);
+  }
+
+  if (typeof value === "string" && value.trim()) {
+    const parsed = Number.parseInt(value, 10);
+    return Number.isFinite(parsed) ? parsed : undefined;
+  }
+
+  return undefined;
+}
+
+function sourceValueToStrings(value: unknown): string[] {
+  if (Array.isArray(value)) {
+    return toUniqueStrings(value.map((item) => sourceValueToString(item) ?? ""));
+  }
+
+  const single = sourceValueToString(value);
+  return single ? [single] : [];
+}
+
+function tokenizeSuggestionText(value: string | undefined): string[] {
+  const normalized = value
+    ?.trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]+/g, " ")
+    .replace(/\s+/g, " ");
+  if (!normalized) {
+    return [];
+  }
+
+  const words = normalized.split(" ").filter(Boolean);
+  const phrases: string[] = [];
+  for (let index = 0; index < words.length - 1; index += 1) {
+    phrases.push(`${words[index]} ${words[index + 1]}`);
+  }
+
+  return [normalized, ...phrases];
+}
+
+function addSuggestionCandidate(
+  candidates: Map<string, SdkworkSearchSuggestion>,
+  text: string,
+  q: string,
+  source: SdkworkSearchSuggestion["source"],
+  baseScore: number,
+  matchMode: "includes" | "prefix" = "includes",
+): void {
+  const normalized = normalizeSdkworkSearchQuery(text);
+  const matches = matchMode === "prefix" ? normalized.startsWith(q) : normalized.includes(q);
+  if (!normalized || (q && !matches)) {
+    return;
+  }
+
+  const score = normalized === q
+    ? baseScore + 30
+    : normalized.startsWith(q)
+      ? baseScore + 20
+      : baseScore;
+  const existing = candidates.get(normalized);
+  if (!existing || existing.score < score) {
+    candidates.set(normalized, {
+      score,
+      source,
+      text: normalized,
+    });
+  }
+}
+
+function addReasonCode(reasonCodes: string[], reasonCode: string): void {
+  if (!reasonCodes.includes(reasonCode)) {
+    reasonCodes.push(reasonCode);
+  }
 }
 
 export function slugifySdkworkSearchValue(value: string): string {
@@ -279,6 +875,440 @@ function scoreDocument(document: SdkworkSearchDocument, query: string): SdkworkS
 
 export function normalizeSdkworkSearchQuery(value: string): string {
   return value.trim().toLowerCase();
+}
+
+export function normalizeSdkworkSearchIndexDefinition(
+  input: SdkworkSearchIndexDefinitionInput,
+): SdkworkSearchIndexDefinition {
+  const indexId = input.indexId.trim();
+  if (!indexId) {
+    throw new Error("Search index definition requires indexId");
+  }
+
+  return {
+    ...(input.capability?.trim() ? { capability: input.capability.trim() } : {}),
+    descriptionField: input.descriptionField?.trim() || "description",
+    enabled: input.enabled !== false,
+    ...(input.group?.trim() ? { group: input.group.trim() } : {}),
+    ...(input.groupOrder !== undefined ? { groupOrder: Math.trunc(input.groupOrder) } : {}),
+    idField: input.idField?.trim() || "id",
+    indexId,
+    keywordFields: toUniqueStrings(input.keywordFields),
+    ...(input.kind?.trim() ? { kind: input.kind.trim() } : {}),
+    metadataFields: toUniqueStrings(input.metadataFields),
+    ...(input.orderField?.trim() ? { orderField: input.orderField.trim() } : {}),
+    providerId: input.providerId?.trim() || "postgresql",
+    ...(input.scope?.trim() ? { scope: input.scope.trim() } : {}),
+    source: input.source?.trim() || indexId,
+    titleField: input.titleField?.trim() || "title",
+  };
+}
+
+export function mapSdkworkSearchIndexSourceItems(
+  indexInput: SdkworkSearchIndexDefinitionInput | SdkworkSearchIndexDefinition,
+  sourceItems: readonly Record<string, unknown>[],
+): SdkworkSearchDocument[] {
+  const index = normalizeSdkworkSearchIndexDefinition(indexInput);
+  if (!index.enabled) {
+    return [];
+  }
+
+  return sourceItems.map((sourceItem, position): SdkworkSearchDocument => {
+    const rawId = sourceValueToString(readSourceValue(sourceItem, index.idField)) ??
+      String(position + 1);
+    const title = sourceValueToString(readSourceValue(sourceItem, index.titleField)) ??
+      rawId;
+    const description = sourceValueToString(readSourceValue(sourceItem, index.descriptionField));
+    const order = sourceValueToInteger(readSourceValue(sourceItem, index.orderField));
+    const keywords = toUniqueStrings(
+      index.keywordFields.flatMap((fieldName) =>
+        sourceValueToStrings(readSourceValue(sourceItem, fieldName)),
+      ),
+    );
+    const metadata = index.metadataFields.reduce<Record<string, unknown>>((nextMetadata, fieldName) => {
+      const value = readSourceValue(sourceItem, fieldName);
+      if (value !== undefined) {
+        nextMetadata[fieldName] = value;
+      }
+      return nextMetadata;
+    }, {});
+
+    return {
+      ...(index.capability ? { capability: index.capability } : {}),
+      ...(description ? { description } : {}),
+      ...(index.group ? { group: index.group } : {}),
+      ...(index.groupOrder !== undefined ? { groupOrder: index.groupOrder } : {}),
+      id: `${index.indexId}:${rawId}`,
+      ...(keywords.length ? { keywords } : {}),
+      ...(index.kind ? { kind: index.kind } : {}),
+      ...(order !== undefined ? { order } : {}),
+      ...(index.scope ? { scope: index.scope } : {}),
+      source: index.source,
+      title,
+      ...(Object.keys(metadata).length ? { metadata } : {}),
+    };
+  });
+}
+
+export function createSdkworkSearchIndexSyncPlan(
+  indexInput: SdkworkSearchIndexDefinitionInput | SdkworkSearchIndexDefinition,
+  sourceItems: readonly Record<string, unknown>[],
+  options: SdkworkSearchIndexSyncPlanOptions = {},
+): SdkworkSearchIndexSyncPlan {
+  const index = normalizeSdkworkSearchIndexDefinition(indexInput);
+  const documents = mapSdkworkSearchIndexSourceItems(index, sourceItems);
+  const batchSize = clampPositiveInteger(options.batchSize, 100, 1000);
+  const batches: SdkworkSearchIndexSyncBatch[] = [];
+
+  for (let offset = 0; offset < documents.length; offset += batchSize) {
+    batches.push({
+      batchNumber: batches.length + 1,
+      documents: documents.slice(offset, offset + batchSize),
+    });
+  }
+
+  return {
+    batches,
+    index,
+    indexId: index.indexId,
+    providerId: index.providerId,
+    requestId: options.requestId ?? "",
+    syncMode: options.syncMode ?? "delta",
+    totalBatches: batches.length,
+    totalDocuments: documents.length,
+  };
+}
+
+export function normalizeSdkworkSearchProviderManifest(
+  manifest: SdkworkSearchProviderManifestInput,
+): SdkworkSearchProviderManifest {
+  const providerId = manifest.providerId.trim();
+  if (!providerId) {
+    throw new Error("Search provider manifest requires providerId");
+  }
+
+  const kind = manifest.kind.trim().toLowerCase();
+  if (!isSdkworkSearchProviderKind(kind)) {
+    throw new Error(`Unsupported search provider kind: ${manifest.kind}`);
+  }
+
+  const capabilities = normalizeProviderCapabilities(manifest.capabilities);
+  if (capabilities.length === 0) {
+    throw new Error(`Search provider ${providerId} requires at least one capability`);
+  }
+
+  const defaultFor = normalizeProviderCapabilities(manifest.defaultFor).filter((capability) =>
+    capabilities.includes(capability),
+  );
+  const status = manifest.status.trim().toLowerCase();
+
+  return {
+    ...manifest,
+    capabilities,
+    defaultFor,
+    displayName: manifest.displayName.trim() || providerId,
+    kind,
+    priority: Math.max(0, Math.trunc(manifest.priority)),
+    providerId,
+    status: isSdkworkSearchProviderStatus(status) ? status : "unknown",
+  };
+}
+
+export function selectSdkworkSearchProvider(
+  manifests: readonly SdkworkSearchProviderManifestInput[],
+  selection: SdkworkSearchProviderSelection = {},
+): SdkworkSearchProviderManifest {
+  const providers = manifests.map(normalizeSdkworkSearchProviderManifest);
+  const requiredCapabilities = normalizeProviderCapabilities(selection.requiredCapabilities);
+  const allowDegraded = selection.allowDegraded === true;
+
+  const selectable = providers
+    .filter((provider) => isSelectableProvider(provider, requiredCapabilities, allowDegraded))
+    .sort(compareProviderPriority);
+
+  const findById = (providerId: string | undefined) => {
+    const normalizedProviderId = providerId?.trim();
+    if (!normalizedProviderId) {
+      return undefined;
+    }
+
+    return selectable.find((provider) => provider.providerId === normalizedProviderId);
+  };
+
+  const explicitProvider = findById(selection.providerId);
+  if (explicitProvider) {
+    return explicitProvider;
+  }
+
+  const fallbackProvider = findById(selection.fallbackProviderId);
+  if (selection.providerId?.trim()) {
+    if (fallbackProvider) {
+      return fallbackProvider;
+    }
+
+    throw new Error("No active search provider matches selection");
+  }
+
+  const preferredKind = selection.preferredKind?.trim().toLowerCase();
+  if (preferredKind && isSdkworkSearchProviderKind(preferredKind)) {
+    const kindProvider = selectable.find((provider) => provider.kind === preferredKind);
+    if (kindProvider) {
+      return kindProvider;
+    }
+  }
+
+  const defaultProvider = selectable.find((provider) =>
+    requiredCapabilities.some((capability) => provider.defaultFor.includes(capability)),
+  );
+  if (defaultProvider) {
+    return defaultProvider;
+  }
+
+  if (fallbackProvider) {
+    return fallbackProvider;
+  }
+
+  const priorityProvider = selectable[0];
+  if (priorityProvider) {
+    return priorityProvider;
+  }
+
+  throw new Error("No active search provider matches selection");
+}
+
+export const SDKWORK_POSTGRESQL_SEARCH_PROVIDER_MANIFEST =
+  normalizeSdkworkSearchProviderManifest({
+    capabilities: [
+      "analytics",
+      "document_indexing",
+      "event_ingestion",
+      "hybrid_search",
+      "lexical_search",
+      "promotions",
+      "provider_health",
+      "ranking_profiles",
+      "recommendations",
+      "semantic_search",
+      "suggestions",
+      "synonyms",
+    ],
+    defaultFor: [
+      "analytics",
+      "document_indexing",
+      "event_ingestion",
+      "hybrid_search",
+      "lexical_search",
+      "promotions",
+      "provider_health",
+      "ranking_profiles",
+      "recommendations",
+      "semantic_search",
+      "suggestions",
+      "synonyms",
+    ],
+    displayName: "PostgreSQL Search",
+    kind: "postgresql",
+    metadata: {
+      extensions: ["pg_trgm"],
+      optionalExtensions: ["vector"],
+    },
+    priority: 100,
+    providerId: "postgresql",
+    status: "active",
+  });
+
+export function normalizeSdkworkRecommendationStrategyDefinition(
+  strategy: SdkworkRecommendationStrategyInput,
+): SdkworkRecommendationStrategyDefinition {
+  const strategyId = strategy.strategyId.trim();
+  if (!strategyId) {
+    throw new Error("Recommendation strategy requires strategyId");
+  }
+
+  const strategyType = strategy.strategyType ?? "hybrid";
+  if (!isSdkworkRecommendationStrategyType(strategyType)) {
+    throw new Error(`Unsupported recommendation strategy type: ${strategy.strategyType}`);
+  }
+
+  const engine = (strategy.engine ?? "custom").trim().toLowerCase();
+  if (!isSdkworkRecommendationStrategyEngine(engine)) {
+    throw new Error(`Unsupported recommendation strategy engine: ${strategy.engine}`);
+  }
+
+  const status = (strategy.status ?? "active").trim().toLowerCase();
+
+  return {
+    ...strategy,
+    default: strategy.default === true,
+    engine,
+    priority: Math.max(0, Math.trunc(strategy.priority ?? 0)),
+    providerId: strategy.providerId?.trim() || undefined,
+    status: isSdkworkRecommendationStrategyStatus(status) ? status : "draft",
+    strategyId,
+    strategyKey: strategy.strategyKey?.trim() || strategyId,
+    strategyType,
+    title: strategy.title?.trim() || strategyId,
+  };
+}
+
+export const SDKWORK_POSTGRESQL_RECOMMENDATION_STRATEGY =
+  normalizeSdkworkRecommendationStrategyDefinition({
+    config: {
+      weights: {
+        capability: 90,
+        collaborative: 45,
+        popular: 25,
+        query: 1,
+        recent: 40,
+        scope: 70,
+        semantic: 60,
+      },
+    },
+    default: true,
+    engine: "postgresql",
+    metadata: {
+      extensions: ["pg_trgm"],
+      optionalExtensions: ["vector"],
+    },
+    priority: 100,
+    providerId: "postgresql",
+    status: "active",
+    strategyId: "postgresql-hybrid",
+    strategyKey: "postgresql_hybrid",
+    strategyType: "hybrid",
+    title: "PostgreSQL Hybrid Recommendation",
+  });
+
+export const SDKWORK_POSTGRESQL_RECOMMENDATION_STRATEGIES: readonly SdkworkRecommendationStrategyDefinition[] = [
+  SDKWORK_POSTGRESQL_RECOMMENDATION_STRATEGY,
+  normalizeSdkworkRecommendationStrategyDefinition({
+    engine: "postgresql",
+    metadata: {
+      extensions: ["pg_trgm"],
+    },
+    priority: 90,
+    providerId: "postgresql",
+    status: "active",
+    strategyId: "postgresql-content",
+    strategyKey: "postgresql_content",
+    strategyType: "content",
+    title: "PostgreSQL Content Recommendation",
+  }),
+  normalizeSdkworkRecommendationStrategyDefinition({
+    engine: "postgresql",
+    metadata: {
+      eventTables: ["search_user_event"],
+    },
+    priority: 80,
+    providerId: "postgresql",
+    status: "active",
+    strategyId: "postgresql-popular",
+    strategyKey: "postgresql_popular",
+    strategyType: "popular",
+    title: "PostgreSQL Popular Recommendation",
+  }),
+  normalizeSdkworkRecommendationStrategyDefinition({
+    engine: "postgresql",
+    metadata: {
+      extensions: ["pg_trgm"],
+      optionalExtensions: ["vector"],
+    },
+    priority: 80,
+    providerId: "postgresql",
+    status: "active",
+    strategyId: "postgresql-semantic",
+    strategyKey: "postgresql_semantic",
+    strategyType: "semantic",
+    title: "PostgreSQL Semantic Recommendation",
+  }),
+  normalizeSdkworkRecommendationStrategyDefinition({
+    engine: "postgresql",
+    metadata: {
+      eventTables: ["search_user_event"],
+    },
+    priority: 70,
+    providerId: "postgresql",
+    status: "active",
+    strategyId: "postgresql-collaborative",
+    strategyKey: "postgresql_collaborative",
+    strategyType: "collaborative",
+    title: "PostgreSQL Collaborative Recommendation",
+  }),
+];
+
+function compareRecommendationStrategy(
+  left: SdkworkRecommendationStrategyDefinition,
+  right: SdkworkRecommendationStrategyDefinition,
+): number {
+  return (
+    Number(right.default) - Number(left.default) ||
+    (right.priority ?? 0) - (left.priority ?? 0) ||
+    left.strategyId.localeCompare(right.strategyId)
+  );
+}
+
+export function createSdkworkRecommendationStrategyRegistry(
+  strategies: readonly SdkworkRecommendationStrategyInput[] = [],
+): SdkworkRecommendationStrategyRegistry {
+  const registry: SdkworkRecommendationStrategyRegistry = new Map();
+
+  for (const strategy of SDKWORK_POSTGRESQL_RECOMMENDATION_STRATEGIES) {
+    registry.set(strategy.strategyId, strategy);
+  }
+
+  for (const strategy of strategies) {
+    const normalized = normalizeSdkworkRecommendationStrategyDefinition(strategy);
+    if (registry.has(normalized.strategyId)) {
+      throw new Error(`Duplicate recommendation strategy id: ${normalized.strategyId}`);
+    }
+    registry.set(normalized.strategyId, normalized);
+  }
+
+  return registry;
+}
+
+export function selectSdkworkRecommendationStrategy(
+  registry: SdkworkRecommendationStrategyRegistry | readonly SdkworkRecommendationStrategyInput[],
+  selection: SdkworkRecommendationStrategySelection = {},
+): SdkworkRecommendationStrategyDefinition {
+  const registeredStrategies: SdkworkRecommendationStrategyDefinition[] = registry instanceof Map
+    ? Array.from(registry.values())
+    : Array.from(createSdkworkRecommendationStrategyRegistry(registry).values());
+  const strategies = registeredStrategies
+    .filter((strategy) => selection.allowInactive === true || strategy.status === "active")
+    .filter((strategy) => !selection.providerId || strategy.providerId === selection.providerId)
+    .sort(compareRecommendationStrategy);
+
+  const requestedStrategyId = selection.strategyId?.trim();
+  if (requestedStrategyId && requestedStrategyId !== "default") {
+    const explicit = strategies.find((strategy) => strategy.strategyId === requestedStrategyId);
+    if (explicit) {
+      return explicit;
+    }
+
+    throw new Error("No active recommendation strategy matches selection");
+  }
+
+  if (selection.strategyType) {
+    const strategyByType = strategies.find(
+      (strategy) => strategy.strategyType === selection.strategyType,
+    );
+    if (strategyByType) {
+      return strategyByType;
+    }
+  }
+
+  const defaultStrategy = strategies.find((strategy) => strategy.default);
+  if (defaultStrategy) {
+    return defaultStrategy;
+  }
+
+  const priorityStrategy = strategies[0];
+  if (priorityStrategy) {
+    return priorityStrategy;
+  }
+
+  throw new Error("No active recommendation strategy matches selection");
 }
 
 export function createSdkworkSearchCatalog(
@@ -485,7 +1515,300 @@ export function createSdkworkSearchQueryResponse(
   };
 }
 
+export function createSdkworkSearchSuggestionsResponse(
+  input: SdkworkSearchCatalog | readonly SdkworkSearchDocument[],
+  request: SdkworkSearchSuggestionsRequest,
+): SdkworkSearchSuggestionsResponse {
+  const catalog = filterSdkworkSearchCatalog(input, request);
+  const q = normalizeSdkworkSearchQuery(request.q ?? "");
+  const limit = clampPositiveInteger(request.limit, 10, 50);
+  const candidates = new Map<string, SdkworkSearchSuggestion>();
+
+  for (const document of catalog.documents) {
+    addSuggestionCandidate(candidates, document.title, q, "document", 100);
+    for (const keyword of document.keywords ?? []) {
+      if (normalizeSdkworkSearchQuery(keyword) === normalizeSdkworkSearchQuery(document.source ?? "")) {
+        continue;
+      }
+      addSuggestionCandidate(candidates, keyword, q, "document", 90);
+    }
+    for (const phrase of tokenizeSuggestionText(document.description)) {
+      addSuggestionCandidate(candidates, phrase, q, "query", 70, "prefix");
+    }
+    addSuggestionCandidate(candidates, document.group ?? "", q, "document", 60);
+  }
+
+  return {
+    items: Array.from(candidates.values())
+      .sort((left, right) => right.score - left.score || left.text.localeCompare(right.text))
+      .slice(0, limit),
+    q,
+    requestId: request.requestId ?? "",
+  };
+}
+
+export function createSdkworkRecommendationResponse(
+  input: SdkworkSearchCatalog | readonly SdkworkSearchDocument[],
+  request: SdkworkRecommendationRequest,
+  options: CreateSdkworkRecommendationResponseOptions = {},
+): SdkworkRecommendationResponse {
+  const context = request.context ?? {};
+  const catalog = filterSdkworkSearchCatalog(input, {
+    groupIds: context.groupIds,
+  });
+  const registry = createSdkworkRecommendationStrategyRegistry(options.strategies);
+  let strategy = SDKWORK_POSTGRESQL_RECOMMENDATION_STRATEGY;
+  try {
+    strategy = selectSdkworkRecommendationStrategy(registry, {
+      strategyId: request.strategyId,
+    });
+  } catch (error) {
+    strategy = selectSdkworkRecommendationStrategy(registry);
+  }
+  const capabilityFilter = createUniqueSet(context.capabilityIds);
+  const scopeFilter = createUniqueSet(context.scopeIds);
+  const recentDocumentIds = createUniqueSet(context.recentDocumentIds);
+  const queryMatches = searchSdkworkSearchCatalog(catalog, context.q ?? "");
+  const queryScoreByDocumentId = new Map(
+    queryMatches.map((result) => [result.document.id, result.score]),
+  );
+  const limit = clampPositiveInteger(request.limit, 10, 100);
+
+  const items = catalog.documents.map((document, index): SdkworkRecommendationItem => {
+    const reasonCodes: string[] = [];
+    let score = Math.max(1, 70 - index);
+    addReasonCode(reasonCodes, `strategy_${strategy.strategyType}`);
+
+    if (capabilityFilter.size > 0 && capabilityFilter.has(document.capability ?? "")) {
+      addReasonCode(reasonCodes, "capability_match");
+      score += 90;
+    }
+
+    if (scopeFilter.size > 0 && scopeFilter.has(document.scope ?? "global")) {
+      addReasonCode(reasonCodes, "scope_match");
+      score += 70;
+    }
+
+    const queryScore = queryScoreByDocumentId.get(document.id);
+    if (queryScore !== undefined) {
+      addReasonCode(reasonCodes, "query_match");
+      score += queryScore;
+    }
+
+    if (recentDocumentIds.has(document.id)) {
+      addReasonCode(reasonCodes, "recent_activity");
+      score += 40;
+    }
+
+    if (
+      strategy.strategyType === "popular" ||
+      strategy.strategyType === "collaborative" ||
+      (strategy.strategyType === "hybrid" && recentDocumentIds.has(document.id))
+    ) {
+      addReasonCode(reasonCodes, "popular_signal");
+      score += recentDocumentIds.has(document.id) ? 35 : Math.max(1, 25 - index);
+    }
+
+    if (
+      strategy.strategyType === "collaborative" ||
+      (strategy.strategyType === "hybrid" && context.userId)
+    ) {
+      addReasonCode(reasonCodes, "collaborative_signal");
+      score += recentDocumentIds.has(document.id) ? 45 : Math.max(1, 18 - index);
+    }
+
+    if (
+      strategy.strategyType === "content" ||
+      strategy.strategyType === "hybrid" ||
+      strategy.strategyType === "semantic"
+    ) {
+      addReasonCode(reasonCodes, "content_signal");
+      score += Math.max(1, 20 - index);
+    }
+
+    if (
+      strategy.strategyType === "semantic" ||
+      (strategy.strategyType === "hybrid" && queryScore !== undefined)
+    ) {
+      addReasonCode(reasonCodes, "semantic_signal");
+      score += queryScore !== undefined ? 60 : Math.max(1, 12 - index);
+    }
+
+    if (reasonCodes.length === 1) {
+      addReasonCode(reasonCodes, "catalog_order");
+    }
+
+    return {
+      document,
+      reasonCodes,
+      score,
+    };
+  });
+
+  return {
+    items: items
+      .sort(
+        (left, right) =>
+          right.score - left.score || left.document.title.localeCompare(right.document.title),
+      )
+      .slice(0, limit),
+    requestId: request.requestId ?? "",
+    strategyId: strategy.strategyId,
+  };
+}
+
+export function createSdkworkPromotionResponse(
+  input: SdkworkSearchCatalog | readonly SdkworkSearchDocument[],
+  request: SdkworkPromotionRequest,
+): SdkworkPromotionResponse {
+  const context = request.context;
+  const catalog = filterSdkworkSearchCatalog(input, context);
+  const capabilityFilter = createUniqueSet(context.capabilityIds);
+  const scopeFilter = createUniqueSet(context.scopeIds);
+  const queryScoreByDocumentId = new Map(
+    searchSdkworkSearchCatalog(catalog, context.q ?? "").map((result) => [
+      result.document.id,
+      result.score,
+    ]),
+  );
+  const limit = clampPositiveInteger(request.limit, 10, 50);
+
+  const items = catalog.documents
+    .map((document, index): SdkworkPromotionItem => {
+      const reasonCodes = ["placement_match"];
+      let score = Math.max(1, 80 - index);
+
+      if (capabilityFilter.size > 0 && capabilityFilter.has(document.capability ?? "")) {
+        reasonCodes.push("capability_match");
+        score += 70;
+      }
+
+      if (scopeFilter.size > 0 && scopeFilter.has(document.scope ?? "global")) {
+        reasonCodes.push("scope_match");
+        score += 50;
+      }
+
+      const queryScore = queryScoreByDocumentId.get(document.id);
+      if (queryScore !== undefined) {
+        reasonCodes.push("query_match");
+        score += queryScore;
+      }
+
+      return {
+        document,
+        placement: context.placement,
+        reasonCodes,
+        score,
+      };
+    })
+    .filter((item) => {
+      if (capabilityFilter.size > 0 && !item.reasonCodes.includes("capability_match")) {
+        return false;
+      }
+      if (scopeFilter.size > 0 && !item.reasonCodes.includes("scope_match")) {
+        return false;
+      }
+      return true;
+    });
+
+  return {
+    items: items
+      .sort(
+        (left, right) =>
+          right.score - left.score || left.document.title.localeCompare(right.document.title),
+      )
+      .slice(0, limit),
+    placement: context.placement,
+    requestId: request.requestId ?? "",
+  };
+}
+
+export function normalizeSdkworkSearchUserEvent(
+  event: SdkworkSearchUserEvent,
+): SdkworkSearchUserEvent {
+  return {
+    ...event,
+    ...(event.documentId?.trim() ? { documentId: event.documentId.trim() } : {}),
+    ...(event.indexId?.trim() ? { indexId: event.indexId.trim() } : {}),
+    ...(event.placement?.trim() ? { placement: event.placement.trim() } : {}),
+    ...(event.q !== undefined ? { q: normalizeSdkworkSearchQuery(event.q) } : {}),
+    ...(event.requestId?.trim() ? { requestId: event.requestId.trim() } : {}),
+  };
+}
+
+export function createSdkworkSemanticSearchQueryResponse(
+  input: SdkworkSearchCatalog | readonly SdkworkSearchDocument[],
+  request: SdkworkSemanticSearchQueryRequest,
+): SdkworkSemanticSearchQueryResponse {
+  const q = normalizeSdkworkSearchQuery(request.q);
+  const limit = clampPositiveInteger(request.limit, 10, 100);
+  const directResults = searchSdkworkSearchCatalog(input, q, request);
+  const lexicalResults = directResults.length > 0
+    ? directResults
+    : Array.from(
+        q
+          .split(/\s+/)
+          .filter(Boolean)
+          .reduce((merged, token) => {
+            for (const result of searchSdkworkSearchCatalog(input, token, request)) {
+              const existing = merged.get(result.document.id);
+              merged.set(result.document.id, {
+                ...result,
+                score: (existing?.score ?? 0) + result.score,
+              });
+            }
+            return merged;
+          }, new Map<string, SdkworkSearchResult>())
+          .values(),
+      ).sort(
+        (left, right) =>
+          right.score - left.score || left.document.title.localeCompare(right.document.title),
+      );
+
+  return {
+    embeddingProvider: request.embeddingProvider ?? "postgresql",
+    items: lexicalResults.slice(0, limit).map((result): SdkworkSemanticSearchResult => ({
+      document: result.document,
+      lexicalScore: result.score,
+      reasonCodes: ["lexical_fallback", `${result.matchedOn}_match`],
+      score: result.score,
+    })),
+    mode: "semantic",
+    q,
+    requestId: request.requestId ?? "",
+    semanticProfileId: request.semanticProfileId ?? "default",
+  };
+}
+
+export function createSdkworkSearchAnalyticsOverview(
+  input: SdkworkSearchAnalyticsOverviewInput,
+): SdkworkSearchAnalyticsOverview {
+  const searchQueries = Math.max(0, Math.trunc(input.searchQueries ?? 0));
+  const recommendationClicks = Math.max(0, Math.trunc(input.recommendationClicks ?? 0));
+  const promotionClicks = Math.max(0, Math.trunc(input.promotionClicks ?? 0));
+  const totalClicks = recommendationClicks + promotionClicks;
+  const clickThroughRate = searchQueries === 0 ? "0.0000" : (totalClicks / searchQueries).toFixed(4);
+
+  return {
+    clickThroughRate,
+    failedEmbeddingJobs: Math.max(0, Math.trunc(input.failedEmbeddingJobs ?? 0)),
+    indexedDocuments: Math.max(0, Math.trunc(input.indexedDocuments ?? 0)),
+    promotionClicks,
+    recommendationClicks,
+    requestId: input.requestId ?? "",
+    searchQueries,
+  };
+}
+
 export const createSearchCatalog = createSdkworkSearchCatalog;
+export const normalizeSearchIndexDefinition = normalizeSdkworkSearchIndexDefinition;
+export const mapSearchIndexSourceItems = mapSdkworkSearchIndexSourceItems;
+export const createSearchIndexSyncPlan = createSdkworkSearchIndexSyncPlan;
 export const filterSearchCatalog = filterSdkworkSearchCatalog;
 export const searchCatalog = searchSdkworkSearchCatalog;
 export const groupSearchCatalogResults = groupSdkworkSearchResults;
+export const createSearchSuggestionsResponse = createSdkworkSearchSuggestionsResponse;
+export const createRecommendationResponse = createSdkworkRecommendationResponse;
+export const createPromotionResponse = createSdkworkPromotionResponse;
+export const createSemanticSearchQueryResponse = createSdkworkSemanticSearchQueryResponse;
+export const createSearchAnalyticsOverview = createSdkworkSearchAnalyticsOverview;

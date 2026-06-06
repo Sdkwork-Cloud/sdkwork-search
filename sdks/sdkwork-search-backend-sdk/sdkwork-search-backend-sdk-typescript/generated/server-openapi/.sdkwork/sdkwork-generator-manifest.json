@@ -43,7 +43,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "0f97e20ec4ecf20d325d1cada44bd08ab3452803adb0bde4187612c30c924417"
+      "sha256": "93ec29e5c5f36e7395c00173cca4a2dc3da2f8eb2eeb701aeb11e8a3027cb941"
     },
     {
       "path": "sdkwork-sdk.json",
@@ -63,7 +63,7 @@
     },
     {
       "path": "src/api/search.ts",
-      "sha256": "99d2fa76c5ba451f4b5b771101123553183270efbb4b4ad94ee16c4422925567"
+      "sha256": "a0e5bcfb78680dba0f9922a743c912a79fcc51c17b03333fcd4e85a7525b5acf"
     },
     {
       "path": "src/auth/index.ts",
@@ -95,11 +95,51 @@
     },
     {
       "path": "src/types/index.ts",
-      "sha256": "876f018a6b620ca51ed586f1bbf305dae2aa4c2fe78fd3abc0abb6bc9814e5b0"
+      "sha256": "345d7d4ab1b8aad11556511deb1934275b9b35db01daf761ca73ea5e229543bd"
     },
     {
       "path": "src/types/problem-detail.ts",
       "sha256": "7801e79cab9a1ccace62b2a0ba2119f835b41e4e22f858b10490ffd638b7f3a6"
+    },
+    {
+      "path": "src/types/search-ab-assignment-request.ts",
+      "sha256": "4a36efeb3831b2acc6d6d6929be1a6a7bd4a3ca790abdba2b7924ec8b876806f"
+    },
+    {
+      "path": "src/types/search-ab-assignment-response.ts",
+      "sha256": "77a7747194b92f44aecf962982462cffa41f8346129b9de6fbd79e4f45ba3fb4"
+    },
+    {
+      "path": "src/types/search-ab-experiment-create-request.ts",
+      "sha256": "8b19c5c410177ac5eb61b94e206939ba69523a133e1d4f63b79afdc201111105"
+    },
+    {
+      "path": "src/types/search-ab-experiment-list-response.ts",
+      "sha256": "a2f771667e312648268e99f228e842a9ff42617520a4fed04a2394629340a021"
+    },
+    {
+      "path": "src/types/search-ab-experiment-response.ts",
+      "sha256": "d9404d0b5b9553c31cb275bc9cda2f60d944ad864175012aa0bb75bd86a9b72b"
+    },
+    {
+      "path": "src/types/search-ab-experiment-update-request.ts",
+      "sha256": "2fc47cedea33e3a7d61def933d14736ba85efbca394589f4ad5e73b9c9f35e8a"
+    },
+    {
+      "path": "src/types/search-ab-experiment.ts",
+      "sha256": "b298eb0ab270cc9f7fe101a20a62538f582299a7c3149d9a9845b23bff6a57aa"
+    },
+    {
+      "path": "src/types/search-analytics-overview.ts",
+      "sha256": "fcef951a0f38ee51cab72aacdcfcf106c3b0215581d5f6ad11a84c25ffeccdd6"
+    },
+    {
+      "path": "src/types/search-document-bulk-upsert-request.ts",
+      "sha256": "7c7f4d3cb05a63aa7db7e945c9a547ca89947198f1187d7a81a815de4d7b007d"
+    },
+    {
+      "path": "src/types/search-document-bulk-upsert-response.ts",
+      "sha256": "ea8dbad0f01805b4d351570cf28be9114f028c84c1d2b22a4cbb1048a3cba79b"
     },
     {
       "path": "src/types/search-document-delete-response.ts",
@@ -118,8 +158,32 @@
       "sha256": "8924e05237b06c0c340dc189525ec549f8dea152bf390dd84b837542d3daa681"
     },
     {
+      "path": "src/types/search-embedding-job-create-request.ts",
+      "sha256": "ba26ed2f66641f241e5bc1bc99ba149db1d8cbe81e798094aad4f88d29e1763e"
+    },
+    {
+      "path": "src/types/search-embedding-job-list-response.ts",
+      "sha256": "4e56688abb27b15f25100077b54a0e802ed46f58c28603d2fcf24393daab1360"
+    },
+    {
+      "path": "src/types/search-embedding-job-response.ts",
+      "sha256": "893ca1274c889d19a36995d2d6efcecb08c3ce93ad44283ae1a13df5035ea37b"
+    },
+    {
+      "path": "src/types/search-embedding-job.ts",
+      "sha256": "1c4f5d84ff614d7a38038b86d1f3760a8cc90505875cc196a010ce050e41541d"
+    },
+    {
       "path": "src/types/search-index-create-request.ts",
       "sha256": "132b7e31113c6915baacc077a25e0eb34f67a19aa00053a3b6315d156fdd2138"
+    },
+    {
+      "path": "src/types/search-index-delete-response.ts",
+      "sha256": "89ca3ad9ff95740a980a981e57de6baa5b095e951bfb434a782fa71c95cb3732"
+    },
+    {
+      "path": "src/types/search-index-job-response.ts",
+      "sha256": "2f7fb04f683a829ddb98e037020b4b1f4701f50afcf13d99c9e23f86f5799521"
     },
     {
       "path": "src/types/search-index-list-response.ts",
@@ -130,6 +194,10 @@
       "sha256": "b45778ff3a5f86195ecc5cf0351502ab6ee675c2663dcee87ab5f20226802f0b"
     },
     {
+      "path": "src/types/search-index-update-request.ts",
+      "sha256": "4469e5519af3479fab6b41447da117d5035f0bcdac0164f91665b5a888cd4c64"
+    },
+    {
       "path": "src/types/search-index.ts",
       "sha256": "b770655b06f35c241b7f08c376e42c4a44583d53a5753b209ef9143ca898a0d0"
     },
@@ -138,16 +206,120 @@
       "sha256": "dc9e7664aa6acdc2b249a836c05e9f71befa21ea508b3e68dbed620af522ddd7"
     },
     {
-      "path": "src/types/search-query-request.ts",
-      "sha256": "8932ebc3dcab12922802cc0b2dd9f8000e5bed665736cf128e5ca396e1df8fae"
+      "path": "src/types/search-promotion-admin-response.ts",
+      "sha256": "bac356f3457731f42b5e8dd7423c39925373d223a126444b4135774920ced0d8"
     },
     {
-      "path": "src/types/search-query-response.ts",
-      "sha256": "a2a8c106d0321921578921270f37f660e179a9833a6167d650591c5b19fb6dc5"
+      "path": "src/types/search-promotion-admin.ts",
+      "sha256": "86377b97aa6e9ca5101fc47849db87ea2ec8588d2d35e1e3332057c03bebef01"
     },
     {
-      "path": "src/types/search-result.ts",
-      "sha256": "b4448bbf2bfd59778d375370346f86493fc7e99b2bdd104e35447e3503532de9"
+      "path": "src/types/search-promotion-create-request.ts",
+      "sha256": "a2ca8cb851e35442da9790be10f05512c1c13dc4c0987e3fddf0c359a20a4d7b"
+    },
+    {
+      "path": "src/types/search-promotion-delete-response.ts",
+      "sha256": "2cea8c1b278adf06293b2d57f005f25c8a81364d922a7343a5b3711254853237"
+    },
+    {
+      "path": "src/types/search-promotion-list-response.ts",
+      "sha256": "730833d075ed21d995fe4692d9e52ebca8c3ab1c7720fd96b23a71c19499e6c2"
+    },
+    {
+      "path": "src/types/search-promotion-update-request.ts",
+      "sha256": "c092f7daf8c63ccda19a3fea4b3c057fdd1f02dc635a37147be39d259ef80ad8"
+    },
+    {
+      "path": "src/types/search-provider-create-request.ts",
+      "sha256": "72d690db394565a64bf19a0dd0c650c77c526c63145ae66298d86174f835626b"
+    },
+    {
+      "path": "src/types/search-provider-health-check-response.ts",
+      "sha256": "edd098707a87cdd917d2614ab100c5b358777db7ce242ce9285e1f0dca650d56"
+    },
+    {
+      "path": "src/types/search-provider-health-check.ts",
+      "sha256": "827f79d0af51809380f6763094888acf72d7b36a17f67e8556b7382f9e890c5b"
+    },
+    {
+      "path": "src/types/search-provider-list-response.ts",
+      "sha256": "0b24433840256399d1dad9a2ca3491258ace0ce79e8df17847ba6013e881f97b"
+    },
+    {
+      "path": "src/types/search-provider-response.ts",
+      "sha256": "7191dcd5c7781fc258c681cb236b82866f0a406bddb5629ed5f719fa3dcd3b4e"
+    },
+    {
+      "path": "src/types/search-provider-update-request.ts",
+      "sha256": "bc6aead5797d0817488b85888e1b7e9f6b1676fbe1de0eb5be8dfe90456b3d7b"
+    },
+    {
+      "path": "src/types/search-provider.ts",
+      "sha256": "3ebe108c594ff21f4ae3fbcca2ddbbc933dc00028e4f118e46d4603db96858e3"
+    },
+    {
+      "path": "src/types/search-ranking-profile-create-request.ts",
+      "sha256": "066ca899ba43a7a0dac1d4b8d0b9e4b696890129d267f4122c6a0397a1826ef2"
+    },
+    {
+      "path": "src/types/search-ranking-profile-list-response.ts",
+      "sha256": "b29f8f751e1cb2ebf220e107d4f8404bdc1cf091bad85229634b154c920a9c83"
+    },
+    {
+      "path": "src/types/search-ranking-profile-response.ts",
+      "sha256": "6c3d194ebeecfedde92fe492cc3a98de8eb23def4fc14c1e386f1eafafef7c0d"
+    },
+    {
+      "path": "src/types/search-ranking-profile-update-request.ts",
+      "sha256": "a4288d88692789a3496ea71cbcc89bc2640302ae0a626eea02fbf042f1ae6b12"
+    },
+    {
+      "path": "src/types/search-ranking-profile.ts",
+      "sha256": "b905dc1048e355a2e76c6fba03d454cf23780f644f46ce22cd2bf44235c986e7"
+    },
+    {
+      "path": "src/types/search-rebuild-job-request.ts",
+      "sha256": "0f0c2adb25d438efd157af898704df8c026723c3b62dd5c17dc94f6af22b05b9"
+    },
+    {
+      "path": "src/types/search-recommendation-strategy-create-request.ts",
+      "sha256": "387ba7c97bea80bb73755cd3183a93dbafa421f444e7b613f13e1778f21a99f3"
+    },
+    {
+      "path": "src/types/search-recommendation-strategy-list-response.ts",
+      "sha256": "033d5feda15eb9294f924b476c86fa8879e8c830caf5ea938ad2daa49e51c7c4"
+    },
+    {
+      "path": "src/types/search-recommendation-strategy-response.ts",
+      "sha256": "9e02e9da375a035cd71a14b6ef14ceeee31ed9e43149518da5de7a180a04565f"
+    },
+    {
+      "path": "src/types/search-recommendation-strategy-update-request.ts",
+      "sha256": "2aea3f2132c29677e67c8545ba152fc552bf397f5adc03fc7e751a4c720404bb"
+    },
+    {
+      "path": "src/types/search-recommendation-strategy.ts",
+      "sha256": "7910e6615c0c5b9d4318e8ccd2716e2bd02d292878d0e211337e36ce99c048c7"
+    },
+    {
+      "path": "src/types/search-synonym-create-request.ts",
+      "sha256": "73205291f3fa324ac28112f3d011ca985afff749418909f0dcac8dbef7dd05a9"
+    },
+    {
+      "path": "src/types/search-synonym-delete-response.ts",
+      "sha256": "8259a07690e8255d052e771908244d378f19ffad9b95a88abc78c9614aa941b2"
+    },
+    {
+      "path": "src/types/search-synonym-list-response.ts",
+      "sha256": "d170a39ddc121f60192b7b9b585e8c0e6297b66abafa9504bd247c9873a5476d"
+    },
+    {
+      "path": "src/types/search-synonym-response.ts",
+      "sha256": "5826fb0e453193034d8ff37b822117311daed4d3ecabde52e541ba40ecbe171e"
+    },
+    {
+      "path": "src/types/search-synonym.ts",
+      "sha256": "5fc7e510b6bef03095e72f38118572a4d199058395dc6b79b227778eb87a3875"
     },
     {
       "path": "tsconfig.json",

@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+
 CREATE TABLE IF NOT EXISTS search_index (
     id BIGINT PRIMARY KEY,
     uuid VARCHAR(64) NOT NULL UNIQUE,
@@ -33,8 +35,10 @@ CREATE TABLE IF NOT EXISTS search_document (
     title VARCHAR(512) NOT NULL,
     body_text TEXT,
     keyword_text TEXT,
+    search_vector TSVECTOR,
     payload_json JSONB NOT NULL DEFAULT '{}'::jsonb,
     token_json JSONB NOT NULL DEFAULT '[]'::jsonb,
+    embedding_json JSONB NOT NULL DEFAULT '{}'::jsonb,
     status INTEGER NOT NULL DEFAULT 1,
     data_scope INTEGER NOT NULL DEFAULT 0,
     indexed_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -44,6 +48,243 @@ CREATE TABLE IF NOT EXISTS search_document (
     deleted_at TIMESTAMPTZ,
     deleted_by BIGINT,
     CONSTRAINT uk_search_document_id UNIQUE (tenant_id, organization_id, index_key, document_id)
+);
+
+CREATE TABLE IF NOT EXISTS search_synonym_set (
+    id BIGINT PRIMARY KEY,
+    uuid VARCHAR(64) NOT NULL UNIQUE,
+    tenant_id BIGINT NOT NULL DEFAULT 0,
+    organization_id BIGINT NOT NULL DEFAULT 0,
+    set_key VARCHAR(128) NOT NULL,
+    title VARCHAR(256) NOT NULL,
+    locale VARCHAR(32) NOT NULL DEFAULT 'default',
+    status INTEGER NOT NULL DEFAULT 1,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    version BIGINT NOT NULL DEFAULT 0,
+    deleted_at TIMESTAMPTZ,
+    deleted_by BIGINT,
+    CONSTRAINT uk_search_synonym_set_key UNIQUE (tenant_id, organization_id, set_key, locale)
+);
+
+CREATE TABLE IF NOT EXISTS search_synonym_entry (
+    id BIGINT PRIMARY KEY,
+    uuid VARCHAR(64) NOT NULL UNIQUE,
+    tenant_id BIGINT NOT NULL DEFAULT 0,
+    organization_id BIGINT NOT NULL DEFAULT 0,
+    set_key VARCHAR(128) NOT NULL,
+    term VARCHAR(256) NOT NULL,
+    synonyms_json JSONB NOT NULL DEFAULT '[]'::jsonb,
+    match_type VARCHAR(64) NOT NULL DEFAULT 'equivalent',
+    status INTEGER NOT NULL DEFAULT 1,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    version BIGINT NOT NULL DEFAULT 0,
+    CONSTRAINT uk_search_synonym_entry_term UNIQUE (tenant_id, organization_id, set_key, term)
+);
+
+CREATE TABLE IF NOT EXISTS search_ranking_profile (
+    id BIGINT PRIMARY KEY,
+    uuid VARCHAR(64) NOT NULL UNIQUE,
+    tenant_id BIGINT NOT NULL DEFAULT 0,
+    organization_id BIGINT NOT NULL DEFAULT 0,
+    profile_key VARCHAR(128) NOT NULL,
+    title VARCHAR(256) NOT NULL,
+    weights_json JSONB NOT NULL DEFAULT '{}'::jsonb,
+    rule_json JSONB NOT NULL DEFAULT '{}'::jsonb,
+    status INTEGER NOT NULL DEFAULT 1,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    version BIGINT NOT NULL DEFAULT 0,
+    deleted_at TIMESTAMPTZ,
+    deleted_by BIGINT,
+    CONSTRAINT uk_search_ranking_profile_key UNIQUE (tenant_id, organization_id, profile_key)
+);
+
+CREATE TABLE IF NOT EXISTS search_recommendation_strategy (
+    id BIGINT PRIMARY KEY,
+    uuid VARCHAR(64) NOT NULL UNIQUE,
+    tenant_id BIGINT NOT NULL DEFAULT 0,
+    organization_id BIGINT NOT NULL DEFAULT 0,
+    strategy_key VARCHAR(128) NOT NULL,
+    title VARCHAR(256) NOT NULL,
+    strategy_type VARCHAR(64) NOT NULL DEFAULT 'hybrid',
+    config_json JSONB NOT NULL DEFAULT '{}'::jsonb,
+    status INTEGER NOT NULL DEFAULT 1,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    version BIGINT NOT NULL DEFAULT 0,
+    deleted_at TIMESTAMPTZ,
+    deleted_by BIGINT,
+    CONSTRAINT uk_search_recommendation_strategy_key UNIQUE (tenant_id, organization_id, strategy_key)
+);
+
+CREATE TABLE IF NOT EXISTS search_promotion (
+    id BIGINT PRIMARY KEY,
+    uuid VARCHAR(64) NOT NULL UNIQUE,
+    tenant_id BIGINT NOT NULL DEFAULT 0,
+    organization_id BIGINT NOT NULL DEFAULT 0,
+    promotion_key VARCHAR(128) NOT NULL,
+    placement VARCHAR(128) NOT NULL,
+    index_key VARCHAR(128) NOT NULL,
+    document_id VARCHAR(160) NOT NULL,
+    priority INTEGER NOT NULL DEFAULT 0,
+    rule_json JSONB NOT NULL DEFAULT '{}'::jsonb,
+    status INTEGER NOT NULL DEFAULT 0,
+    active_from TIMESTAMPTZ,
+    active_until TIMESTAMPTZ,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    version BIGINT NOT NULL DEFAULT 0,
+    deleted_at TIMESTAMPTZ,
+    deleted_by BIGINT,
+    CONSTRAINT uk_search_promotion_key UNIQUE (tenant_id, organization_id, promotion_key)
+);
+
+CREATE TABLE IF NOT EXISTS search_user_event (
+    id BIGINT PRIMARY KEY,
+    uuid VARCHAR(64) NOT NULL UNIQUE,
+    tenant_id BIGINT NOT NULL DEFAULT 0,
+    organization_id BIGINT NOT NULL DEFAULT 0,
+    user_id BIGINT NOT NULL DEFAULT 0,
+    event_type VARCHAR(64) NOT NULL,
+    surface VARCHAR(64) NOT NULL,
+    index_key VARCHAR(128),
+    document_id VARCHAR(160),
+    placement VARCHAR(128),
+    q VARCHAR(512),
+    result_position INTEGER,
+    request_id VARCHAR(128),
+    metadata_json JSONB NOT NULL DEFAULT '{}'::jsonb,
+    occurred_at TIMESTAMPTZ NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS search_recent_query (
+    id BIGINT PRIMARY KEY,
+    uuid VARCHAR(64) NOT NULL UNIQUE,
+    tenant_id BIGINT NOT NULL DEFAULT 0,
+    organization_id BIGINT NOT NULL DEFAULT 0,
+    user_id BIGINT NOT NULL DEFAULT 0,
+    index_key VARCHAR(128) NOT NULL,
+    q VARCHAR(512) NOT NULL,
+    result_count INTEGER NOT NULL DEFAULT 0,
+    last_used_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT uk_search_recent_query_user_q UNIQUE (tenant_id, organization_id, user_id, index_key, q)
+);
+
+CREATE TABLE IF NOT EXISTS search_query_suggestion (
+    id BIGINT PRIMARY KEY,
+    uuid VARCHAR(64) NOT NULL UNIQUE,
+    tenant_id BIGINT NOT NULL DEFAULT 0,
+    organization_id BIGINT NOT NULL DEFAULT 0,
+    index_key VARCHAR(128) NOT NULL,
+    suggestion_text VARCHAR(512) NOT NULL,
+    source VARCHAR(64) NOT NULL DEFAULT 'query',
+    score INTEGER NOT NULL DEFAULT 0,
+    status INTEGER NOT NULL DEFAULT 1,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    version BIGINT NOT NULL DEFAULT 0,
+    CONSTRAINT uk_search_query_suggestion_text UNIQUE (tenant_id, organization_id, index_key, suggestion_text)
+);
+
+CREATE TABLE IF NOT EXISTS search_embedding_job (
+    id BIGINT PRIMARY KEY,
+    uuid VARCHAR(64) NOT NULL UNIQUE,
+    tenant_id BIGINT NOT NULL DEFAULT 0,
+    organization_id BIGINT NOT NULL DEFAULT 0,
+    index_key VARCHAR(128) NOT NULL,
+    document_id VARCHAR(160),
+    provider VARCHAR(128),
+    model VARCHAR(128),
+    status INTEGER NOT NULL DEFAULT 0,
+    payload_json JSONB NOT NULL DEFAULT '{}'::jsonb,
+    scheduled_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    started_at TIMESTAMPTZ,
+    finished_at TIMESTAMPTZ,
+    error_summary TEXT,
+    retry_count INTEGER NOT NULL DEFAULT 0,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    version BIGINT NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS search_provider_config (
+    id BIGINT PRIMARY KEY,
+    uuid VARCHAR(64) NOT NULL UNIQUE,
+    tenant_id BIGINT NOT NULL DEFAULT 0,
+    organization_id BIGINT NOT NULL DEFAULT 0,
+    provider_key VARCHAR(128) NOT NULL,
+    provider_kind VARCHAR(64) NOT NULL,
+    title VARCHAR(256) NOT NULL,
+    capabilities_json JSONB NOT NULL DEFAULT '[]'::jsonb,
+    default_for_json JSONB NOT NULL DEFAULT '[]'::jsonb,
+    config_json JSONB NOT NULL DEFAULT '{}'::jsonb,
+    secret_config_ref VARCHAR(512),
+    metadata_json JSONB NOT NULL DEFAULT '{}'::jsonb,
+    priority INTEGER NOT NULL DEFAULT 0,
+    status INTEGER NOT NULL DEFAULT 1,
+    health_status VARCHAR(64) NOT NULL DEFAULT 'unknown',
+    last_checked_at TIMESTAMPTZ,
+    last_error_summary TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    version BIGINT NOT NULL DEFAULT 0,
+    deleted_at TIMESTAMPTZ,
+    deleted_by BIGINT,
+    CONSTRAINT uk_search_provider_config_key UNIQUE (tenant_id, organization_id, provider_key)
+);
+
+CREATE TABLE IF NOT EXISTS search_provider_health_check (
+    id BIGINT PRIMARY KEY,
+    uuid VARCHAR(64) NOT NULL UNIQUE,
+    tenant_id BIGINT NOT NULL DEFAULT 0,
+    organization_id BIGINT NOT NULL DEFAULT 0,
+    provider_key VARCHAR(128) NOT NULL,
+    provider_kind VARCHAR(64) NOT NULL,
+    health_status VARCHAR(64) NOT NULL DEFAULT 'unknown',
+    latency_ms INTEGER,
+    details_json JSONB NOT NULL DEFAULT '{}'::jsonb,
+    error_summary TEXT,
+    checked_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS search_ab_experiment (
+    id BIGINT PRIMARY KEY,
+    uuid VARCHAR(64) NOT NULL UNIQUE,
+    tenant_id BIGINT NOT NULL DEFAULT 0,
+    organization_id BIGINT NOT NULL DEFAULT 0,
+    experiment_key VARCHAR(128) NOT NULL,
+    title VARCHAR(256) NOT NULL,
+    target_json JSONB NOT NULL DEFAULT '{}'::jsonb,
+    variants_json JSONB NOT NULL DEFAULT '[]'::jsonb,
+    status INTEGER NOT NULL DEFAULT 0,
+    active_from TIMESTAMPTZ,
+    active_until TIMESTAMPTZ,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    version BIGINT NOT NULL DEFAULT 0,
+    deleted_at TIMESTAMPTZ,
+    deleted_by BIGINT,
+    CONSTRAINT uk_search_ab_experiment_key UNIQUE (tenant_id, organization_id, experiment_key)
+);
+
+CREATE TABLE IF NOT EXISTS search_ab_assignment (
+    id BIGINT PRIMARY KEY,
+    uuid VARCHAR(64) NOT NULL UNIQUE,
+    tenant_id BIGINT NOT NULL DEFAULT 0,
+    organization_id BIGINT NOT NULL DEFAULT 0,
+    experiment_key VARCHAR(128) NOT NULL,
+    subject_type VARCHAR(64) NOT NULL,
+    subject_id VARCHAR(160) NOT NULL,
+    variant_key VARCHAR(128) NOT NULL,
+    assigned_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT uk_search_ab_assignment_subject UNIQUE (tenant_id, organization_id, experiment_key, subject_type, subject_id)
 );
 
 CREATE TABLE IF NOT EXISTS search_document_projection (
@@ -111,6 +352,12 @@ CREATE INDEX IF NOT EXISTS idx_search_document_index_scope_updated
 CREATE INDEX IF NOT EXISTS idx_search_document_capability
     ON search_document (tenant_id, organization_id, capability, updated_at);
 
+CREATE INDEX IF NOT EXISTS idx_search_document_search_vector
+    ON search_document USING GIN (search_vector);
+
+CREATE INDEX IF NOT EXISTS idx_search_document_title_trgm
+    ON search_document USING GIN (title gin_trgm_ops);
+
 CREATE INDEX IF NOT EXISTS idx_search_document_projection_index_group
     ON search_document_projection (tenant_id, organization_id, index_key, group_key, rank_weight);
 
@@ -119,3 +366,36 @@ CREATE INDEX IF NOT EXISTS idx_search_query_audit_tenant_created
 
 CREATE INDEX IF NOT EXISTS idx_search_index_job_status_scheduled
     ON search_index_job (tenant_id, organization_id, status, scheduled_at);
+
+CREATE INDEX IF NOT EXISTS idx_search_synonym_entry_term
+    ON search_synonym_entry (tenant_id, organization_id, set_key, term);
+
+CREATE INDEX IF NOT EXISTS idx_search_ranking_profile_status
+    ON search_ranking_profile (tenant_id, organization_id, status, updated_at);
+
+CREATE INDEX IF NOT EXISTS idx_search_recommendation_strategy_status
+    ON search_recommendation_strategy (tenant_id, organization_id, status, updated_at);
+
+CREATE INDEX IF NOT EXISTS idx_search_promotion_placement_status
+    ON search_promotion (tenant_id, organization_id, placement, status, priority);
+
+CREATE INDEX IF NOT EXISTS idx_search_user_event_document_created
+    ON search_user_event (tenant_id, organization_id, document_id, created_at);
+
+CREATE INDEX IF NOT EXISTS idx_search_recent_query_user_used
+    ON search_recent_query (tenant_id, organization_id, user_id, last_used_at);
+
+CREATE INDEX IF NOT EXISTS idx_search_query_suggestion_text_trgm
+    ON search_query_suggestion USING GIN (suggestion_text gin_trgm_ops);
+
+CREATE INDEX IF NOT EXISTS idx_search_embedding_job_status_scheduled
+    ON search_embedding_job (tenant_id, organization_id, status, scheduled_at);
+
+CREATE INDEX IF NOT EXISTS idx_search_provider_config_kind_status
+    ON search_provider_config (tenant_id, organization_id, provider_kind, status, priority);
+
+CREATE INDEX IF NOT EXISTS idx_search_provider_health_provider_checked
+    ON search_provider_health_check (tenant_id, organization_id, provider_key, checked_at);
+
+CREATE INDEX IF NOT EXISTS idx_search_ab_experiment_status
+    ON search_ab_experiment (tenant_id, organization_id, status, active_from, active_until);

@@ -26,12 +26,7 @@ const client = new SdkworkBackendClient({
 client.setApiKey('your-api-key');
 
 // Use the SDK
-const params = {
-  q: 'q',
-  page: 2,
-  page_size: 3,
-};
-const result = await client.search.indexes.list(params);
+const result = await client.search.analytics.overview.retrieve();
 ```
 
 ## Authentication Modes (Mutually Exclusive)
@@ -82,13 +77,8 @@ const client = new SdkworkBackendClient({
 ### search
 
 ```typescript
-// List search indexes for backend administration.
-const params = {
-  q: 'q',
-  page: 2,
-  page_size: 3,
-};
-const result = await client.search.indexes.list(params);
+// Retrieve search analytics overview.
+const result = await client.search.analytics.overview.retrieve();
 ```
 
 ## Error Handling
@@ -97,12 +87,7 @@ const result = await client.search.indexes.list(params);
 import { SdkworkBackendClient, NetworkError, TimeoutError, AuthenticationError } from '@sdkwork/search-backend-sdk';
 
 try {
-  const params = {
-    q: 'q',
-    page: 2,
-    page_size: 3,
-  };
-  const result = await client.search.indexes.list(params);
+  const result = await client.search.analytics.overview.retrieve();
 } catch (error) {
   if (error instanceof AuthenticationError) {
     console.error('Authentication failed:', error.message);

@@ -1,8 +1,122 @@
 import { appApiPath } from './paths';
 import type { HttpClient } from '../http/client';
 
-import type { SearchIndexListResponse, SearchQueryRequest, SearchQueryResponse } from '../types';
+import type { SearchIndexListResponse, SearchPromotionRequest, SearchPromotionResponse, SearchQueryRequest, SearchQueryResponse, SearchRecentQueryListResponse, SearchRecommendationRequest, SearchRecommendationResponse, SearchSemanticQueryRequest, SearchSemanticQueryResponse, SearchSuggestionsResponse, SearchUserEvent, SearchUserEventResponse } from '../types';
 
+
+export class SearchSemanticQueriesApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** Create a semantic search query with lexical fallback. */
+  async create(body: SearchSemanticQueryRequest): Promise<SearchSemanticQueryResponse> {
+    return this.client.post<SearchSemanticQueryResponse>(appApiPath(`/search/semantic_queries`), body, undefined, undefined, 'application/json');
+  }
+}
+
+export interface SearchRecentQueriesListParams {
+  q?: string;
+  page?: number;
+  pageSize?: number;
+}
+
+export class SearchRecentQueriesApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** List recent search queries for the current app principal. */
+  async list(params?: SearchRecentQueriesListParams): Promise<SearchRecentQueryListResponse> {
+    const query = buildQueryString([
+      { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+      { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+      { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+    ]);
+    return this.client.get<SearchRecentQueryListResponse>(appendQueryString(appApiPath(`/search/recent_queries`), query));
+  }
+}
+
+export class SearchEventsApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** Record a search or recommendation feedback event. */
+  async create(body: SearchUserEvent): Promise<SearchUserEventResponse> {
+    return this.client.post<SearchUserEventResponse>(appApiPath(`/search/events`), body, undefined, undefined, 'application/json');
+  }
+}
+
+export class SearchPromotionsApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** Create a promotion delivery response for an app placement. */
+  async create(body: SearchPromotionRequest): Promise<SearchPromotionResponse> {
+    return this.client.post<SearchPromotionResponse>(appApiPath(`/search/promotions`), body, undefined, undefined, 'application/json');
+  }
+}
+
+export class SearchRecommendationsApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** Create an explainable recommendation response. */
+  async create(body: SearchRecommendationRequest): Promise<SearchRecommendationResponse> {
+    return this.client.post<SearchRecommendationResponse>(appApiPath(`/search/recommendations`), body, undefined, undefined, 'application/json');
+  }
+}
+
+export interface SearchSuggestionsListParams {
+  q?: string;
+  limit?: number;
+  providerId?: string;
+  providerKind?: 'algolia' | 'custom' | 'elasticsearch' | 'meilisearch' | 'memory' | 'opensearch' | 'postgresql' | 'typesense' | 'vector';
+  capabilityIds?: string[];
+  groupIds?: string[];
+  scopeIds?: string[];
+}
+
+export class SearchSuggestionsApi {
+  private client: HttpClient;
+
+  constructor(client: HttpClient) {
+    this.client = client;
+  }
+
+
+/** List search suggestions for app clients. */
+  async list(params?: SearchSuggestionsListParams): Promise<SearchSuggestionsResponse> {
+    const query = buildQueryString([
+      { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+      { name: 'limit', value: params?.limit, style: 'form', explode: true, allowReserved: false },
+      { name: 'provider_id', value: params?.providerId, style: 'form', explode: true, allowReserved: false },
+      { name: 'provider_kind', value: params?.providerKind, style: 'form', explode: true, allowReserved: false },
+      { name: 'capability_ids', value: params?.capabilityIds, style: 'form', explode: true, allowReserved: false },
+      { name: 'group_ids', value: params?.groupIds, style: 'form', explode: true, allowReserved: false },
+      { name: 'scope_ids', value: params?.scopeIds, style: 'form', explode: true, allowReserved: false },
+    ]);
+    return this.client.get<SearchSuggestionsResponse>(appendQueryString(appApiPath(`/search/suggestions`), query));
+  }
+}
 
 export interface SearchIndexesListParams {
   q?: string;
@@ -12,9 +126,9 @@ export interface SearchIndexesListParams {
 
 export class SearchIndexesApi {
   private client: HttpClient;
-  
-  constructor(client: HttpClient) { 
-    this.client = client; 
+
+  constructor(client: HttpClient) {
+    this.client = client;
   }
 
 
@@ -31,9 +145,9 @@ export class SearchIndexesApi {
 
 export class SearchQueriesApi {
   private client: HttpClient;
-  
-  constructor(client: HttpClient) { 
-    this.client = client; 
+
+  constructor(client: HttpClient) {
+    this.client = client;
   }
 
 
@@ -47,11 +161,23 @@ export class SearchApi {
   private client: HttpClient;
   public readonly queries: SearchQueriesApi;
   public readonly indexes: SearchIndexesApi;
-  
-  constructor(client: HttpClient) { 
+  public readonly suggestions: SearchSuggestionsApi;
+  public readonly recommendations: SearchRecommendationsApi;
+  public readonly promotions: SearchPromotionsApi;
+  public readonly events: SearchEventsApi;
+  public readonly recentQueries: SearchRecentQueriesApi;
+  public readonly semanticQueries: SearchSemanticQueriesApi;
+
+  constructor(client: HttpClient) {
     this.client = client;
     this.queries = new SearchQueriesApi(client);
-    this.indexes = new SearchIndexesApi(client); 
+    this.indexes = new SearchIndexesApi(client);
+    this.suggestions = new SearchSuggestionsApi(client);
+    this.recommendations = new SearchRecommendationsApi(client);
+    this.promotions = new SearchPromotionsApi(client);
+    this.events = new SearchEventsApi(client);
+    this.recentQueries = new SearchRecentQueriesApi(client);
+    this.semanticQueries = new SearchSemanticQueriesApi(client);
   }
 
 }

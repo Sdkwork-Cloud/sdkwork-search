@@ -283,6 +283,236 @@
         }
       }
     },
+    "/backend/v3/api/search/indexes/{indexId}": {
+      "patch": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Update a search index.",
+        "operationId": "search.indexes.update",
+        "parameters": [
+          {
+            "name": "indexId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchIndexResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.indexes",
+        "x-sdkwork-permission": "search.indexes.write",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.index.update",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchIndexUpdateRequest"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Delete a search index.",
+        "operationId": "search.indexes.delete",
+        "parameters": [
+          {
+            "name": "indexId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchIndexDeleteResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.indexes",
+        "x-sdkwork-permission": "search.indexes.write",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.index.delete",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true
+      }
+    },
     "/backend/v3/api/search/indexes/{indexId}/documents/{documentId}": {
       "put": {
         "tags": [
@@ -528,6 +758,3328 @@
         "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
         "x-sdkwork-server-request-id": true
       }
+    },
+    "/backend/v3/api/search/indexes/{indexId}/documents/bulk_upsert": {
+      "post": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Bulk upsert documents into a search index.",
+        "operationId": "search.documents.bulkUpsert",
+        "parameters": [
+          {
+            "name": "indexId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "description": "Client retry key for retriable create commands."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchDocumentBulkUpsertResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.documents",
+        "x-sdkwork-permission": "search.documents.write",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.document.bulk_upsert",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchDocumentBulkUpsertRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/backend/v3/api/search/synonyms": {
+      "get": {
+        "tags": [
+          "search"
+        ],
+        "summary": "List search synonyms for backend administration.",
+        "operationId": "search.synonyms.list",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Standard free-text search query."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchSynonymListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.synonyms",
+        "x-sdkwork-permission": "search.synonyms.read",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.synonym.list",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true
+      },
+      "post": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Create a search synonym.",
+        "operationId": "search.synonyms.create",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "description": "Client retry key for retriable create commands."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchSynonymResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.synonyms",
+        "x-sdkwork-permission": "search.synonyms.write",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.synonym.create",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchSynonymCreateRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/backend/v3/api/search/synonyms/{synonymId}": {
+      "delete": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Delete a search synonym.",
+        "operationId": "search.synonyms.delete",
+        "parameters": [
+          {
+            "name": "synonymId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchSynonymDeleteResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.synonyms",
+        "x-sdkwork-permission": "search.synonyms.write",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.synonym.delete",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true
+      }
+    },
+    "/backend/v3/api/search/ranking_profiles": {
+      "get": {
+        "tags": [
+          "search"
+        ],
+        "summary": "List search ranking profiles.",
+        "operationId": "search.rankingProfiles.list",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Standard free-text search query."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchRankingProfileListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.rankingProfiles",
+        "x-sdkwork-permission": "search.ranking_profiles.read",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.ranking_profile.list",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true
+      },
+      "post": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Create a search ranking profile.",
+        "operationId": "search.rankingProfiles.create",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "description": "Client retry key for retriable create commands."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchRankingProfileResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.rankingProfiles",
+        "x-sdkwork-permission": "search.ranking_profiles.write",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.ranking_profile.create",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchRankingProfileCreateRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/backend/v3/api/search/ranking_profiles/{profileId}": {
+      "patch": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Update a search ranking profile.",
+        "operationId": "search.rankingProfiles.update",
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchRankingProfileResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.rankingProfiles",
+        "x-sdkwork-permission": "search.ranking_profiles.write",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.ranking_profile.update",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchRankingProfileUpdateRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/backend/v3/api/search/recommendation_strategies": {
+      "get": {
+        "tags": [
+          "search"
+        ],
+        "summary": "List search recommendation strategies.",
+        "operationId": "search.recommendationStrategies.list",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Standard free-text search query."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchRecommendationStrategyListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.recommendationStrategies",
+        "x-sdkwork-permission": "search.recommendation_strategies.read",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.recommendation_strategy.list",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true
+      },
+      "post": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Create a search recommendation strategy.",
+        "operationId": "search.recommendationStrategies.create",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "description": "Client retry key for retriable create commands."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchRecommendationStrategyResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.recommendationStrategies",
+        "x-sdkwork-permission": "search.recommendation_strategies.write",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.recommendation_strategy.create",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchRecommendationStrategyCreateRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/backend/v3/api/search/recommendation_strategies/{strategyId}": {
+      "patch": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Update a search recommendation strategy.",
+        "operationId": "search.recommendationStrategies.update",
+        "parameters": [
+          {
+            "name": "strategyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchRecommendationStrategyResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.recommendationStrategies",
+        "x-sdkwork-permission": "search.recommendation_strategies.write",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.recommendation_strategy.update",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchRecommendationStrategyUpdateRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/backend/v3/api/search/promotions": {
+      "get": {
+        "tags": [
+          "search"
+        ],
+        "summary": "List search promotions.",
+        "operationId": "search.promotions.list",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Standard free-text search query."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchPromotionListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.promotions",
+        "x-sdkwork-permission": "search.promotions.read",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.promotion.list",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true
+      },
+      "post": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Create a search promotion.",
+        "operationId": "search.promotions.create",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "description": "Client retry key for retriable create commands."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchPromotionAdminResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.promotions",
+        "x-sdkwork-permission": "search.promotions.write",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.promotion.create",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchPromotionCreateRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/backend/v3/api/search/promotions/{promotionId}": {
+      "patch": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Update a search promotion.",
+        "operationId": "search.promotions.update",
+        "parameters": [
+          {
+            "name": "promotionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchPromotionAdminResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.promotions",
+        "x-sdkwork-permission": "search.promotions.write",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.promotion.update",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchPromotionUpdateRequest"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Delete a search promotion.",
+        "operationId": "search.promotions.delete",
+        "parameters": [
+          {
+            "name": "promotionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchPromotionDeleteResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.promotions",
+        "x-sdkwork-permission": "search.promotions.write",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.promotion.delete",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true
+      }
+    },
+    "/backend/v3/api/search/embedding_jobs": {
+      "get": {
+        "tags": [
+          "search"
+        ],
+        "summary": "List semantic embedding jobs.",
+        "operationId": "search.embeddingJobs.list",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Standard free-text search query."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchEmbeddingJobListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.embeddingJobs",
+        "x-sdkwork-permission": "search.embedding_jobs.read",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.embedding_job.list",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true
+      },
+      "post": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Create a semantic embedding job.",
+        "operationId": "search.embeddingJobs.create",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "description": "Client retry key for retriable create commands."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchEmbeddingJobResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.embeddingJobs",
+        "x-sdkwork-permission": "search.embedding_jobs.write",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.embedding_job.create",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchEmbeddingJobCreateRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/backend/v3/api/search/embedding_jobs/{jobId}/retry": {
+      "post": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Retry a semantic embedding job.",
+        "operationId": "search.embeddingJobs.retry",
+        "parameters": [
+          {
+            "name": "jobId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchEmbeddingJobResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.embeddingJobs",
+        "x-sdkwork-permission": "search.embedding_jobs.write",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.embedding_job.retry",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true
+      }
+    },
+    "/backend/v3/api/search/ab_experiments": {
+      "get": {
+        "tags": [
+          "search"
+        ],
+        "summary": "List search A/B experiments.",
+        "operationId": "search.abExperiments.list",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Standard free-text search query."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchAbExperimentListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.abExperiments",
+        "x-sdkwork-permission": "search.ab_experiments.read",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.ab_experiment.list",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true
+      },
+      "post": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Create a search A/B experiment.",
+        "operationId": "search.abExperiments.create",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "description": "Client retry key for retriable create commands."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchAbExperimentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.abExperiments",
+        "x-sdkwork-permission": "search.ab_experiments.write",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.ab_experiment.create",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchAbExperimentCreateRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/backend/v3/api/search/ab_experiments/{experimentId}": {
+      "patch": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Update a search A/B experiment.",
+        "operationId": "search.abExperiments.update",
+        "parameters": [
+          {
+            "name": "experimentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchAbExperimentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.abExperiments",
+        "x-sdkwork-permission": "search.ab_experiments.write",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.ab_experiment.update",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchAbExperimentUpdateRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/backend/v3/api/search/ab_experiments/{experimentId}/assignments": {
+      "post": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Assign a subject to a search A/B experiment variant.",
+        "operationId": "search.abExperiments.assign",
+        "parameters": [
+          {
+            "name": "experimentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "description": "Client retry key for retriable create commands."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchAbAssignmentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.abExperiments",
+        "x-sdkwork-permission": "search.ab_experiments.write",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.ab_experiment.assign",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchAbAssignmentRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/backend/v3/api/search/jobs/rebuild": {
+      "post": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Create a search index rebuild job.",
+        "operationId": "search.jobs.rebuild.create",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "description": "Client retry key for retriable create commands."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchIndexJobResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.jobs",
+        "x-sdkwork-permission": "search.jobs.write",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.job.rebuild.create",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchRebuildJobRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/backend/v3/api/search/analytics/overview": {
+      "get": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Retrieve search analytics overview.",
+        "operationId": "search.analytics.overview.retrieve",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchAnalyticsOverview"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.analytics",
+        "x-sdkwork-permission": "search.analytics.read",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.analytics.overview.retrieve",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true
+      }
+    },
+    "/backend/v3/api/search/providers": {
+      "get": {
+        "tags": [
+          "search"
+        ],
+        "summary": "List configured search providers.",
+        "operationId": "search.providers.list",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Standard free-text search query."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchProviderListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.providers",
+        "x-sdkwork-permission": "search.providers.read",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.provider.list",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true
+      },
+      "post": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Create a search provider configuration.",
+        "operationId": "search.providers.create",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "description": "Client retry key for retriable create commands."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchProviderResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.providers",
+        "x-sdkwork-permission": "search.providers.write",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.provider.create",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchProviderCreateRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/backend/v3/api/search/providers/{providerId}": {
+      "patch": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Update a search provider configuration.",
+        "operationId": "search.providers.update",
+        "parameters": [
+          {
+            "name": "providerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchProviderResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.providers",
+        "x-sdkwork-permission": "search.providers.write",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.provider.update",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchProviderUpdateRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/backend/v3/api/search/providers/{providerId}/health_checks": {
+      "post": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Run a search provider health check.",
+        "operationId": "search.providers.healthChecks.create",
+        "parameters": [
+          {
+            "name": "providerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchProviderHealthCheckResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.providers.healthChecks",
+        "x-sdkwork-permission": "search.providers.write",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.provider.health_check.create",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true
+      }
     }
   },
   "components": {
@@ -611,237 +4163,6 @@
           }
         }
       },
-      "SearchDocument": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "id",
-          "title"
-        ],
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "enabled": {
-            "type": "boolean",
-            "default": true
-          },
-          "group": {
-            "type": "string"
-          },
-          "groupOrder": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "order": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "keywords": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "kind": {
-            "type": "string"
-          },
-          "capability": {
-            "type": "string"
-          },
-          "scope": {
-            "type": "string"
-          },
-          "source": {
-            "type": "string"
-          },
-          "metadata": {
-            "type": "object",
-            "additionalProperties": true
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
-      "SearchResult": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "document",
-          "matchedOn",
-          "score"
-        ],
-        "properties": {
-          "document": {
-            "$ref": "#/components/schemas/SearchDocument"
-          },
-          "matchedOn": {
-            "type": "string",
-            "enum": [
-              "title",
-              "keyword",
-              "description",
-              "group",
-              "scope"
-            ]
-          },
-          "score": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "SearchPageInfo": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "page",
-          "pageSize",
-          "totalItems",
-          "totalPages"
-        ],
-        "properties": {
-          "page": {
-            "type": "integer",
-            "format": "int32",
-            "minimum": 1
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32",
-            "minimum": 1,
-            "maximum": 200
-          },
-          "totalItems": {
-            "type": "integer",
-            "format": "int32",
-            "minimum": 0
-          },
-          "totalPages": {
-            "type": "integer",
-            "format": "int32",
-            "minimum": 1
-          }
-        }
-      },
-      "SearchQueryRequest": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "q"
-        ],
-        "properties": {
-          "q": {
-            "type": "string"
-          },
-          "page": {
-            "type": "integer",
-            "format": "int32",
-            "minimum": 1,
-            "default": 1
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32",
-            "minimum": 1,
-            "maximum": 200,
-            "default": 20
-          },
-          "capabilityIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "groupIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "scopeIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        }
-      },
-      "SearchQueryResponse": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "items",
-          "pageInfo",
-          "q",
-          "requestId"
-        ],
-        "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SearchResult"
-            }
-          },
-          "pageInfo": {
-            "$ref": "#/components/schemas/SearchPageInfo"
-          },
-          "q": {
-            "type": "string"
-          },
-          "requestId": {
-            "type": "string",
-            "format": "uuid",
-            "description": "Server-owned request correlation id."
-          }
-        }
-      },
-      "SearchIndex": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "indexId",
-          "name",
-          "documentCount",
-          "createdAt",
-          "updatedAt"
-        ],
-        "properties": {
-          "indexId": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "analyzer": {
-            "type": "string"
-          },
-          "documentCount": {
-            "type": "integer",
-            "format": "int32",
-            "minimum": 0
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
       "SearchIndexListResponse": {
         "type": "object",
         "additionalProperties": false,
@@ -907,6 +4228,52 @@
           }
         }
       },
+      "SearchIndexUpdateRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "analyzer": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "archived",
+              "draft",
+              "paused"
+            ]
+          }
+        }
+      },
+      "SearchIndexDeleteResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "deleted",
+          "indexId",
+          "requestId"
+        ],
+        "properties": {
+          "deleted": {
+            "type": "boolean"
+          },
+          "indexId": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          }
+        }
+      },
       "SearchDocumentUpsertRequest": {
         "type": "object",
         "additionalProperties": false,
@@ -942,6 +4309,48 @@
           }
         }
       },
+      "SearchDocumentBulkUpsertRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "documents"
+        ],
+        "properties": {
+          "documents": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 1000,
+            "items": {
+              "$ref": "#/components/schemas/SearchDocument"
+            }
+          }
+        }
+      },
+      "SearchDocumentBulkUpsertResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "indexedAt",
+          "requestId",
+          "upsertedCount"
+        ],
+        "properties": {
+          "indexedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          },
+          "upsertedCount": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          }
+        }
+      },
       "SearchDocumentDeleteResponse": {
         "type": "object",
         "additionalProperties": false,
@@ -965,6 +4374,1572 @@
             "type": "string",
             "format": "uuid",
             "description": "Server-owned request correlation id."
+          }
+        }
+      },
+      "SearchSynonymListResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "pageInfo",
+          "requestId"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchSynonym"
+            }
+          },
+          "pageInfo": {
+            "$ref": "#/components/schemas/SearchPageInfo"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          }
+        }
+      },
+      "SearchSynonymCreateRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "setKey",
+          "term",
+          "synonyms"
+        ],
+        "properties": {
+          "setKey": {
+            "type": "string"
+          },
+          "term": {
+            "type": "string"
+          },
+          "synonyms": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "matchType": {
+            "type": "string",
+            "enum": [
+              "equivalent",
+              "one_way"
+            ],
+            "default": "equivalent"
+          }
+        }
+      },
+      "SearchSynonymResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "requestId",
+          "synonym"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          },
+          "synonym": {
+            "$ref": "#/components/schemas/SearchSynonym"
+          }
+        }
+      },
+      "SearchSynonymDeleteResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "deleted",
+          "requestId",
+          "synonymId"
+        ],
+        "properties": {
+          "deleted": {
+            "type": "boolean"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          },
+          "synonymId": {
+            "type": "string"
+          }
+        }
+      },
+      "SearchRankingProfileListResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "pageInfo",
+          "requestId"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchRankingProfile"
+            }
+          },
+          "pageInfo": {
+            "$ref": "#/components/schemas/SearchPageInfo"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          }
+        }
+      },
+      "SearchRankingProfileCreateRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "profileKey",
+          "title"
+        ],
+        "properties": {
+          "profileKey": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "weights": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "rule": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      },
+      "SearchRankingProfileResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "profile",
+          "requestId"
+        ],
+        "properties": {
+          "profile": {
+            "$ref": "#/components/schemas/SearchRankingProfile"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          }
+        }
+      },
+      "SearchRankingProfileUpdateRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "weights": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "rule": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "archived",
+              "draft",
+              "paused"
+            ]
+          }
+        }
+      },
+      "SearchRecommendationStrategyListResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "pageInfo",
+          "requestId"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchRecommendationStrategy"
+            }
+          },
+          "pageInfo": {
+            "$ref": "#/components/schemas/SearchPageInfo"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          }
+        }
+      },
+      "SearchRecommendationStrategyCreateRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "strategyKey",
+          "title"
+        ],
+        "properties": {
+          "strategyKey": {
+            "type": "string"
+          },
+          "strategyType": {
+            "type": "string",
+            "enum": [
+              "collaborative",
+              "content",
+              "hybrid",
+              "popular",
+              "semantic"
+            ],
+            "default": "hybrid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "config": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      },
+      "SearchRecommendationStrategyResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "requestId",
+          "strategy"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          },
+          "strategy": {
+            "$ref": "#/components/schemas/SearchRecommendationStrategy"
+          }
+        }
+      },
+      "SearchRecommendationStrategyUpdateRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "strategyType": {
+            "type": "string",
+            "enum": [
+              "collaborative",
+              "content",
+              "hybrid",
+              "popular",
+              "semantic"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "config": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "archived",
+              "draft",
+              "paused"
+            ]
+          }
+        }
+      },
+      "SearchPromotionListResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "pageInfo",
+          "requestId"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchPromotionAdmin"
+            }
+          },
+          "pageInfo": {
+            "$ref": "#/components/schemas/SearchPageInfo"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          }
+        }
+      },
+      "SearchPromotionCreateRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "documentId",
+          "placement"
+        ],
+        "properties": {
+          "documentId": {
+            "type": "string"
+          },
+          "indexId": {
+            "type": "string"
+          },
+          "placement": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0
+          },
+          "rule": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "activeFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "activeUntil": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SearchPromotionAdminResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "promotion",
+          "requestId"
+        ],
+        "properties": {
+          "promotion": {
+            "$ref": "#/components/schemas/SearchPromotionAdmin"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          }
+        }
+      },
+      "SearchPromotionUpdateRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "priority": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rule": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "archived",
+              "draft",
+              "paused"
+            ]
+          },
+          "activeFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "activeUntil": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SearchPromotionDeleteResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "deleted",
+          "promotionId",
+          "requestId"
+        ],
+        "properties": {
+          "deleted": {
+            "type": "boolean"
+          },
+          "promotionId": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          }
+        }
+      },
+      "SearchEmbeddingJobListResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "pageInfo",
+          "requestId"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchEmbeddingJob"
+            }
+          },
+          "pageInfo": {
+            "$ref": "#/components/schemas/SearchPageInfo"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          }
+        }
+      },
+      "SearchEmbeddingJobCreateRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "indexId"
+        ],
+        "properties": {
+          "indexId": {
+            "type": "string"
+          },
+          "documentId": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "string",
+            "default": "postgresql"
+          },
+          "model": {
+            "type": "string"
+          }
+        }
+      },
+      "SearchEmbeddingJobResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "job",
+          "requestId"
+        ],
+        "properties": {
+          "job": {
+            "$ref": "#/components/schemas/SearchEmbeddingJob"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          }
+        }
+      },
+      "SearchAbExperimentListResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "pageInfo",
+          "requestId"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchAbExperiment"
+            }
+          },
+          "pageInfo": {
+            "$ref": "#/components/schemas/SearchPageInfo"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          }
+        }
+      },
+      "SearchAbExperimentCreateRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "experimentKey",
+          "title",
+          "variants"
+        ],
+        "properties": {
+          "experimentKey": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "target": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "variants": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "activeFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "activeUntil": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SearchAbExperimentResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "experiment",
+          "requestId"
+        ],
+        "properties": {
+          "experiment": {
+            "$ref": "#/components/schemas/SearchAbExperiment"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          }
+        }
+      },
+      "SearchAbExperimentUpdateRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "target": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "variants": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "archived",
+              "draft",
+              "paused"
+            ]
+          },
+          "activeFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "activeUntil": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SearchAbAssignmentRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "subjectId",
+          "subjectType"
+        ],
+        "properties": {
+          "subjectId": {
+            "type": "string"
+          },
+          "subjectType": {
+            "type": "string"
+          }
+        }
+      },
+      "SearchAbAssignmentResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "assignedAt",
+          "experimentId",
+          "requestId",
+          "subjectId",
+          "variantKey"
+        ],
+        "properties": {
+          "assignedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "experimentId": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          },
+          "subjectId": {
+            "type": "string"
+          },
+          "variantKey": {
+            "type": "string"
+          }
+        }
+      },
+      "SearchRebuildJobRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "indexId"
+        ],
+        "properties": {
+          "indexId": {
+            "type": "string"
+          },
+          "full": {
+            "type": "boolean",
+            "default": true
+          }
+        }
+      },
+      "SearchIndexJobResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "jobId",
+          "requestId",
+          "status"
+        ],
+        "properties": {
+          "jobId": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "failed",
+              "pending",
+              "running",
+              "succeeded"
+            ]
+          }
+        }
+      },
+      "SearchAnalyticsOverview": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "clickThroughRate",
+          "failedEmbeddingJobs",
+          "indexedDocuments",
+          "promotionClicks",
+          "recommendationClicks",
+          "requestId",
+          "searchQueries"
+        ],
+        "properties": {
+          "clickThroughRate": {
+            "type": "string",
+            "description": "Decimal ratio serialized as string for SDK precision safety."
+          },
+          "failedEmbeddingJobs": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          "indexedDocuments": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          "promotionClicks": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          "recommendationClicks": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          },
+          "searchQueries": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          }
+        }
+      },
+      "SearchProviderListResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "pageInfo",
+          "requestId"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchProvider"
+            }
+          },
+          "pageInfo": {
+            "$ref": "#/components/schemas/SearchPageInfo"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          }
+        }
+      },
+      "SearchProviderCreateRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "capabilities",
+          "displayName",
+          "kind",
+          "providerId"
+        ],
+        "properties": {
+          "providerId": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "algolia",
+              "custom",
+              "elasticsearch",
+              "meilisearch",
+              "memory",
+              "opensearch",
+              "postgresql",
+              "typesense",
+              "vector"
+            ]
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "capabilities": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "enum": [
+                "analytics",
+                "document_indexing",
+                "event_ingestion",
+                "hybrid_search",
+                "lexical_search",
+                "promotions",
+                "provider_health",
+                "ranking_profiles",
+                "recommendations",
+                "semantic_search",
+                "suggestions",
+                "synonyms"
+              ]
+            }
+          },
+          "defaultFor": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "analytics",
+                "document_indexing",
+                "event_ingestion",
+                "hybrid_search",
+                "lexical_search",
+                "promotions",
+                "provider_health",
+                "ranking_profiles",
+                "recommendations",
+                "semantic_search",
+                "suggestions",
+                "synonyms"
+              ]
+            }
+          },
+          "config": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Non-secret provider configuration such as endpoint, index naming, locale, timeout, routing, and feature flags."
+          },
+          "secretConfig": {
+            "type": "object",
+            "additionalProperties": true,
+            "writeOnly": true,
+            "description": "Provider credential configuration. This field is write-only and must be encrypted or stored through the provider secret store; it is never returned by SearchProvider responses."
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "priority": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0,
+            "default": 0
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "degraded",
+              "disabled",
+              "error",
+              "unknown"
+            ],
+            "default": "active"
+          }
+        }
+      },
+      "SearchProviderResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "provider",
+          "requestId"
+        ],
+        "properties": {
+          "provider": {
+            "$ref": "#/components/schemas/SearchProvider"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          }
+        }
+      },
+      "SearchProviderUpdateRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "displayName": {
+            "type": "string"
+          },
+          "capabilities": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "enum": [
+                "analytics",
+                "document_indexing",
+                "event_ingestion",
+                "hybrid_search",
+                "lexical_search",
+                "promotions",
+                "provider_health",
+                "ranking_profiles",
+                "recommendations",
+                "semantic_search",
+                "suggestions",
+                "synonyms"
+              ]
+            }
+          },
+          "defaultFor": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "analytics",
+                "document_indexing",
+                "event_ingestion",
+                "hybrid_search",
+                "lexical_search",
+                "promotions",
+                "provider_health",
+                "ranking_profiles",
+                "recommendations",
+                "semantic_search",
+                "suggestions",
+                "synonyms"
+              ]
+            }
+          },
+          "config": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Non-secret provider configuration such as endpoint, index naming, locale, timeout, routing, and feature flags."
+          },
+          "secretConfig": {
+            "type": "object",
+            "additionalProperties": true,
+            "writeOnly": true,
+            "description": "Provider credential configuration. This field is write-only and must be encrypted or stored through the provider secret store; it is never returned by SearchProvider responses."
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "priority": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "degraded",
+              "disabled",
+              "error",
+              "unknown"
+            ]
+          }
+        }
+      },
+      "SearchProviderHealthCheckResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "healthCheck",
+          "requestId"
+        ],
+        "properties": {
+          "healthCheck": {
+            "$ref": "#/components/schemas/SearchProviderHealthCheck"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          }
+        }
+      },
+      "SearchIndex": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "indexId",
+          "name",
+          "documentCount",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "indexId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "analyzer": {
+            "type": "string"
+          },
+          "documentCount": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SearchPageInfo": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "page",
+          "pageSize",
+          "totalItems",
+          "totalPages"
+        ],
+        "properties": {
+          "page": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1,
+            "maximum": 200
+          },
+          "totalItems": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1
+          }
+        }
+      },
+      "SearchDocument": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean",
+            "default": true
+          },
+          "group": {
+            "type": "string"
+          },
+          "groupOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "order": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "kind": {
+            "type": "string"
+          },
+          "capability": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SearchSynonym": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "synonymId",
+          "setKey",
+          "term",
+          "synonyms",
+          "status"
+        ],
+        "properties": {
+          "synonymId": {
+            "type": "string"
+          },
+          "setKey": {
+            "type": "string"
+          },
+          "term": {
+            "type": "string"
+          },
+          "synonyms": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "matchType": {
+            "type": "string",
+            "enum": [
+              "equivalent",
+              "one_way"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "archived",
+              "draft",
+              "paused"
+            ]
+          }
+        }
+      },
+      "SearchRankingProfile": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "profileId",
+          "profileKey",
+          "title",
+          "status"
+        ],
+        "properties": {
+          "profileId": {
+            "type": "string"
+          },
+          "profileKey": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "weights": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "rule": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "archived",
+              "draft",
+              "paused"
+            ]
+          }
+        }
+      },
+      "SearchRecommendationStrategy": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "strategyId",
+          "strategyKey",
+          "strategyType",
+          "title",
+          "status"
+        ],
+        "properties": {
+          "strategyId": {
+            "type": "string"
+          },
+          "strategyKey": {
+            "type": "string"
+          },
+          "strategyType": {
+            "type": "string",
+            "enum": [
+              "collaborative",
+              "content",
+              "hybrid",
+              "popular",
+              "semantic"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "config": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "archived",
+              "draft",
+              "paused"
+            ]
+          }
+        }
+      },
+      "SearchPromotionAdmin": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "promotionId",
+          "placement",
+          "documentId",
+          "status"
+        ],
+        "properties": {
+          "promotionId": {
+            "type": "string"
+          },
+          "placement": {
+            "type": "string"
+          },
+          "documentId": {
+            "type": "string"
+          },
+          "indexId": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0
+          },
+          "rule": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "archived",
+              "draft",
+              "paused"
+            ]
+          },
+          "activeFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "activeUntil": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SearchEmbeddingJob": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "jobId",
+          "indexId",
+          "status"
+        ],
+        "properties": {
+          "jobId": {
+            "type": "string"
+          },
+          "indexId": {
+            "type": "string"
+          },
+          "documentId": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "failed",
+              "pending",
+              "running",
+              "succeeded"
+            ]
+          },
+          "scheduledAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "startedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "finishedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "errorSummary": {
+            "type": "string"
+          }
+        }
+      },
+      "SearchAbExperiment": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "experimentId",
+          "experimentKey",
+          "title",
+          "status"
+        ],
+        "properties": {
+          "experimentId": {
+            "type": "string"
+          },
+          "experimentKey": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "target": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "variants": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "archived",
+              "draft",
+              "paused"
+            ]
+          },
+          "activeFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "activeUntil": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SearchProvider": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "capabilities",
+          "defaultFor",
+          "displayName",
+          "kind",
+          "priority",
+          "providerId",
+          "status"
+        ],
+        "properties": {
+          "providerId": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "algolia",
+              "custom",
+              "elasticsearch",
+              "meilisearch",
+              "memory",
+              "opensearch",
+              "postgresql",
+              "typesense",
+              "vector"
+            ]
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "analytics",
+                "document_indexing",
+                "event_ingestion",
+                "hybrid_search",
+                "lexical_search",
+                "promotions",
+                "provider_health",
+                "ranking_profiles",
+                "recommendations",
+                "semantic_search",
+                "suggestions",
+                "synonyms"
+              ]
+            }
+          },
+          "defaultFor": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "analytics",
+                "document_indexing",
+                "event_ingestion",
+                "hybrid_search",
+                "lexical_search",
+                "promotions",
+                "provider_health",
+                "ranking_profiles",
+                "recommendations",
+                "semantic_search",
+                "suggestions",
+                "synonyms"
+              ]
+            }
+          },
+          "config": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Non-secret provider configuration safe to return in backend API responses. Credentials, API keys, tokens, passwords, private keys, and connection secrets are never returned here."
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "priority": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0,
+            "default": 0
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "degraded",
+              "disabled",
+              "error",
+              "unknown"
+            ]
+          },
+          "healthStatus": {
+            "type": "string",
+            "enum": [
+              "degraded",
+              "healthy",
+              "unavailable",
+              "unknown"
+            ]
+          },
+          "lastCheckedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastErrorSummary": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SearchProviderHealthCheck": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "checkedAt",
+          "providerId",
+          "status"
+        ],
+        "properties": {
+          "providerId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "degraded",
+              "healthy",
+              "unavailable",
+              "unknown"
+            ]
+          },
+          "checkedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "latencyMs": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          "details": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "errorSummary": {
+            "type": "string"
           }
         }
       }

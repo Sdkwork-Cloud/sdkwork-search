@@ -16,7 +16,7 @@ fn declares_standard_app_api_route_manifest() {
     assert_eq!(manifest.api_authority, SEARCH_APP_API_AUTHORITY);
     assert_eq!(manifest.sdk_family, SEARCH_APP_SDK_FAMILY);
     assert_eq!(manifest.prefix, SEARCH_APP_API_PREFIX);
-    assert_eq!(manifest.routes.len(), 2);
+    assert_eq!(manifest.routes.len(), 8);
 }
 
 #[test]
@@ -39,4 +39,33 @@ fn app_api_routes_use_app_prefix_and_dual_token_auth() {
         .routes
         .iter()
         .any(|route| route.operation_id == "search.indexes.list"));
+
+    for operation_id in [
+        "search.suggestions.list",
+        "search.recommendations.create",
+        "search.promotions.create",
+        "search.events.create",
+        "search.recentQueries.list",
+        "search.semanticQueries.create",
+    ] {
+        assert!(
+            manifest.routes.iter().any(|route| route.operation_id == operation_id),
+            "missing app operation: {operation_id}",
+        );
+    }
+
+    assert!(
+        manifest
+            .routes
+            .iter()
+            .any(|route| route.path == "/app/v3/api/search/suggestions"),
+        "suggestions must use canonical app search path",
+    );
+    assert!(
+        manifest
+            .routes
+            .iter()
+            .all(|route| !route.path.starts_with("/v1/search")),
+        "app routes must not use legacy /v1/search",
+    );
 }

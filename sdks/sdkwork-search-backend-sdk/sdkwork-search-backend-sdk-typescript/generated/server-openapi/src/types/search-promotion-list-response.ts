@@ -1,10 +1,9 @@
 import type { SearchPageInfo } from './search-page-info';
-import type { SearchResult } from './search-result';
+import type { SearchPromotionAdmin } from './search-promotion-admin';
 
-export interface SearchQueryResponse {
-  items: SearchResult[];
+export interface SearchPromotionListResponse {
+  items: SearchPromotionAdmin[];
   pageInfo: SearchPageInfo;
-  q: string;
   /** Server-owned request correlation id. */
   requestId: string;
 }

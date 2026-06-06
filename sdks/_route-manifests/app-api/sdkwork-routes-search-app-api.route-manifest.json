@@ -85,6 +85,222 @@
         "x-sdkwork-audit-event": "search.index.list",
         "x-sdkwork-request-context": "AppRequestContext"
       }
+    },
+    {
+      "method": "GET",
+      "path": "/app/v3/api/search/suggestions",
+      "operationId": "search.suggestions.list",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.suggestions.read",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_suggestions_list"
+      },
+      "schemas": {
+        "request": null,
+        "response": "SearchSuggestionsResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-app-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-app-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.suggestion.list",
+        "x-sdkwork-request-context": "AppRequestContext"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/app/v3/api/search/recommendations",
+      "operationId": "search.recommendations.create",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.recommendations.create",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_recommendations_create"
+      },
+      "schemas": {
+        "request": "SearchRecommendationRequest",
+        "response": "SearchRecommendationResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-app-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-app-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.recommendation.create",
+        "x-sdkwork-request-context": "AppRequestContext"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/app/v3/api/search/promotions",
+      "operationId": "search.promotions.create",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.promotions.create",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_promotions_create"
+      },
+      "schemas": {
+        "request": "SearchPromotionRequest",
+        "response": "SearchPromotionResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-app-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-app-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.promotion.delivery.create",
+        "x-sdkwork-request-context": "AppRequestContext"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/app/v3/api/search/events",
+      "operationId": "search.events.create",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.events.create",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_events_create"
+      },
+      "schemas": {
+        "request": "SearchUserEvent",
+        "response": "SearchUserEventResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-app-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-app-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.event.create",
+        "x-sdkwork-request-context": "AppRequestContext"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/app/v3/api/search/recent_queries",
+      "operationId": "search.recentQueries.list",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.recent_queries.read",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_recentQueries_list"
+      },
+      "schemas": {
+        "request": null,
+        "response": "SearchRecentQueryListResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-app-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-app-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.recent_query.list",
+        "x-sdkwork-request-context": "AppRequestContext"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/app/v3/api/search/semantic_queries",
+      "operationId": "search.semanticQueries.create",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.semantic_queries.create",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_semanticQueries_create"
+      },
+      "schemas": {
+        "request": "SearchSemanticQueryRequest",
+        "response": "SearchSemanticQueryResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-app-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-app-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.semantic_query.create",
+        "x-sdkwork-request-context": "AppRequestContext"
+      }
     }
   ]
 }
