@@ -1,0 +1,988 @@
+{
+  "openapi": "3.1.2",
+  "info": {
+    "title": "SDKWork Search Backend API",
+    "version": "1.0.0",
+    "description": "Backend/admin contract for sdkwork-search index and document management APIs.",
+    "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+    "x-sdkwork-sdk-family": "sdkwork-search-backend-sdk",
+    "x-sdkwork-audience": "Backend console, operators, control plane, and admin integrations"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Local sdkwork-search runtime"
+    }
+  ],
+  "tags": [
+    {
+      "name": "search",
+      "description": "Search API resources.",
+      "x-sdk-nested-resource-surface": true
+    }
+  ],
+  "security": [
+    {
+      "AuthToken": [],
+      "AccessToken": []
+    }
+  ],
+  "paths": {
+    "/backend/v3/api/search/indexes": {
+      "get": {
+        "tags": [
+          "search"
+        ],
+        "summary": "List search indexes for backend administration.",
+        "operationId": "search.indexes.list",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Standard free-text search query."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchIndexListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.indexes",
+        "x-sdkwork-permission": "search.indexes.read",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.index.list",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true
+      },
+      "post": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Create a search index.",
+        "operationId": "search.indexes.create",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "description": "Client retry key for retriable create commands."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchIndexResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.indexes",
+        "x-sdkwork-permission": "search.indexes.write",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.index.create",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchIndexCreateRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/backend/v3/api/search/indexes/{indexId}/documents/{documentId}": {
+      "put": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Upsert a document into a search index.",
+        "operationId": "search.documents.upsert",
+        "parameters": [
+          {
+            "name": "indexId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "documentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchDocumentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.documents",
+        "x-sdkwork-permission": "search.documents.write",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.document.upsert",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchDocumentUpsertRequest"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Delete a document from a search index.",
+        "operationId": "search.documents.delete",
+        "parameters": [
+          {
+            "name": "indexId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "documentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchDocumentDeleteResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.documents",
+        "x-sdkwork-permission": "search.documents.write",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.document.delete",
+        "x-sdkwork-idempotent": true,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "AuthToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "SDKWork auth token carried as Authorization: Bearer <auth_token>."
+      },
+      "AccessToken": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Access-Token",
+        "description": "SDKWork access isolation token."
+      }
+    },
+    "schemas": {
+      "ProblemDetail": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "type",
+          "title",
+          "status"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "format": "uri-reference"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 599
+          },
+          "detail": {
+            "type": "string"
+          },
+          "instance": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FieldError"
+            }
+          }
+        }
+      },
+      "FieldError": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "field",
+          "message"
+        ],
+        "properties": {
+          "field": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        }
+      },
+      "SearchDocument": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean",
+            "default": true
+          },
+          "group": {
+            "type": "string"
+          },
+          "groupOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "order": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "kind": {
+            "type": "string"
+          },
+          "capability": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SearchResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "document",
+          "matchedOn",
+          "score"
+        ],
+        "properties": {
+          "document": {
+            "$ref": "#/components/schemas/SearchDocument"
+          },
+          "matchedOn": {
+            "type": "string",
+            "enum": [
+              "title",
+              "keyword",
+              "description",
+              "group",
+              "scope"
+            ]
+          },
+          "score": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "SearchPageInfo": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "page",
+          "pageSize",
+          "totalItems",
+          "totalPages"
+        ],
+        "properties": {
+          "page": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1,
+            "maximum": 200
+          },
+          "totalItems": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1
+          }
+        }
+      },
+      "SearchQueryRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "q"
+        ],
+        "properties": {
+          "q": {
+            "type": "string"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1,
+            "default": 1
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1,
+            "maximum": 200,
+            "default": 20
+          },
+          "capabilityIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "groupIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "scopeIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "SearchQueryResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "pageInfo",
+          "q",
+          "requestId"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchResult"
+            }
+          },
+          "pageInfo": {
+            "$ref": "#/components/schemas/SearchPageInfo"
+          },
+          "q": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          }
+        }
+      },
+      "SearchIndex": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "indexId",
+          "name",
+          "documentCount",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "indexId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "analyzer": {
+            "type": "string"
+          },
+          "documentCount": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SearchIndexListResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "pageInfo",
+          "requestId"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchIndex"
+            }
+          },
+          "pageInfo": {
+            "$ref": "#/components/schemas/SearchPageInfo"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          }
+        }
+      },
+      "SearchIndexCreateRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "indexId",
+          "name"
+        ],
+        "properties": {
+          "indexId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "analyzer": {
+            "type": "string"
+          }
+        }
+      },
+      "SearchIndexResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "index",
+          "requestId"
+        ],
+        "properties": {
+          "index": {
+            "$ref": "#/components/schemas/SearchIndex"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          }
+        }
+      },
+      "SearchDocumentUpsertRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "document"
+        ],
+        "properties": {
+          "document": {
+            "$ref": "#/components/schemas/SearchDocument"
+          }
+        }
+      },
+      "SearchDocumentResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "document",
+          "indexedAt",
+          "requestId"
+        ],
+        "properties": {
+          "document": {
+            "$ref": "#/components/schemas/SearchDocument"
+          },
+          "indexedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          }
+        }
+      },
+      "SearchDocumentDeleteResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "indexId",
+          "documentId",
+          "deleted",
+          "requestId"
+        ],
+        "properties": {
+          "indexId": {
+            "type": "string"
+          },
+          "documentId": {
+            "type": "string"
+          },
+          "deleted": {
+            "type": "boolean"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          }
+        }
+      }
+    }
+  },
+  "x-sdkwork-materialized-from": [
+    {
+      "owner": "sdkwork-search",
+      "path": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api"
+    }
+  ],
+  "x-sdkwork-request-context": {
+    "contextObject": "BackendRequestContext",
+    "serverRequestId": "server-owned",
+    "clientRequestIdHeader": "forbidden",
+    "tenantSource": "AuthToken + AccessToken",
+    "organizationSource": "AuthToken + AccessToken",
+    "userSource": "AuthToken + AccessToken"
+  },
+  "x-sdkwork-derived-from": "openapi/sdkwork-search-backend-api.openapi.yaml"
+}

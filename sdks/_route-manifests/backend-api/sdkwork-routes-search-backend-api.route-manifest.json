@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.route.manifest",
+  "packageName": "sdkwork-routes-search-backend-api",
+  "surface": "backend-api",
+  "owner": "sdkwork-search",
+  "domain": "search",
+  "capability": "search",
+  "apiAuthority": "sdkwork-search-backend-api",
+  "sdkFamily": "sdkwork-search-backend-sdk",
+  "prefix": "/backend/v3/api",
+  "source": {
+    "crateRoot": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+    "crateImport": "sdkwork_routes_search_backend_api"
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/backend/v3/api/search/indexes",
+      "operationId": "search.indexes.list",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.indexes.read",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_indexes_list"
+      },
+      "schemas": {
+        "request": null,
+        "response": "SearchIndexListResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.index.list",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/backend/v3/api/search/indexes",
+      "operationId": "search.indexes.create",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.indexes.write",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_indexes_create"
+      },
+      "schemas": {
+        "request": "SearchIndexCreateRequest",
+        "response": "SearchIndexResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.index.create",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/backend/v3/api/search/indexes/{indexId}/documents/{documentId}",
+      "operationId": "search.documents.upsert",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.documents.write",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_documents_upsert"
+      },
+      "schemas": {
+        "request": "SearchDocumentUpsertRequest",
+        "response": "SearchDocumentResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.document.upsert",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/backend/v3/api/search/indexes/{indexId}/documents/{documentId}",
+      "operationId": "search.documents.delete",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.documents.write",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_documents_delete"
+      },
+      "schemas": {
+        "request": null,
+        "response": "SearchDocumentDeleteResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-backend-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-backend-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.document.delete",
+        "x-sdkwork-request-context": "BackendRequestContext"
+      }
+    }
+  ]
+}

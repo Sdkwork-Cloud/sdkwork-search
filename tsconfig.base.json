@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "baseUrl": ".",
+    "paths": {
+      "@sdkwork/search-contracts": [
+        "packages/common/search/sdkwork-search-contracts/src/index.ts"
+      ],
+      "@sdkwork/search-service": [
+        "packages/common/search/sdkwork-search-service/src/index.ts"
+      ],
+      "@sdkwork/search-mobile-react": [
+        "packages/mobile-react/foundation/sdkwork-search-mobile-react/src/index.ts"
+      ],
+      "@sdkwork/search-pc-react": [
+        "packages/pc-react/foundation/sdkwork-search-pc-react/src/index.ts"
+      ],
+      "@sdkwork/sdk-common": [
+        "../../javasource/spring-ai-plus/sdk/sdkwork-sdk-commons/sdkwork-sdk-common-typescript/dist/index.d.ts"
+      ],
+      "@sdkwork/sdk-common/*": [
+        "../../javasource/spring-ai-plus/sdk/sdkwork-sdk-commons/sdkwork-sdk-common-typescript/dist/*/index.d.ts"
+      ]
+    },
+    "allowImportingTsExtensions": true,
+    "strict": true,
+    "noEmit": true,
+    "ignoreDeprecations": "6.0",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "types": ["node"]
+  }
+}

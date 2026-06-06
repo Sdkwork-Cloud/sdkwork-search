@@ -1,0 +1,26 @@
+{
+  "name": "@sdkwork/search-contracts",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Shared SDKWork search contracts, catalog normalization, and query ranking.",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "files": ["src", "README.md"],
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run tests/searchContracts.test.ts"
+  },
+  "sdkwork": {
+    "workspace": "sdkwork-search",
+    "architecture": "common",
+    "domain": "search",
+    "capability": "search",
+    "status": "ready"
+  }
+}

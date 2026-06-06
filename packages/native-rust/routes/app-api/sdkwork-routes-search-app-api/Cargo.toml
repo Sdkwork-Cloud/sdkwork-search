@@ -1,0 +1,9 @@
+[package]
+name = "sdkwork-routes-search-app-api"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+description = "SDKWork Search app-api route manifest."
+
+[lib]
+path = "src/lib.rs"

@@ -1,0 +1,9 @@
+[package]
+name = "sdkwork_search_storage_sqlx"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+description = "SDKWork Search SQL storage contracts and migrations."
+
+[lib]
+path = "src/lib.rs"

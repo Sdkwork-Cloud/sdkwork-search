@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.route.manifest",
+  "packageName": "sdkwork-routes-search-app-api",
+  "surface": "app-api",
+  "owner": "sdkwork-search",
+  "domain": "search",
+  "capability": "search",
+  "apiAuthority": "sdkwork-search-app-api",
+  "sdkFamily": "sdkwork-search-app-sdk",
+  "prefix": "/app/v3/api",
+  "source": {
+    "crateRoot": "packages/native-rust/routes/app-api/sdkwork-routes-search-app-api",
+    "crateImport": "sdkwork_routes_search_app_api"
+  },
+  "routes": [
+    {
+      "method": "POST",
+      "path": "/app/v3/api/search/queries",
+      "operationId": "search.queries.create",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.queries.create",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_queries_create"
+      },
+      "schemas": {
+        "request": "SearchQueryRequest",
+        "response": "SearchQueryResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-app-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-app-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.query.create",
+        "x-sdkwork-request-context": "AppRequestContext"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/app/v3/api/search/indexes",
+      "operationId": "search.indexes.list",
+      "tags": [
+        "search"
+      ],
+      "auth": {
+        "mode": "dual-token",
+        "required": true,
+        "permission": "search.indexes.read",
+        "tenantScope": "tenant",
+        "dataScope": "organization"
+      },
+      "handler": {
+        "module": "crate::handlers",
+        "name": "search_indexes_list"
+      },
+      "schemas": {
+        "request": null,
+        "response": "SearchIndexListResponse",
+        "problem": "ProblemDetail"
+      },
+      "ownership": {
+        "owner": "sdkwork-search",
+        "apiAuthority": "sdkwork-search-app-api"
+      },
+      "source": {
+        "file": "src/lib.rs",
+        "routeCrate": "sdkwork-routes-search-app-api"
+      },
+      "extensions": {
+        "x-sdkwork-audit-event": "search.index.list",
+        "x-sdkwork-request-context": "AppRequestContext"
+      }
+    }
+  ]
+}

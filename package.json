@@ -1,0 +1,30 @@
+{
+  "name": "@sdkwork/search-workspace",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "packageManager": "pnpm@10.30.3",
+  "scripts": {
+    "test": "vitest run",
+    "test:contracts": "vitest run packages/common/search/sdkwork-search-contracts/tests/searchContracts.test.ts",
+    "test:pc-react": "vitest run packages/pc-react/foundation/sdkwork-search-pc-react/tests/search.test.ts",
+    "test:mobile-react": "vitest run packages/mobile-react/foundation/sdkwork-search-mobile-react/tests/search.test.ts",
+    "test:governance": "node scripts/search-governance.test.mjs",
+    "typecheck": "tsc --noEmit",
+    "sdk:materialize": "node sdks/materialize-search-v3-openapi-boundaries.mjs",
+    "sdk:generate:app": "powershell -ExecutionPolicy Bypass -File sdks/sdkwork-search-app-sdk/bin/generate-sdk.ps1",
+    "sdk:generate:backend": "powershell -ExecutionPolicy Bypass -File sdks/sdkwork-search-backend-sdk/bin/generate-sdk.ps1"
+  },
+  "devDependencies": {
+    "@sdkwork/sdk-common": "workspace:*",
+    "@types/node": "^25.5.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.2"
+  },
+  "peerDependencies": {
+    "react": ">=18.2.0 <20.0.0",
+    "react-dom": ">=18.2.0 <20.0.0"
+  }
+}

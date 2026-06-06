@@ -1,0 +1,41 @@
+{
+  "workspace": "sdkwork-search-backend-sdk",
+  "title": "SDKWork Search Backend API",
+  "apiVersion": "1.0.0",
+  "openapiVersion": "3.1.2",
+  "authoritySpec": "openapi/sdkwork-search-backend-api.openapi.yaml",
+  "generationInputSpec": "openapi/sdkwork-search-backend-api.sdkgen.yaml",
+  "derivedSpecs": {
+    "default": "openapi/sdkwork-search-backend-api.sdkgen.yaml"
+  },
+  "sdkOwner": "sdkwork-search",
+  "apiAuthority": "sdkwork-search-backend-api",
+  "sdkDependencies": [],
+  "discoverySurface": {
+    "sdkTarget": "backend",
+    "apiPrefix": "/backend/v3/api",
+    "schemaUrl": "/backend/v3/openapi.json",
+    "generatedProtocols": [
+      "http-openapi"
+    ],
+    "manualTransports": []
+  },
+  "languages": [
+    {
+      "language": "typescript",
+      "workspace": "sdkwork-search-backend-sdk-typescript",
+      "generationState": "ready",
+      "releaseState": "not_published",
+      "packagePath": "sdkwork-search-backend-sdk-typescript/generated/server-openapi",
+      "manifestPath": "sdkwork-search-backend-sdk-typescript/generated/server-openapi/package.json",
+      "name": "@sdkwork/search-backend-sdk",
+      "version": "1.0.0",
+      "description": "Generator-owned typescript transport SDK for SDKWork Search Backend API.",
+      "generatedPath": "sdkwork-search-backend-sdk-typescript/generated/server-openapi"
+    }
+  ],
+  "metadata": {
+    "managedBy": "sdks/materialize-search-v3-openapi-boundaries.mjs",
+    "standardVersion": "2026-06-06"
+  }
+}
