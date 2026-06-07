@@ -4,7 +4,7 @@ packages:
   - "packages/native-rust/routes/*/*"
   - "packages/pc-react/*/*"
   - "packages/mobile-react/*/*"
-  - "../../javasource/spring-ai-plus/sdk/sdkwork-sdk-commons/sdkwork-sdk-common-typescript"
+  - "../sdkwork-sdk-commons/sdkwork-sdk-common-typescript"
   - "sdks/*"
   - "sdks/sdkwork-search-app-sdk/sdkwork-search-app-sdk-typescript/generated/server-openapi"
   - "sdks/sdkwork-search-backend-sdk/sdkwork-search-backend-sdk-typescript/generated/server-openapi"

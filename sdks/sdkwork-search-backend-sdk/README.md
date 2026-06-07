@@ -13,14 +13,14 @@ This SDK family is generated from the `sdkwork-search-backend-api` authority con
 
 ## Generation
 
-Run from `D:\sdkwork-opensource\sdkwork-search`:
+Run from the `sdkwork-search` repository root:
 
 ```powershell
 node .\sdks\materialize-search-v3-openapi-boundaries.mjs
 .\sdks\sdkwork-search-backend-sdk\bin\generate-sdk.ps1 -Languages typescript
 ```
 
-The wrapper calls `D:\javasource\spring-ai-plus\sdk\sdkwork-sdk-generator\bin\sdkgen.js` with `--standard-profile sdkwork-v3`.
+The wrapper calls `..\sdkwork-sdk-generator\bin\sdkgen.js` with `--standard-profile sdkwork-v3`.
 
 
 ## SDKWork Documentation Contract

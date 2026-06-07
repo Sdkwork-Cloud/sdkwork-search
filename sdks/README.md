@@ -11,7 +11,7 @@ Both families are owner-only. They generate only operations with `x-sdkwork-owne
 
 ## Workflow
 
-Run from `D:\sdkwork-opensource\sdkwork-search`:
+Run from the `sdkwork-search` repository root:
 
 ```powershell
 node .\sdks\materialize-search-v3-openapi-boundaries.mjs
@@ -23,6 +23,6 @@ pnpm test:governance
 The generation wrappers call the canonical SDKWork generator:
 
 ```text
-D:\javasource\spring-ai-plus\sdk\sdkwork-sdk-generator\bin\sdkgen.js
+..\sdkwork-sdk-generator\bin\sdkgen.js
 ```
 
