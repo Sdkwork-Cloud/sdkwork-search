@@ -9,5 +9,5 @@ description = "SDKWork Search SQL storage contracts and migrations."
 path = "src/lib.rs"
 
 [dependencies]
-sdkwork-database-config = { path = "../../../sdkwork-pool/crates/sdkwork-database-config" }
-sdkwork-database-sqlx = { path = "../../../sdkwork-pool/crates/sdkwork-database-sqlx" }
+sdkwork-database-config = { path = "../../../sdkwork-database/crates/sdkwork-database-config" }
+sdkwork-database-sqlx = { path = "../../../sdkwork-database/crates/sdkwork-database-sqlx" }
