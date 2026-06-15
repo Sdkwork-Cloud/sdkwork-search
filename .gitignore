@@ -20,3 +20,15 @@ sdks/**/generated/server-openapi/package-lock.json
 .env.postgres
 .env.release.local
 config/*.local.toml
+
+# SDKWork workspace local-only state
+.sdkwork/local/
+.sdkwork/tmp/
+.sdkwork/cache/
+.sdkwork/secrets/
+
+# Application-level .sdkwork local state
+apps/**/.sdkwork/local/
+apps/**/.sdkwork/tmp/
+apps/**/.sdkwork/cache/
+apps/**/.sdkwork/secrets/

@@ -1,0 +1,5 @@
+{
+  "environment": "staging",
+  "sdkBaseUrl": "https://staging.example.com",
+  "apiBaseUrl": "https://staging.example.com/app/v3/api"
+}

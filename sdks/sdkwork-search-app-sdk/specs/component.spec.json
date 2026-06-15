@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "name": "sdkwork-search-app-sdk",
   "type": "sdk-family",
-  "domain": "intelligence",
+  "domain": "search",
   "apiAuthority": "sdkwork-search-app-api",
   "apiPrefix": "/app/v3/api",
   "sdkType": "app",
@@ -11,7 +11,7 @@
   ],
   "generator": {
     "package": "@sdkwork/sdk-generator",
-    "entrypoint": "../sdkwork-sdk-generator/bin/sdkgen.js",
+    "entrypoint": "../../../sdkwork-sdk-generator/bin/sdkgen.js",
     "standardProfile": "sdkwork-v3"
   },
   "contracts": {
@@ -43,7 +43,7 @@
     "version": "0.1.0",
     "type": "sdk-family",
     "root": "sdkwork-search/sdks/sdkwork-search-app-sdk",
-    "domain": "intelligence",
+    "domain": "search",
     "capability": "search-app-sdk",
     "languages": [
       "typescript"

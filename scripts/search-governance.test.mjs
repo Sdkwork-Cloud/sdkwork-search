@@ -118,7 +118,9 @@ function checkFamily({
   assertEqual(component.apiAuthority, authority, `${family} component authority`);
   assertEqual(component.apiPrefix, prefix, `${family} component prefix`);
   assertEqual(component.sdkType, sdkType, `${family} component sdk type`);
-  assertEqual(component.generator.entrypoint, GENERATOR_PATH, `${family} canonical generator`);
+  const sdkFamilyDir = path.join(ROOT, "sdks", family);
+  const resolvedEntrypoint = path.resolve(sdkFamilyDir, component.generator.entrypoint);
+  assertEqual(resolvedEntrypoint, GENERATOR_PATH, `${family} canonical generator`);
   assertEqual(component.generator.standardProfile, "sdkwork-v3", `${family} standard profile`);
   assertArray(component.contracts.sdkDependencies, `${family} component sdkDependencies`);
   if ((component.contracts.sdkDependencies ?? []).length !== (assembly.sdkDependencies ?? []).length) {
@@ -209,15 +211,15 @@ function checkFamily({
 function checkRouteCrates() {
   const crates = [
     {
-      path: "packages/native-rust/routes/app-api/sdkwork-routes-search-app-api",
+      path: "crates/sdkwork-routes-search-app-api",
       name: "sdkwork-routes-search-app-api",
     },
     {
-      path: "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+      path: "crates/sdkwork-routes-search-backend-api",
       name: "sdkwork-routes-search-backend-api",
     },
     {
-      path: "packages/native-rust/search/sdkwork-search-storage-sqlx-rust",
+      path: "crates/sdkwork-search-storage-sqlx-rust",
       name: "sdkwork_search_storage_sqlx",
     },
   ];
@@ -236,13 +238,15 @@ function checkRouteCrates() {
 }
 
 function checkCurrentRepoOwnership() {
-  const packageJsonFiles = walkFiles(path.join(ROOT, "packages"))
-    .filter((file) => path.basename(file) === "package.json");
+  const packageJsonFiles = [
+    ...walkFiles(path.join(ROOT, "packages")),
+    ...walkFiles(path.join(ROOT, "apps")),
+  ].filter((file) => path.basename(file) === "package.json");
   const expectedPackages = new Set([
     "@sdkwork/search-contracts",
     "@sdkwork/search-service",
     "@sdkwork/search-pc-react",
-    "@sdkwork/search-mobile-react",
+    "@sdkwork/search-h5-react",
   ]);
   const found = new Set();
 

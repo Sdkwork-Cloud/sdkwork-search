@@ -28,12 +28,18 @@ No `sdkwork.app.config.json` is present at this root. If the task changes applic
 - `CLAUDE.md`: Claude Code compatibility shim that points to `AGENTS.md` and must not duplicate rules.
 - `GEMINI.md`: Gemini CLI compatibility shim that points to `AGENTS.md` and must not duplicate rules.
 - `CODEX.md`: Codex compatibility shim that points to `AGENTS.md` and must not duplicate rules.
-- `sdkwork.app.config.json`: not present here; required for application roots.
+- `sdkwork.app.config.json`: not present here; required for application roots under `apps/`.
 - `.sdkwork/`: reserved local dictionary folder; create only for local skills, plugins, manifests, or AI workspace metadata.
-- `specs/`: not present here; use when local contracts need to narrow root standards.
+- `apis/`: API contracts and materialization inputs.
+- `apps/`: application surface roots (`sdkwork-search-pc/`, `sdkwork-search-h5/`, `sdkwork-search-flutter-mobile/`).
+- `crates/`: Rust route crates, storage crates, and reusable Rust libraries.
 - `sdks/`: SDK families, OpenAPI authorities, route manifests, and generated SDK artifacts.
+- `packages/common/`: shared TypeScript packages (`sdkwork-search-contracts`, `sdkwork-search-service`).
+- `configs/`: config templates and schemas.
+- `docs/`: documentation and architecture decisions.
+- `scripts/`: build and verification entrypoints.
+- `tests/`: cross-package and integration tests.
 - `package.json`, `pnpm-workspace.yaml`, `Cargo.toml`: language/build manifests.
-- Local directories to inspect first when relevant: `packages/`, `scripts/`, `sdks/`.
 
 ## Spec Resolution Order
 
@@ -75,7 +81,7 @@ Run commands from this directory unless a command explicitly targets another pat
 - `pnpm run typecheck`: run TypeScript type checks.
 - `pnpm run test:contracts`: run the configured test suite for this scope.
 - `pnpm run test:governance`: run the configured test suite for this scope.
-- `pnpm run test:mobile-react`: run the configured test suite for this scope.
+- `pnpm run test:h5-react`: run the configured test suite for this scope.
 - `pnpm run test:pc-react`: run the configured test suite for this scope.
 - `cargo fmt --all --check`: verify Rust formatting across workspace crates.
 - `cargo test --workspace`: run workspace Rust tests.

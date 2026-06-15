@@ -1,7 +1,7 @@
 [workspace]
 resolver = "2"
 members = [
-    "packages/native-rust/search/sdkwork-search-storage-sqlx-rust",
-    "packages/native-rust/routes/app-api/sdkwork-routes-search-app-api",
-    "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api"
+    "crates/sdkwork-search-storage-sqlx-rust",
+    "crates/sdkwork-routes-search-app-api",
+    "crates/sdkwork-routes-search-backend-api"
 ]

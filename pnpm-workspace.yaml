@@ -1,9 +1,7 @@
 packages:
   - "packages/common/*/*"
-  - "packages/native-rust/*/*"
-  - "packages/native-rust/routes/*/*"
-  - "packages/pc-react/*/*"
-  - "packages/mobile-react/*/*"
+  - "apps/sdkwork-search-pc/packages/*"
+  - "apps/sdkwork-search-h5/packages/*"
   - "../sdkwork-sdk-commons/sdkwork-sdk-common-typescript"
   - "sdks/*"
   - "sdks/sdkwork-search-app-sdk/sdkwork-search-app-sdk-typescript/generated/server-openapi"

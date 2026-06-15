@@ -1,0 +1,5 @@
+{
+  "environment": "production",
+  "sdkBaseUrl": "https://example.com",
+  "apiBaseUrl": "https://example.com/app/v3/api"
+}

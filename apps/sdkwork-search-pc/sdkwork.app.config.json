@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.app.config",
+  "application": {
+    "code": "sdkwork-search-pc",
+    "name": "SDKWork Search PC",
+    "description": "PC browser/desktop/tablet search application for SDKWork.",
+    "version": "0.1.0",
+    "runtime": {
+      "family": "pc",
+      "framework": "react",
+      "targets": ["browser", "desktop", "tablet"]
+    },
+    "domain": "intelligence",
+    "capability": "search",
+    "owner": "sdkwork-search"
+  },
+  "specs": {
+    "root": "../sdkwork-specs",
+    "architecture": "APP_PC_ARCHITECTURE_SPEC.md",
+    "ui": "APP_PC_REACT_UI_SPEC.md"
+  },
+  "packages": {
+    "workspace": "pnpm-workspace.yaml"
+  },
+  "verification": {
+    "commands": [
+      "pnpm typecheck",
+      "pnpm test"
+    ]
+  }
+}
