@@ -9,7 +9,11 @@
     "runtime": {
       "family": "pc",
       "framework": "react",
-      "targets": ["browser", "desktop", "tablet"]
+      "targets": [
+        "browser",
+        "desktop",
+        "tablet"
+      ]
     },
     "domain": "intelligence",
     "capability": "search",
@@ -28,5 +32,11 @@
       "pnpm typecheck",
       "pnpm test"
     ]
+  },
+  "runtime": {
+    "supportedDeploymentProfiles": [
+      "cloud"
+    ],
+    "defaultDeploymentProfile": "cloud"
   }
 }

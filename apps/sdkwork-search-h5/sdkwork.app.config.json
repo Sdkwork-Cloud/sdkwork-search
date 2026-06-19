@@ -9,7 +9,10 @@
     "runtime": {
       "family": "mobile",
       "framework": "react",
-      "targets": ["browser", "capacitor"]
+      "targets": [
+        "browser",
+        "capacitor"
+      ]
     },
     "domain": "intelligence",
     "capability": "search",
@@ -28,5 +31,11 @@
       "pnpm typecheck",
       "pnpm test"
     ]
+  },
+  "runtime": {
+    "supportedDeploymentProfiles": [
+      "cloud"
+    ],
+    "defaultDeploymentProfile": "cloud"
   }
 }

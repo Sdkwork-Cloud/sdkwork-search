@@ -9,7 +9,10 @@
     "runtime": {
       "family": "mobile",
       "framework": "flutter",
-      "targets": ["ios", "android"]
+      "targets": [
+        "ios",
+        "android"
+      ]
     },
     "domain": "intelligence",
     "capability": "search",
@@ -28,5 +31,11 @@
       "flutter analyze",
       "flutter test"
     ]
+  },
+  "runtime": {
+    "supportedDeploymentProfiles": [
+      "cloud"
+    ],
+    "defaultDeploymentProfile": "cloud"
   }
 }
