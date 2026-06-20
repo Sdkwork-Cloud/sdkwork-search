@@ -1,5 +1,13 @@
 pub const SEARCH_STORAGE_MIGRATION: &str = "0001_search_storage.sql";
 
+mod bootstrap;
+
+pub use bootstrap::{
+    bootstrap_search_database, bootstrap_search_database_from_env, connect_and_bootstrap_search_database_from_env,
+    connect_and_bootstrap_search_database_from_url, connect_search_database_pool_from_env,
+    connect_search_database_pool_from_url, SearchDatabaseHost, SearchDatabasePool,
+};
+
 const SEARCH_INITIAL_MIGRATION_SQL: &str =
     include_str!("../migrations/0001_search_storage.sql");
 
@@ -82,6 +90,9 @@ pub fn search_database_tables() -> Vec<&'static str> {
 pub fn search_initial_migration_sql() -> &'static str {
     SEARCH_INITIAL_MIGRATION_SQL
 }
+
+// Legacy migration SQL retained for contract tests. Runtime PostgreSQL bootstrap uses
+// application-root `database/` via `sdkwork-search-database-host`.
 
 pub fn search_storage_capability_manifest() -> SearchStorageCapabilityManifest {
     SearchStorageCapabilityManifest {

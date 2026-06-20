@@ -1,0 +1,64 @@
+schema_version: 1
+kind: sdkwork.database.schema
+module_id: search
+contract_version: 1.0.0
+owner_team: search-platform
+compliance_level: L2
+engines:
+  - postgres
+table_prefix: search_
+tables:
+  - name: search_index
+    lifecycle_status: active
+    owner: search-platform
+  - name: search_document
+    lifecycle_status: active
+    owner: search-platform
+  - name: search_synonym_set
+    lifecycle_status: active
+    owner: search-platform
+  - name: search_synonym_entry
+    lifecycle_status: active
+    owner: search-platform
+  - name: search_ranking_profile
+    lifecycle_status: active
+    owner: search-platform
+  - name: search_recommendation_strategy
+    lifecycle_status: active
+    owner: search-platform
+  - name: search_promotion
+    lifecycle_status: active
+    owner: search-platform
+  - name: search_user_event
+    lifecycle_status: active
+    owner: search-platform
+  - name: search_recent_query
+    lifecycle_status: active
+    owner: search-platform
+  - name: search_query_suggestion
+    lifecycle_status: active
+    owner: search-platform
+  - name: search_embedding_job
+    lifecycle_status: active
+    owner: search-platform
+  - name: search_provider_config
+    lifecycle_status: active
+    owner: search-platform
+  - name: search_provider_health_check
+    lifecycle_status: active
+    owner: search-platform
+  - name: search_ab_experiment
+    lifecycle_status: active
+    owner: search-platform
+  - name: search_ab_assignment
+    lifecycle_status: active
+    owner: search-platform
+  - name: search_document_projection
+    lifecycle_status: active
+    owner: search-platform
+  - name: search_query_audit
+    lifecycle_status: active
+    owner: search-platform
+  - name: search_index_job
+    lifecycle_status: active
+    owner: search-platform

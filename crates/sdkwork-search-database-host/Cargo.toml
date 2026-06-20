@@ -1,0 +1,17 @@
+[package]
+name = "sdkwork-search-database-host"
+edition = "2021"
+license = "Apache-2.0"
+version = "0.1.0"
+description = "SDKWork Search database lifecycle bootstrap."
+
+[lib]
+name = "sdkwork_search_database_host"
+path = "src/lib.rs"
+
+[dependencies]
+dotenvy = "0.15"
+sdkwork_database_config = { workspace = true }
+sdkwork_database_lifecycle = { workspace = true }
+sdkwork_database_spi = { workspace = true }
+sdkwork_database_sqlx = { workspace = true }
