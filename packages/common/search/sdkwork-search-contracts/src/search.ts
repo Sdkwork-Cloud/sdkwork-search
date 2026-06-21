@@ -1,3 +1,5 @@
+import { coalesce, defaultIfBlank, isBlank, trim } from "@sdkwork/utils";
+
 export interface SdkworkSearchDocument {
   capability?: string;
   description?: string;
@@ -607,7 +609,7 @@ function sourceValueToString(value: unknown): string | undefined {
   }
 
   if (typeof value === "string") {
-    return value.trim() || undefined;
+    return coalesce(value);
   }
 
   if (typeof value === "number" || typeof value === "boolean" || typeof value === "bigint") {
@@ -622,7 +624,7 @@ function sourceValueToInteger(value: unknown): number | undefined {
     return Math.trunc(value);
   }
 
-  if (typeof value === "string" && value.trim()) {
+  if (typeof value === "string" && !isBlank(value)) {
     const parsed = Number.parseInt(value, 10);
     return Number.isFinite(parsed) ? parsed : undefined;
   }
@@ -729,12 +731,12 @@ function compareDocuments(
 }
 
 function normalizeDocument(document: SdkworkSearchDocument): SdkworkSearchDocument {
-  const capability = document.capability?.trim();
-  const description = document.description?.trim();
-  const group = document.group?.trim() || "General";
-  const kind = document.kind?.trim();
-  const scope = document.scope?.trim() || "global";
-  const source = document.source?.trim() || "catalog";
+  const capability = coalesce(document.capability);
+  const description = coalesce(document.description);
+  const group = defaultIfBlank(document.group, "General");
+  const kind = coalesce(document.kind);
+  const scope = defaultIfBlank(document.scope, "global");
+  const source = defaultIfBlank(document.source, "catalog");
   const keywords = toUniqueStrings([
     ...(document.keywords ?? []),
     capability ?? "",
@@ -874,33 +876,39 @@ function scoreDocument(document: SdkworkSearchDocument, query: string): SdkworkS
 }
 
 export function normalizeSdkworkSearchQuery(value: string): string {
-  return value.trim().toLowerCase();
+  return trim(value).toLowerCase();
 }
 
 export function normalizeSdkworkSearchIndexDefinition(
   input: SdkworkSearchIndexDefinitionInput,
 ): SdkworkSearchIndexDefinition {
-  const indexId = input.indexId.trim();
-  if (!indexId) {
+  const indexId = trim(input.indexId);
+  if (isBlank(indexId)) {
     throw new Error("Search index definition requires indexId");
   }
 
+  const capability = coalesce(input.capability);
+  const group = coalesce(input.group);
+  const kind = coalesce(input.kind);
+  const orderField = coalesce(input.orderField);
+  const scope = coalesce(input.scope);
+
   return {
-    ...(input.capability?.trim() ? { capability: input.capability.trim() } : {}),
-    descriptionField: input.descriptionField?.trim() || "description",
+    ...(capability ? { capability } : {}),
+    descriptionField: defaultIfBlank(input.descriptionField, "description"),
     enabled: input.enabled !== false,
-    ...(input.group?.trim() ? { group: input.group.trim() } : {}),
+    ...(group ? { group } : {}),
     ...(input.groupOrder !== undefined ? { groupOrder: Math.trunc(input.groupOrder) } : {}),
-    idField: input.idField?.trim() || "id",
+    idField: defaultIfBlank(input.idField, "id"),
     indexId,
     keywordFields: toUniqueStrings(input.keywordFields),
-    ...(input.kind?.trim() ? { kind: input.kind.trim() } : {}),
+    ...(kind ? { kind } : {}),
     metadataFields: toUniqueStrings(input.metadataFields),
-    ...(input.orderField?.trim() ? { orderField: input.orderField.trim() } : {}),
-    providerId: input.providerId?.trim() || "postgresql",
-    ...(input.scope?.trim() ? { scope: input.scope.trim() } : {}),
-    source: input.source?.trim() || indexId,
-    titleField: input.titleField?.trim() || "title",
+    ...(orderField ? { orderField } : {}),
+    providerId: defaultIfBlank(input.providerId, "postgresql"),
+    ...(scope ? { scope } : {}),
+    source: defaultIfBlank(input.source, indexId),
+    titleField: defaultIfBlank(input.titleField, "title"),
   };
 }
 
@@ -1006,7 +1014,7 @@ export function normalizeSdkworkSearchProviderManifest(
     ...manifest,
     capabilities,
     defaultFor,
-    displayName: manifest.displayName.trim() || providerId,
+    displayName: defaultIfBlank(manifest.displayName, providerId),
     kind,
     priority: Math.max(0, Math.trunc(manifest.priority)),
     providerId,
@@ -1027,7 +1035,7 @@ export function selectSdkworkSearchProvider(
     .sort(compareProviderPriority);
 
   const findById = (providerId: string | undefined) => {
-    const normalizedProviderId = providerId?.trim();
+    const normalizedProviderId = coalesce(providerId);
     if (!normalizedProviderId) {
       return undefined;
     }
@@ -1041,7 +1049,7 @@ export function selectSdkworkSearchProvider(
   }
 
   const fallbackProvider = findById(selection.fallbackProviderId);
-  if (selection.providerId?.trim()) {
+  if (!isBlank(selection.providerId)) {
     if (fallbackProvider) {
       return fallbackProvider;
     }
@@ -1142,12 +1150,12 @@ export function normalizeSdkworkRecommendationStrategyDefinition(
     default: strategy.default === true,
     engine,
     priority: Math.max(0, Math.trunc(strategy.priority ?? 0)),
-    providerId: strategy.providerId?.trim() || undefined,
+    providerId: coalesce(strategy.providerId),
     status: isSdkworkRecommendationStrategyStatus(status) ? status : "draft",
     strategyId,
-    strategyKey: strategy.strategyKey?.trim() || strategyId,
+    strategyKey: defaultIfBlank(strategy.strategyKey, strategyId),
     strategyType,
-    title: strategy.title?.trim() || strategyId,
+    title: defaultIfBlank(strategy.title, strategyId),
   };
 }
 

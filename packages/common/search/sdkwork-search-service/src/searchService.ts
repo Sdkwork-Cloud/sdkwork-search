@@ -33,6 +33,7 @@ import {
   type SdkworkSemanticSearchQueryRequest,
   type SdkworkSemanticSearchQueryResponse,
 } from "@sdkwork/search-contracts";
+import { defaultIfBlank } from "@sdkwork/utils";
 
 export interface SdkworkSearchAppSdkClient {
   search: {
@@ -379,7 +380,7 @@ export function createMemorySearchProvider({
   }
   const currentDocuments = () => Array.from(indexedDocuments.values());
   const catalog = () => createSdkworkSearchCatalog(currentDocuments());
-  const normalizedProviderId = providerId.trim() || "memory";
+  const normalizedProviderId = defaultIfBlank(providerId, "memory");
 
   return {
     manifest: normalizeSdkworkSearchProviderManifest({

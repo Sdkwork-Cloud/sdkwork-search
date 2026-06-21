@@ -11,6 +11,9 @@
       "default": "./src/index.ts"
     }
   },
+  "dependencies": {
+    "@sdkwork/utils": "workspace:*"
+  },
   "files": ["src", "README.md"],
   "scripts": {
     "typecheck": "tsc --noEmit",

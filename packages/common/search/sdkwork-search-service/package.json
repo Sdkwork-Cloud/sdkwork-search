@@ -17,7 +17,8 @@
     "test": "vitest run tests/searchService.test.ts"
   },
   "dependencies": {
-    "@sdkwork/search-contracts": "workspace:*"
+    "@sdkwork/search-contracts": "workspace:*",
+    "@sdkwork/utils": "workspace:*"
   },
   "sdkwork": {
     "workspace": "sdkwork-search",

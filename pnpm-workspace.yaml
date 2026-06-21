@@ -3,6 +3,7 @@ packages:
   - "apps/sdkwork-search-pc/packages/*"
   - "apps/sdkwork-search-h5/packages/*"
   - "../sdkwork-sdk-commons/sdkwork-sdk-common-typescript"
+  - "../sdkwork-utils/packages/sdkwork-utils-typescript"
   - "sdks/*"
   - "sdks/sdkwork-search-app-sdk/sdkwork-search-app-sdk-typescript/generated/server-openapi"
   - "sdks/sdkwork-search-backend-sdk/sdkwork-search-backend-sdk-typescript/generated/server-openapi"
