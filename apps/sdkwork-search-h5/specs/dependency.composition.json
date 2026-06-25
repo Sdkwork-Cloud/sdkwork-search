@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.dependency.composition",
+  "applicationCode": "search",
+  "clientArchitecture": "h5",
+  "surfaces": [
+    {
+      "surface": "app",
+      "corePackage": "@sdkwork/search-h5-core",
+      "sdkClients": [],
+      "reusableModules": [],
+      "hostAdapters": [],
+      "dependencyApiExports": [],
+      "dependencyApiSurfaces": []
+    }
+  ],
+  "buildToolEntries": {
+    "pnpm": {
+      "workspacePackages": [
+        "@sdkwork/search-h5-core",
+        "@sdkwork/search-h5-react"
+      ]
+    }
+  }
+}

@@ -10,9 +10,15 @@
     "domain": "intelligence",
     "capability": "search",
     "surface": "app",
-    "languages": ["dart", "flutter"],
+    "languages": [
+      "dart",
+      "flutter"
+    ],
     "generated": false,
-    "manifests": ["sdkwork.app.config.json", "pubspec.yaml"]
+    "manifests": [
+      "sdkwork.app.config.json",
+      "pubspec.yaml"
+    ]
   },
   "canonicalSpecs": [
     {
@@ -66,13 +72,21 @@
     "runtimeEntrypoints": [],
     "routeManifest": null,
     "sdkClients": [],
-    "sdkDependencies": ["sdkwork-search-app-sdk"],
+    "sdkDependencies": [
+      "sdkwork-search-app-sdk"
+    ],
     "dependencyApiExports": [],
     "dependencyApiSurfaces": [],
     "events": [],
-    "configKeys": ["sdkwork.app.config.json"]
+    "configKeys": [
+      "sdkwork.app.config.json"
+    ],
+    "dependencyComposition": "specs/dependency.composition.json"
   },
   "verification": {
-    "commands": ["flutter analyze", "flutter test"]
+    "commands": [
+      "flutter analyze",
+      "flutter test"
+    ]
   }
 }

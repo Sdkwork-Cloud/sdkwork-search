@@ -10,9 +10,15 @@
     "domain": "intelligence",
     "capability": "search",
     "surface": "app",
-    "languages": ["typescript", "react"],
+    "languages": [
+      "typescript",
+      "react"
+    ],
     "generated": false,
-    "manifests": ["sdkwork.app.config.json", "package.json"]
+    "manifests": [
+      "sdkwork.app.config.json",
+      "package.json"
+    ]
   },
   "canonicalSpecs": [
     {
@@ -62,17 +68,30 @@
     }
   ],
   "contracts": {
-    "publicExports": ["packages/sdkwork-search-pc-react"],
-    "runtimeEntrypoints": ["package.json#scripts.typecheck", "package.json#scripts.test"],
+    "publicExports": [
+      "packages/sdkwork-search-pc-react"
+    ],
+    "runtimeEntrypoints": [
+      "package.json#scripts.typecheck",
+      "package.json#scripts.test"
+    ],
     "routeManifest": null,
     "sdkClients": [],
-    "sdkDependencies": ["sdkwork-search-app-sdk"],
+    "sdkDependencies": [
+      "sdkwork-search-app-sdk"
+    ],
     "dependencyApiExports": [],
     "dependencyApiSurfaces": [],
     "events": [],
-    "configKeys": ["sdkwork.app.config.json"]
+    "configKeys": [
+      "sdkwork.app.config.json"
+    ],
+    "dependencyComposition": "specs/dependency.composition.json"
   },
   "verification": {
-    "commands": ["pnpm typecheck", "pnpm test:pc-react"]
+    "commands": [
+      "pnpm typecheck",
+      "pnpm test:pc-react"
+    ]
   }
 }
