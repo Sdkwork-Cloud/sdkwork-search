@@ -14,7 +14,7 @@
     "sdk:materialize": "node sdks/materialize-search-v3-openapi-boundaries.mjs",
     "sdk:generate:app": "powershell -ExecutionPolicy Bypass -File sdks/sdkwork-search-app-sdk/bin/generate-sdk.ps1",
     "sdk:generate:backend": "powershell -ExecutionPolicy Bypass -File sdks/sdkwork-search-backend-sdk/bin/generate-sdk.ps1",
-    "db:materialize:contract": "node tools/materialize_search_database_contract.mjs",
+    "db:materialize:contract": "node ../sdkwork-specs/tools/materialize-database-contract-from-baseline.mjs --root . --baseline database/ddl/baseline/postgres/0001_search_legacy_baseline.sql --module-id search --owner search-platform --prefixes search_ --engines postgres",
     "db:validate": "node ../sdkwork-specs/tools/check-database-framework-standard.mjs --root .",
     "db:plan": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . plan",
     "db:init": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . init",
@@ -24,7 +24,9 @@
     "db:drift": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . drift",
     "db:drift:check": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . drift-check",
     "db:bootstrap": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . bootstrap",
-    "test:contract:database": "node ../sdkwork-specs/tools/check-database-framework-standard.mjs --root ."
+    "test:contract:database": "node ../sdkwork-specs/tools/check-database-framework-standard.mjs --root .",
+    "gateway:assembly:materialize": "node scripts/gateway/assembly-materialize.mjs",
+    "gateway:assembly:validate": "node scripts/gateway/assembly-validate.mjs"
   },
   "devDependencies": {
     "@sdkwork/sdk-common": "workspace:*",

@@ -1,44 +1,41 @@
 # apps/
 
-Independently runnable application roots for the `sdkwork-search` workspace.
+Application: search
+Status: active
+Owner: SDKWork maintainers
+Specs: APPLICATION_SPEC.md, SDKWORK_WORKSPACE_SPEC.md
 
-## Purpose
+## Primary App Surface
 
-Contains application surface roots for PC, H5, and Flutter mobile applications that consume search capabilities.
+The repository root is not the primary runnable app surface.
+Runnable application roots live under `apps/<application-root>/`.
 
-## Application Roots
+## Directory Index
 
-| Root | Architecture | Description |
-| --- | --- | --- |
-| `sdkwork-search-pc/` | PC React | PC browser/desktop/tablet search application |
-| `sdkwork-search-h5/` | H5 React | Phone-first mobile web/Capacitor search application |
-| `sdkwork-search-flutter-mobile/` | Flutter | Flutter mobile search application |
-
-## Owner
-
-`sdkwork-search` workspace maintainers.
+| Directory | Surface role | Runnable | Purpose | Entry |
+| --- | --- | --- | --- | --- |
+| sdkwork-search-flutter-mobile | flutter-mobile | yes | sdkwork-search-flutter-mobile flutter-mobile application root. | `sdkwork-search-flutter-mobile/` |
+| sdkwork-search-h5 | h5 | yes | sdkwork-search-h5 h5 application root. | `sdkwork-search-h5/` |
+| sdkwork-search-pc | pc | yes | sdkwork-search-pc pc application root. | `sdkwork-search-pc/` |
 
 ## Allowed Content
 
-- Application root directories with `sdkwork.app.config.json`
-- `.sdkwork/` workspace metadata per app root
-- `packages/` architecture-local directories per app root
-- `config/`, `scripts/`, `sdks/`, `specs/`, `tests/` per app root
+- Selected language/architecture application roots with `README.md`, `AGENTS.md`, `.sdkwork/`, and `specs/` when authored packages exist.
+- Architecture-local `packages/`, `config/`, `src/`, `lib/`, `App/`, or `entry/` directories required by the owning architecture standard.
 
 ## Forbidden Content
 
-- Shared library code (belongs in root `packages/`)
-- Rust crates (belongs in `crates/`)
-- SDK family workspaces (belongs in root `sdks/`)
+- Repository-root API contracts, generated SDK workspaces, Rust crates, or deployment descriptors moved under `apps/`.
+- Runtime secrets, user-private state, generated SDK transport output, or cross-application copied business logic.
 
 ## Related Specs
 
-- `../sdkwork-specs/SDKWORK_WORKSPACE_SPEC.md`
-- `../sdkwork-specs/APP_PC_ARCHITECTURE_SPEC.md`
-- `../sdkwork-specs/APP_H5_ARCHITECTURE_SPEC.md`
-- `../sdkwork-specs/FLUTTER_APP_MOBILE_ARCHITECTURE_SPEC.md`
 - `../sdkwork-specs/APPLICATION_SPEC.md`
+- `../sdkwork-specs/SDKWORK_WORKSPACE_SPEC.md`
+- `../sdkwork-specs/APP_CLIENT_ARCHITECTURE_ALIGNMENT_SPEC.md`
 
 ## Verification
 
-Each app root must have `AGENTS.md`, `.sdkwork/`, and `sdkwork.app.config.json`.
+```bash
+node ../sdkwork-specs/tools/check-apps-directory-index.mjs --root .
+```

@@ -510,3 +510,11 @@ pub fn search_backend_api_manifest() -> SearchRouteManifest {
         ],
     }
 }
+
+pub fn gateway_route_manifest() -> SearchRouteManifest {
+    search_backend_api_manifest()
+}
+
+pub fn gateway_mount() -> axum::Router {
+    axum::Router::new()
+}

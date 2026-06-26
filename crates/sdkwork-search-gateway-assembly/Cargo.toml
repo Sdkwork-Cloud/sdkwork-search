@@ -1,0 +1,15 @@
+[package]
+name = "sdkwork-search-gateway-assembly"
+edition.workspace = true
+version.workspace = true
+description = "Generated gateway assembly for sdkwork-search application HTTP plane."
+
+[lib]
+name = "sdkwork_search_gateway_assembly"
+path = "src/lib.rs"
+
+[dependencies]
+axum.workspace = true
+tokio = { version = "1.48", features = ["macros", "rt-multi-thread"] }
+sdkwork_routes_search_app_api = { package = "sdkwork-routes-search-app-api", path = "../sdkwork-routes-search-app-api" }
+sdkwork_routes_search_backend_api = { package = "sdkwork-routes-search-backend-api", path = "../sdkwork-routes-search-backend-api" }

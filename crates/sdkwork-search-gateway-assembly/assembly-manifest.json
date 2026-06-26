@@ -1,0 +1,30 @@
+{
+  "kind": "sdkwork.gateway.assembly",
+  "schemaVersion": 1,
+  "applicationCode": "search",
+  "packageName": "sdkwork-search-gateway-assembly",
+  "crateDir": "crates/sdkwork-search-gateway-assembly",
+  "generatedAt": "2026-06-25T13:08:05.601Z",
+  "routeCrates": [
+    {
+      "packageName": "sdkwork-routes-search-app-api",
+      "memberDir": "crates/sdkwork-routes-search-app-api",
+      "libName": "sdkwork_routes_search_app_api",
+      "surface": "app-api",
+      "pathPrefix": "/app/v3/api",
+      "mountOrder": 0,
+      "hasGatewayMount": true,
+      "hasGatewayRouteManifest": true
+    },
+    {
+      "packageName": "sdkwork-routes-search-backend-api",
+      "memberDir": "crates/sdkwork-routes-search-backend-api",
+      "libName": "sdkwork_routes_search_backend_api",
+      "surface": "backend-api",
+      "pathPrefix": "/backend/v3/api",
+      "mountOrder": 1,
+      "hasGatewayMount": true,
+      "hasGatewayRouteManifest": true
+    }
+  ]
+}

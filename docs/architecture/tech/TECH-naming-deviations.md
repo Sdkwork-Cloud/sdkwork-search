@@ -24,7 +24,7 @@ This document records naming deviations from `sdkwork-specs/NAMING_SPEC.md` in t
 ### Route Crates
 
 - **Current**: `sdkwork-routes-search-app-api`, `sdkwork-routes-search-backend-api`
-- **Standard**: `sdkwork-router-search-app-api`, `sdkwork-router-search-backend-api`
+- **Standard**: `sdkwork-routes-search-app-api`, `sdkwork-routes-search-backend-api`
 - **Reason**: Uses `routes` plural instead of `router` singular
 - **Impact**: Low - internal crate names, no external consumers
 

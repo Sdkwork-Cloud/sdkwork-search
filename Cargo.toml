@@ -1,6 +1,7 @@
 [workspace]
 resolver = "2"
 members = [
+    "crates/sdkwork-search-gateway-assembly",
     "crates/sdkwork-search-database-host",
     "crates/sdkwork-search-storage-sqlx-rust",
     "crates/sdkwork-routes-search-app-api",
