@@ -1,12 +1,9 @@
 export interface SearchUserEvent {
-  documentId?: string;
-  eventType: 'click' | 'conversion' | 'dismiss' | 'impression' | 'save' | 'view';
-  indexId?: string;
-  metadata?: Record<string, unknown>;
-  occurredAt: string;
-  placement?: string;
-  providerId?: string;
-  q?: string;
-  resultPosition?: number;
-  surface: 'app' | 'backend' | 'local';
+  /** Event kind (e.g. view, click, conversion). */
+  eventType: string;
+  indexId?: string | null;
+  documentId?: string | null;
+  queryText?: string | null;
+  resultPosition?: number | null;
+  metadata?: Record<string, unknown> | null;
 }

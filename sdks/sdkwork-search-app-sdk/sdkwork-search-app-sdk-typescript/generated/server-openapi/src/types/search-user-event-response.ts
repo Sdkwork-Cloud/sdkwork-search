@@ -1,5 +1,4 @@
 export interface SearchUserEventResponse {
+  /** Whether the event was accepted for persistence. */
   accepted: boolean;
-  /** Server-owned request correlation id. */
-  requestId: string;
 }

@@ -1,0 +1,26 @@
+[package]
+name = "sdkwork-search-indexing-repository-sqlx"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "SQLx repository implementation for SDKWork Search indexing capability."
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+sdkwork-search-database-host = { workspace = true }
+sdkwork-search-indexing-service = { workspace = true }
+sdkwork-search-promotion-service = { workspace = true }
+sdkwork-search-provider-spi = { workspace = true }
+sdkwork-search-query-service = { workspace = true }
+sdkwork-search-recommendation-service = { workspace = true }
+sdkwork-database-config = { workspace = true }
+sdkwork-database-sqlx = { workspace = true }
+async-trait.workspace = true
+serde = { workspace = true }
+serde_json.workspace = true
+sqlx.workspace = true
+tracing.workspace = true
+uuid = { workspace = true }
+chrono = { workspace = true }

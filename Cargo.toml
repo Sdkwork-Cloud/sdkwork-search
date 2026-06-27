@@ -3,18 +3,74 @@ resolver = "2"
 members = [
     "crates/sdkwork-search-gateway-assembly",
     "crates/sdkwork-search-database-host",
-    "crates/sdkwork-search-storage-sqlx-rust",
+    "crates/sdkwork-search-indexing-repository-sqlx",
+    "crates/sdkwork-search-indexing-service",
+    "crates/sdkwork-search-query-service",
+    "crates/sdkwork-search-recommendation-service",
+    "crates/sdkwork-search-promotion-service",
+    "crates/sdkwork-search-provider-spi",
+    "crates/sdkwork-search-provider-postgresql",
+    "crates/sdkwork-search-provider-memory",
+    "crates/sdkwork-search-standalone-gateway",
+    "crates/sdkwork-search-service-host",
     "crates/sdkwork-routes-search-app-api",
     "crates/sdkwork-routes-search-backend-api",
 ]
 
+[workspace.package]
+edition = "2021"
+version = "0.1.0"
+license = "Apache-2.0"
+
 [workspace.dependencies]
+# SDKWork database framework (DATABASE_FRAMEWORK_SPEC.md)
 sdkwork-database-config = { path = "../sdkwork-database/crates/sdkwork-database-config", package = "sdkwork-database-config" }
 sdkwork-database-lifecycle = { path = "../sdkwork-database/crates/sdkwork-database-lifecycle", package = "sdkwork-database-lifecycle" }
 sdkwork-database-spi = { path = "../sdkwork-database/crates/sdkwork-database-spi", package = "sdkwork-database-spi" }
 sdkwork-database-sqlx = { path = "../sdkwork-database/crates/sdkwork-database-sqlx", package = "sdkwork-database-sqlx" }
-sdkwork-search-database-host = { path = "crates/sdkwork-search-database-host" }
 sdkwork_database_config = { path = "../sdkwork-database/crates/sdkwork-database-config", package = "sdkwork-database-config" }
 sdkwork_database_lifecycle = { path = "../sdkwork-database/crates/sdkwork-database-lifecycle", package = "sdkwork-database-lifecycle" }
 sdkwork_database_spi = { path = "../sdkwork-database/crates/sdkwork-database-spi", package = "sdkwork-database-spi" }
 sdkwork_database_sqlx = { path = "../sdkwork-database/crates/sdkwork-database-sqlx", package = "sdkwork-database-sqlx" }
+
+# SDKWork web framework (WEB_FRAMEWORK_SPEC.md §4.4 mandatory integration)
+sdkwork-web-bootstrap = { path = "../sdkwork-web-framework/crates/sdkwork-web-bootstrap" }
+sdkwork-web-core = { path = "../sdkwork-web-framework/crates/sdkwork-web-core" }
+sdkwork-web-axum = { path = "../sdkwork-web-framework/crates/sdkwork-web-axum" }
+sdkwork-web-contract = { path = "../sdkwork-web-framework/crates/sdkwork-web-contract" }
+
+# SDKWork utils (utils conformance for Rust)
+sdkwork-utils-rust = { path = "../sdkwork-utils/packages/sdkwork-utils-rust" }
+
+# SDKWork drive uploader service (DRIVE_SPEC.md §9.1 server-side Rust upload)
+sdkwork-drive-uploader-service = { path = "../sdkwork-drive/crates/sdkwork-drive-uploader-service" }
+sdkwork-drive-workspace-service = { path = "../sdkwork-drive/crates/sdkwork-drive-workspace-service" }
+sdkwork-drive-storage-contract = { path = "../sdkwork-drive/crates/sdkwork-drive-storage-contract" }
+sdkwork-drive-storage-local = { path = "../sdkwork-drive/crates/sdkwork-drive-storage-local" }
+
+# Search workspace crates
+sdkwork-search-database-host = { path = "crates/sdkwork-search-database-host" }
+sdkwork-search-indexing-repository-sqlx = { path = "crates/sdkwork-search-indexing-repository-sqlx" }
+sdkwork-search-indexing-service = { path = "crates/sdkwork-search-indexing-service" }
+sdkwork-search-query-service = { path = "crates/sdkwork-search-query-service" }
+sdkwork-search-recommendation-service = { path = "crates/sdkwork-search-recommendation-service" }
+sdkwork-search-promotion-service = { path = "crates/sdkwork-search-promotion-service" }
+sdkwork-search-provider-spi = { path = "crates/sdkwork-search-provider-spi" }
+sdkwork-search-provider-postgresql = { path = "crates/sdkwork-search-provider-postgresql" }
+sdkwork-search-provider-memory = { path = "crates/sdkwork-search-provider-memory" }
+
+# Common third-party dependencies (aligned with sdkwork-web-framework versions)
+async-trait = "0.1"
+axum = { version = "0.8", features = ["ws"] }
+futures-util = "0.3"
+http = "1"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1.48", features = ["macros", "rt-multi-thread", "sync", "signal"] }
+tower = { version = "0.5", features = ["util"] }
+tracing = "0.1"
+sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio", "tls-rustls", "postgres", "sqlite", "uuid", "chrono", "json"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+thiserror = "1"
+anyhow = "1"

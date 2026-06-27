@@ -513,6 +513,137 @@
         "x-sdkwork-server-request-id": true
       }
     },
+    "/backend/v3/api/search/indexes/{indexId}/rebuild": {
+      "post": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Rebuild a search index by dropping and recreating it.",
+        "operationId": "search.indexes.rebuild",
+        "parameters": [
+          {
+            "name": "indexId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchIndexJobResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AuthToken": [],
+            "AccessToken": []
+          }
+        ],
+        "x-sdkwork-owner": "sdkwork-search",
+        "x-sdkwork-api-authority": "sdkwork-search-backend-api",
+        "x-sdkwork-domain": "search",
+        "x-sdkwork-resource": "search.indexes",
+        "x-sdkwork-permission": "search.indexes.write",
+        "x-sdkwork-tenant-scope": "tenant",
+        "x-sdkwork-data-scope": "organization",
+        "x-sdkwork-audit-event": "search.index.rebuild",
+        "x-sdkwork-idempotent": false,
+        "x-sdkwork-deployment": "all",
+        "x-sdkwork-request-context": "BackendRequestContext",
+        "x-sdkwork-source": "packages/native-rust/routes/backend-api/sdkwork-routes-search-backend-api",
+        "x-sdkwork-source-route-crate": "sdkwork-routes-search-backend-api",
+        "x-sdkwork-server-request-id": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "type": "object",
+                    "description": "Index schema used to recreate the index after drop."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/backend/v3/api/search/indexes/{indexId}/documents/{documentId}": {
       "put": {
         "tags": [

@@ -1,0 +1,18 @@
+[package]
+name = "sdkwork-search-provider-postgresql"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "PostgreSQL SearchProvider using pg_trgm full-text + pgvector semantic search."
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+sdkwork-search-provider-spi = { workspace = true }
+async-trait.workspace = true
+serde = { workspace = true }
+serde_json.workspace = true
+sqlx.workspace = true
+tracing.workspace = true
+uuid = { workspace = true }

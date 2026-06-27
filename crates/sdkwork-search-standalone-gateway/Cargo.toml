@@ -1,0 +1,45 @@
+[package]
+name = "sdkwork-search-standalone-gateway"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "HTTP API server process for SDKWork Search."
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "sdkwork-search-standalone-gateway"
+path = "src/main.rs"
+
+[dependencies]
+sdkwork-web-bootstrap = { workspace = true, features = ["sqlx"] }
+sdkwork-web-core = { workspace = true }
+sdkwork-web-axum = { workspace = true }
+sdkwork-web-contract = { workspace = true }
+sdkwork-search-database-host = { workspace = true }
+sdkwork-search-provider-spi = { workspace = true }
+sdkwork-search-provider-memory = { workspace = true }
+sdkwork-search-provider-postgresql = { workspace = true }
+sdkwork-search-indexing-repository-sqlx = { workspace = true }
+sdkwork-search-indexing-service = { workspace = true }
+sdkwork-search-query-service = { workspace = true }
+sdkwork-search-recommendation-service = { workspace = true }
+sdkwork-search-promotion-service = { workspace = true }
+sdkwork-drive-uploader-service = { workspace = true }
+sdkwork-drive-workspace-service = { workspace = true }
+sdkwork-drive-storage-contract = { workspace = true }
+sdkwork-drive-storage-local = { workspace = true }
+sdkwork-utils-rust = { workspace = true }
+sdkwork-search-gateway-assembly = { package = "sdkwork-search-gateway-assembly", path = "../sdkwork-search-gateway-assembly" }
+axum = { workspace = true, features = ["multipart"] }
+tokio = { workspace = true }
+tower.workspace = true
+serde = { workspace = true }
+serde_json.workspace = true
+tracing.workspace = true
+sqlx.workspace = true
+anyhow.workspace = true
+async-trait.workspace = true
+uuid.workspace = true
+chrono.workspace = true

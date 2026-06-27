@@ -1,8 +1,9 @@
+import type { RecommendationStrategyType } from './recommendation-strategy-type';
 import type { SearchRecommendationItem } from './search-recommendation-item';
 
 export interface SearchRecommendationResponse {
   items: SearchRecommendationItem[];
-  /** Server-owned request correlation id. */
-  requestId: string;
-  strategyId: string;
+  strategy: RecommendationStrategyType;
+  /** Recommendation computation time in milliseconds. */
+  tookMs: number;
 }

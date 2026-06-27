@@ -1,0 +1,21 @@
+[package]
+name = "sdkwork-search-service-host"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "In-process service host for SDKWork Search standalone/native usage."
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+sdkwork-search-provider-spi = { workspace = true }
+sdkwork-search-indexing-service = { workspace = true }
+sdkwork-search-query-service = { workspace = true }
+sdkwork-search-recommendation-service = { workspace = true }
+sdkwork-search-promotion-service = { workspace = true }
+async-trait.workspace = true
+serde = { workspace = true }
+serde_json.workspace = true
+tracing.workspace = true
+anyhow.workspace = true

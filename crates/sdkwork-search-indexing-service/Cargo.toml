@@ -1,0 +1,19 @@
+[package]
+name = "sdkwork-search-indexing-service"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "SDKWork Search indexing service - document indexing and index lifecycle orchestration (RUST_CODE_SPEC.md)."
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+sdkwork-search-provider-spi = { workspace = true }
+async-trait.workspace = true
+serde = { workspace = true }
+serde_json.workspace = true
+tracing.workspace = true
+uuid = { workspace = true }
+chrono = { workspace = true }
+thiserror.workspace = true

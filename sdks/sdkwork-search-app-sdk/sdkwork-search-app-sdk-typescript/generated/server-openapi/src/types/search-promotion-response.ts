@@ -1,8 +1,2 @@
-import type { SearchPromotionItem } from './search-promotion-item';
-
-export interface SearchPromotionResponse {
-  items: SearchPromotionItem[];
-  placement: string;
-  /** Server-owned request correlation id. */
-  requestId: string;
-}
+/** Promotion delivery result; shape depends on the promotion service response. */
+export type SearchPromotionResponse = Record<string, unknown>;

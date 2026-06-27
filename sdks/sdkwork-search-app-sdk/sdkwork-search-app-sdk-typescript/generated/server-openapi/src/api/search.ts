@@ -19,9 +19,7 @@ export class SearchSemanticQueriesApi {
 }
 
 export interface SearchRecentQueriesListParams {
-  q?: string;
-  page?: number;
-  pageSize?: number;
+  limit?: number;
 }
 
 export class SearchRecentQueriesApi {
@@ -35,9 +33,7 @@ export class SearchRecentQueriesApi {
 /** List recent search queries for the current app principal. */
   async list(params?: SearchRecentQueriesListParams): Promise<SearchRecentQueryListResponse> {
     const query = buildQueryString([
-      { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
-      { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
-      { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+      { name: 'limit', value: params?.limit, style: 'form', explode: true, allowReserved: false },
     ]);
     return this.client.get<SearchRecentQueryListResponse>(appendQueryString(appApiPath(`/search/recent_queries`), query));
   }
@@ -86,13 +82,9 @@ export class SearchRecommendationsApi {
 }
 
 export interface SearchSuggestionsListParams {
-  q?: string;
+  indexKey: string;
+  prefix: string;
   limit?: number;
-  providerId?: string;
-  providerKind?: 'algolia' | 'custom' | 'elasticsearch' | 'meilisearch' | 'memory' | 'opensearch' | 'postgresql' | 'typesense' | 'vector';
-  capabilityIds?: string[];
-  groupIds?: string[];
-  scopeIds?: string[];
 }
 
 export class SearchSuggestionsApi {
@@ -104,24 +96,14 @@ export class SearchSuggestionsApi {
 
 
 /** List search suggestions for app clients. */
-  async list(params?: SearchSuggestionsListParams): Promise<SearchSuggestionsResponse> {
+  async list(params: SearchSuggestionsListParams): Promise<SearchSuggestionsResponse> {
     const query = buildQueryString([
-      { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
-      { name: 'limit', value: params?.limit, style: 'form', explode: true, allowReserved: false },
-      { name: 'provider_id', value: params?.providerId, style: 'form', explode: true, allowReserved: false },
-      { name: 'provider_kind', value: params?.providerKind, style: 'form', explode: true, allowReserved: false },
-      { name: 'capability_ids', value: params?.capabilityIds, style: 'form', explode: true, allowReserved: false },
-      { name: 'group_ids', value: params?.groupIds, style: 'form', explode: true, allowReserved: false },
-      { name: 'scope_ids', value: params?.scopeIds, style: 'form', explode: true, allowReserved: false },
+      { name: 'indexKey', value: params.indexKey, style: 'form', explode: true, allowReserved: false },
+      { name: 'prefix', value: params.prefix, style: 'form', explode: true, allowReserved: false },
+      { name: 'limit', value: params.limit, style: 'form', explode: true, allowReserved: false },
     ]);
     return this.client.get<SearchSuggestionsResponse>(appendQueryString(appApiPath(`/search/suggestions`), query));
   }
-}
-
-export interface SearchIndexesListParams {
-  q?: string;
-  page?: number;
-  pageSize?: number;
 }
 
 export class SearchIndexesApi {
@@ -133,13 +115,8 @@ export class SearchIndexesApi {
 
 
 /** List search indexes visible to the current app principal. */
-  async list(params?: SearchIndexesListParams): Promise<SearchIndexListResponse> {
-    const query = buildQueryString([
-      { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
-      { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
-      { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
-    ]);
-    return this.client.get<SearchIndexListResponse>(appendQueryString(appApiPath(`/search/indexes`), query));
+  async list(): Promise<SearchIndexListResponse> {
+    return this.client.get<SearchIndexListResponse>(appApiPath(`/search/indexes`));
   }
 }
 

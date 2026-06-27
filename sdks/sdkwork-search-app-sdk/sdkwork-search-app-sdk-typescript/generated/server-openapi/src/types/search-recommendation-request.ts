@@ -1,9 +1,10 @@
-import type { SearchRecommendationContext } from './search-recommendation-context';
+import type { RecommendationStrategyType } from './recommendation-strategy-type';
 
 export interface SearchRecommendationRequest {
-  context?: SearchRecommendationContext;
+  /** Target user id (string form of i64) for personalized recommendations. */
+  userId: string;
+  /** Index key to recommend documents from. */
+  indexKey: string;
+  strategy: RecommendationStrategyType;
   limit?: number;
-  providerId?: string;
-  providerKind?: 'algolia' | 'custom' | 'elasticsearch' | 'meilisearch' | 'memory' | 'opensearch' | 'postgresql' | 'typesense' | 'vector';
-  strategyId?: string;
 }

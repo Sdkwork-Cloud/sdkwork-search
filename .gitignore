@@ -32,3 +32,7 @@ apps/**/.sdkwork/local/
 apps/**/.sdkwork/tmp/
 apps/**/.sdkwork/cache/
 apps/**/.sdkwork/secrets/
+
+# SDKWork local runtime state
+.runtime/
+**/.runtime/

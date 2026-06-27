@@ -1,71 +1,100 @@
-use sdkwork_routes_search_app_api::{
-    search_app_api_manifest, SEARCH_APP_API_AUTH_MODE, SEARCH_APP_API_AUTHORITY,
-    SEARCH_APP_API_PREFIX, SEARCH_APP_SDK_FAMILY,
-};
+use sdkwork_routes_search_app_api::{gateway_route_manifest, API_PREFIX};
+use sdkwork_web_contract::{HttpMethod, RouteAuth};
 
 #[test]
-fn declares_standard_app_api_route_manifest() {
-    let manifest = search_app_api_manifest();
-
-    assert_eq!(manifest.kind, "sdkwork.route.manifest");
-    assert_eq!(manifest.package_name, "sdkwork-routes-search-app-api");
-    assert_eq!(manifest.surface, "app-api");
-    assert_eq!(manifest.owner, "sdkwork-search");
-    assert_eq!(manifest.domain, "search");
-    assert_eq!(manifest.capability, "search");
-    assert_eq!(manifest.api_authority, SEARCH_APP_API_AUTHORITY);
-    assert_eq!(manifest.sdk_family, SEARCH_APP_SDK_FAMILY);
-    assert_eq!(manifest.prefix, SEARCH_APP_API_PREFIX);
-    assert_eq!(manifest.routes.len(), 8);
+fn declares_eight_app_api_routes() {
+    let routes = gateway_route_manifest();
+    assert_eq!(routes.len(), 8, "app-api must declare exactly 8 routes");
 }
 
 #[test]
-fn app_api_routes_use_app_prefix_and_dual_token_auth() {
-    let manifest = search_app_api_manifest();
+fn app_api_routes_use_canonical_prefix_and_dual_token_auth() {
+    let routes = gateway_route_manifest();
 
-    for route in &manifest.routes {
-        assert!(route.path.starts_with(SEARCH_APP_API_PREFIX));
-        assert_eq!(route.auth_mode, SEARCH_APP_API_AUTH_MODE);
-        assert_eq!(route.ownership_owner, "sdkwork-search");
-        assert_eq!(route.ownership_api_authority, SEARCH_APP_API_AUTHORITY);
-        assert_eq!(route.source_route_crate, "sdkwork-routes-search-app-api");
-    }
-
-    assert!(manifest
-        .routes
-        .iter()
-        .any(|route| route.operation_id == "search.queries.create"));
-    assert!(manifest
-        .routes
-        .iter()
-        .any(|route| route.operation_id == "search.indexes.list"));
-
-    for operation_id in [
-        "search.suggestions.list",
-        "search.recommendations.create",
-        "search.promotions.create",
-        "search.events.create",
-        "search.recentQueries.list",
-        "search.semanticQueries.create",
-    ] {
+    for route in routes {
         assert!(
-            manifest.routes.iter().any(|route| route.operation_id == operation_id),
-            "missing app operation: {operation_id}",
+            route.path.starts_with(API_PREFIX),
+            "route {} must use canonical app prefix",
+            route.path,
+        );
+        assert_eq!(
+            route.auth,
+            RouteAuth::DualToken,
+            "route {} must require dual-token auth",
+            route.operation_id,
+        );
+        assert_eq!(
+            route.tag, "search",
+            "route {} must use search tag",
+            route.operation_id
         );
     }
+}
 
-    assert!(
-        manifest
-            .routes
-            .iter()
-            .any(|route| route.path == "/app/v3/api/search/suggestions"),
-        "suggestions must use canonical app search path",
-    );
-    assert!(
-        manifest
-            .routes
-            .iter()
-            .all(|route| !route.path.starts_with("/v1/search")),
-        "app routes must not use legacy /v1/search",
-    );
+#[test]
+fn app_api_routes_expose_expected_operation_ids_and_methods() {
+    let routes = gateway_route_manifest();
+
+    let expected: &[(&str, HttpMethod, &str)] = &[
+        (
+            "search.queries.create",
+            HttpMethod::Post,
+            "/app/v3/api/search/queries",
+        ),
+        (
+            "search.indexes.list",
+            HttpMethod::Get,
+            "/app/v3/api/search/indexes",
+        ),
+        (
+            "search.suggestions.list",
+            HttpMethod::Get,
+            "/app/v3/api/search/suggestions",
+        ),
+        (
+            "search.recommendations.create",
+            HttpMethod::Post,
+            "/app/v3/api/search/recommendations",
+        ),
+        (
+            "search.promotions.create",
+            HttpMethod::Post,
+            "/app/v3/api/search/promotions",
+        ),
+        (
+            "search.events.create",
+            HttpMethod::Post,
+            "/app/v3/api/search/events",
+        ),
+        (
+            "search.recentQueries.list",
+            HttpMethod::Get,
+            "/app/v3/api/search/recent_queries",
+        ),
+        (
+            "search.semanticQueries.create",
+            HttpMethod::Post,
+            "/app/v3/api/search/semantic_queries",
+        ),
+    ];
+
+    for (operation_id, method, path) in expected {
+        let found = routes.iter().find(|r| r.operation_id == *operation_id);
+        assert!(found.is_some(), "missing app operation: {operation_id}");
+        let route = found.unwrap();
+        assert_eq!(route.method, *method, "{operation_id} method mismatch");
+        assert_eq!(route.path, *path, "{operation_id} path mismatch");
+    }
+}
+
+#[test]
+fn app_api_routes_must_not_use_legacy_v1_prefix() {
+    let routes = gateway_route_manifest();
+    for route in routes {
+        assert!(
+            !route.path.starts_with("/v1/search"),
+            "app route {} must not use legacy /v1/search",
+            route.operation_id,
+        );
+    }
 }

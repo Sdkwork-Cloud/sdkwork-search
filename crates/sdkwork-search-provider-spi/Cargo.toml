@@ -1,0 +1,16 @@
+[package]
+name = "sdkwork-search-provider-spi"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "SDKWork Search provider SPI - pluggable search engine abstraction (WEB_BACKEND_SPEC.md, RUST_CODE_SPEC.md)."
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+async-trait.workspace = true
+serde = { workspace = true }
+serde_json.workspace = true
+thiserror.workspace = true
+tracing.workspace = true

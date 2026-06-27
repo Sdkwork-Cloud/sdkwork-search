@@ -30,8 +30,8 @@ pub async fn bootstrap_search_database(pool: DatabasePool) -> Result<SearchDatab
     let manifest = DatabaseManifest::from_file(module.manifest_path())
         .map_err(|error| format!("read search database manifest failed: {error}"))?;
     let options = lifecycle_options_from_env("SEARCH", &manifest);
-    let orchestrator = LifecycleOrchestrator::new(pool.clone(), module.clone())
-        .with_applied_by("sdkwork-search");
+    let orchestrator =
+        LifecycleOrchestrator::new(pool.clone(), module.clone()).with_applied_by("sdkwork-search");
 
     orchestrator
         .init()

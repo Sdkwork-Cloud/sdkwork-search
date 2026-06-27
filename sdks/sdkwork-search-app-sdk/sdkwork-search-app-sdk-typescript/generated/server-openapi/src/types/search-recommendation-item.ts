@@ -1,7 +1,9 @@
-import type { SearchDocument } from './search-document';
-
 export interface SearchRecommendationItem {
-  document: SearchDocument;
-  reasonCodes: string[];
+  documentId: string;
+  /** Recommendation score; higher is more relevant. */
   score: number;
+  /** Original document payload. */
+  source?: Record<string, unknown>;
+  /** Optional human-readable reason for the recommendation. */
+  reason?: string | null;
 }
