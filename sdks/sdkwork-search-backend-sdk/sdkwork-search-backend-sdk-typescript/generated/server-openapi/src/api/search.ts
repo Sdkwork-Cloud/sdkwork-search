@@ -1,7 +1,7 @@
 import { backendApiPath } from './paths';
 import type { HttpClient } from '../http/client';
 
-import type { SearchAbAssignmentRequest, SearchAbAssignmentResponse, SearchAbExperimentCreateRequest, SearchAbExperimentListResponse, SearchAbExperimentResponse, SearchAbExperimentUpdateRequest, SearchAnalyticsOverview, SearchDocumentBulkUpsertRequest, SearchDocumentBulkUpsertResponse, SearchDocumentDeleteResponse, SearchDocumentResponse, SearchDocumentUpsertRequest, SearchEmbeddingJobCreateRequest, SearchEmbeddingJobListResponse, SearchEmbeddingJobResponse, SearchIndexCreateRequest, SearchIndexDeleteResponse, SearchIndexJobResponse, SearchIndexListResponse, SearchIndexResponse, SearchIndexUpdateRequest, SearchPromotionAdminResponse, SearchPromotionCreateRequest, SearchPromotionDeleteResponse, SearchPromotionListResponse, SearchPromotionUpdateRequest, SearchProviderCreateRequest, SearchProviderHealthCheckResponse, SearchProviderListResponse, SearchProviderResponse, SearchProviderUpdateRequest, SearchRankingProfileCreateRequest, SearchRankingProfileListResponse, SearchRankingProfileResponse, SearchRankingProfileUpdateRequest, SearchRebuildJobRequest, SearchRecommendationStrategyCreateRequest, SearchRecommendationStrategyListResponse, SearchRecommendationStrategyResponse, SearchRecommendationStrategyUpdateRequest, SearchSynonymCreateRequest, SearchSynonymDeleteResponse, SearchSynonymListResponse, SearchSynonymResponse } from '../types';
+import type { PageInfo, SdkWorkCommandData, SearchAbAssignmentRequest, SearchAbAssignmentResponse, SearchAbExperiment, SearchAbExperimentCreateRequest, SearchAbExperimentResponse, SearchAbExperimentUpdateRequest, SearchAnalyticsOverview, SearchDocumentBulkUpsertRequest, SearchDocumentBulkUpsertResponse, SearchDocumentResponse, SearchDocumentUpsertRequest, SearchEmbeddingJob, SearchEmbeddingJobCreateRequest, SearchEmbeddingJobResponse, SearchIndex, SearchIndexCreateRequest, SearchIndexJobResponse, SearchIndexResponse, SearchIndexUpdateRequest, SearchPromotionAdmin, SearchPromotionAdminResponse, SearchPromotionCreateRequest, SearchPromotionUpdateRequest, SearchProvider, SearchProviderCreateRequest, SearchProviderHealthCheckResponse, SearchProviderResponse, SearchProviderUpdateRequest, SearchRankingProfile, SearchRankingProfileCreateRequest, SearchRankingProfileResponse, SearchRankingProfileUpdateRequest, SearchRebuildJobRequest, SearchRecommendationStrategy, SearchRecommendationStrategyCreateRequest, SearchRecommendationStrategyResponse, SearchRecommendationStrategyUpdateRequest, SearchSynonym, SearchSynonymCreateRequest, SearchSynonymResponse } from '../types';
 
 
 export class SearchProvidersHealthChecksApi {
@@ -39,13 +39,13 @@ export class SearchProvidersApi {
 
 
 /** List configured search providers. */
-  async list(params?: SearchProvidersListParams): Promise<SearchProviderListResponse> {
+  async list(params?: SearchProvidersListParams): Promise<Record<string, unknown>> {
     const query = buildQueryString([
       { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
       { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
       { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
     ]);
-    return this.client.get<SearchProviderListResponse>(appendQueryString(backendApiPath(`/search/providers`), query));
+    return this.client.get<Record<string, unknown>>(appendQueryString(backendApiPath(`/search/providers`), query));
   }
 
 /** Create a search provider configuration. */
@@ -148,13 +148,13 @@ export class SearchAbExperimentsApi {
 
 
 /** List search A/B experiments. */
-  async list(params?: SearchAbExperimentsListParams): Promise<SearchAbExperimentListResponse> {
+  async list(params?: SearchAbExperimentsListParams): Promise<Record<string, unknown>> {
     const query = buildQueryString([
       { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
       { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
       { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
     ]);
-    return this.client.get<SearchAbExperimentListResponse>(appendQueryString(backendApiPath(`/search/ab_experiments`), query));
+    return this.client.get<Record<string, unknown>>(appendQueryString(backendApiPath(`/search/ab_experiments`), query));
   }
 
 /** Create a search A/B experiment. */
@@ -204,13 +204,13 @@ export class SearchEmbeddingJobsApi {
 
 
 /** List semantic embedding jobs. */
-  async list(params?: SearchEmbeddingJobsListParams): Promise<SearchEmbeddingJobListResponse> {
+  async list(params?: SearchEmbeddingJobsListParams): Promise<Record<string, unknown>> {
     const query = buildQueryString([
       { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
       { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
       { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
     ]);
-    return this.client.get<SearchEmbeddingJobListResponse>(appendQueryString(backendApiPath(`/search/embedding_jobs`), query));
+    return this.client.get<Record<string, unknown>>(appendQueryString(backendApiPath(`/search/embedding_jobs`), query));
   }
 
 /** Create a semantic embedding job. */
@@ -249,13 +249,13 @@ export class SearchPromotionsApi {
 
 
 /** List search promotions. */
-  async list(params?: SearchPromotionsListParams): Promise<SearchPromotionListResponse> {
+  async list(params?: SearchPromotionsListParams): Promise<Record<string, unknown>> {
     const query = buildQueryString([
       { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
       { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
       { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
     ]);
-    return this.client.get<SearchPromotionListResponse>(appendQueryString(backendApiPath(`/search/promotions`), query));
+    return this.client.get<Record<string, unknown>>(appendQueryString(backendApiPath(`/search/promotions`), query));
   }
 
 /** Create a search promotion. */
@@ -275,8 +275,8 @@ export class SearchPromotionsApi {
   }
 
 /** Delete a search promotion. */
-  async delete(promotionId: string): Promise<SearchPromotionDeleteResponse> {
-    return this.client.delete<SearchPromotionDeleteResponse>(backendApiPath(`/search/promotions/${serializePathParameter(promotionId, { name: 'promotionId', style: 'simple', explode: false })}`));
+  async delete(promotionId: string): Promise<SdkWorkCommandData> {
+    return this.client.delete<SdkWorkCommandData>(backendApiPath(`/search/promotions/${serializePathParameter(promotionId, { name: 'promotionId', style: 'simple', explode: false })}`));
   }
 }
 
@@ -299,13 +299,13 @@ export class SearchRecommendationStrategiesApi {
 
 
 /** List search recommendation strategies. */
-  async list(params?: SearchRecommendationStrategiesListParams): Promise<SearchRecommendationStrategyListResponse> {
+  async list(params?: SearchRecommendationStrategiesListParams): Promise<Record<string, unknown>> {
     const query = buildQueryString([
       { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
       { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
       { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
     ]);
-    return this.client.get<SearchRecommendationStrategyListResponse>(appendQueryString(backendApiPath(`/search/recommendation_strategies`), query));
+    return this.client.get<Record<string, unknown>>(appendQueryString(backendApiPath(`/search/recommendation_strategies`), query));
   }
 
 /** Create a search recommendation strategy. */
@@ -344,13 +344,13 @@ export class SearchRankingProfilesApi {
 
 
 /** List search ranking profiles. */
-  async list(params?: SearchRankingProfilesListParams): Promise<SearchRankingProfileListResponse> {
+  async list(params?: SearchRankingProfilesListParams): Promise<Record<string, unknown>> {
     const query = buildQueryString([
       { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
       { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
       { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
     ]);
-    return this.client.get<SearchRankingProfileListResponse>(appendQueryString(backendApiPath(`/search/ranking_profiles`), query));
+    return this.client.get<Record<string, unknown>>(appendQueryString(backendApiPath(`/search/ranking_profiles`), query));
   }
 
 /** Create a search ranking profile. */
@@ -389,13 +389,13 @@ export class SearchSynonymsApi {
 
 
 /** List search synonyms for backend administration. */
-  async list(params?: SearchSynonymsListParams): Promise<SearchSynonymListResponse> {
+  async list(params?: SearchSynonymsListParams): Promise<Record<string, unknown>> {
     const query = buildQueryString([
       { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
       { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
       { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
     ]);
-    return this.client.get<SearchSynonymListResponse>(appendQueryString(backendApiPath(`/search/synonyms`), query));
+    return this.client.get<Record<string, unknown>>(appendQueryString(backendApiPath(`/search/synonyms`), query));
   }
 
 /** Create a search synonym. */
@@ -410,8 +410,8 @@ export class SearchSynonymsApi {
   }
 
 /** Delete a search synonym. */
-  async delete(synonymId: string): Promise<SearchSynonymDeleteResponse> {
-    return this.client.delete<SearchSynonymDeleteResponse>(backendApiPath(`/search/synonyms/${serializePathParameter(synonymId, { name: 'synonymId', style: 'simple', explode: false })}`));
+  async delete(synonymId: string): Promise<SdkWorkCommandData> {
+    return this.client.delete<SdkWorkCommandData>(backendApiPath(`/search/synonyms/${serializePathParameter(synonymId, { name: 'synonymId', style: 'simple', explode: false })}`));
   }
 }
 
@@ -433,8 +433,8 @@ export class SearchDocumentsApi {
   }
 
 /** Delete a document from a search index. */
-  async delete(indexId: string, documentId: string): Promise<SearchDocumentDeleteResponse> {
-    return this.client.delete<SearchDocumentDeleteResponse>(backendApiPath(`/search/indexes/${serializePathParameter(indexId, { name: 'indexId', style: 'simple', explode: false })}/documents/${serializePathParameter(documentId, { name: 'documentId', style: 'simple', explode: false })}`));
+  async delete(indexId: string, documentId: string): Promise<SdkWorkCommandData> {
+    return this.client.delete<SdkWorkCommandData>(backendApiPath(`/search/indexes/${serializePathParameter(indexId, { name: 'indexId', style: 'simple', explode: false })}/documents/${serializePathParameter(documentId, { name: 'documentId', style: 'simple', explode: false })}`));
   }
 
 /** Bulk upsert documents into a search index. */
@@ -468,13 +468,13 @@ export class SearchIndexesApi {
 
 
 /** List search indexes for backend administration. */
-  async list(params?: SearchIndexesListParams): Promise<SearchIndexListResponse> {
+  async list(params?: SearchIndexesListParams): Promise<Record<string, unknown>> {
     const query = buildQueryString([
       { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
       { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
       { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
     ]);
-    return this.client.get<SearchIndexListResponse>(appendQueryString(backendApiPath(`/search/indexes`), query));
+    return this.client.get<Record<string, unknown>>(appendQueryString(backendApiPath(`/search/indexes`), query));
   }
 
 /** Create a search index. */
@@ -494,8 +494,8 @@ export class SearchIndexesApi {
   }
 
 /** Delete a search index. */
-  async delete(indexId: string): Promise<SearchIndexDeleteResponse> {
-    return this.client.delete<SearchIndexDeleteResponse>(backendApiPath(`/search/indexes/${serializePathParameter(indexId, { name: 'indexId', style: 'simple', explode: false })}`));
+  async delete(indexId: string): Promise<SdkWorkCommandData> {
+    return this.client.delete<SdkWorkCommandData>(backendApiPath(`/search/indexes/${serializePathParameter(indexId, { name: 'indexId', style: 'simple', explode: false })}`));
   }
 }
 

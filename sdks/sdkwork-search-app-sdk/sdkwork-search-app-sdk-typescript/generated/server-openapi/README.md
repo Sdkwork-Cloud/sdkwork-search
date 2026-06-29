@@ -27,7 +27,12 @@ client.setAuthToken('your-auth-token');
 client.setAccessToken('your-access-token');
 
 // Use the SDK
-const result = await client.search.indexes.list();
+const params = {
+  q: 'q',
+  page: 2,
+  page_size: 3,
+};
+const result = await client.search.indexes.list(params);
 ```
 
 ## Authentication
@@ -62,7 +67,12 @@ const client = new SdkworkAppClient({
 
 ```typescript
 // List search indexes visible to the current app principal.
-const result = await client.search.indexes.list();
+const params = {
+  q: 'q',
+  page: 2,
+  page_size: 3,
+};
+const result = await client.search.indexes.list(params);
 ```
 
 ## Error Handling
@@ -71,7 +81,12 @@ const result = await client.search.indexes.list();
 import { SdkworkAppClient, NetworkError, TimeoutError, AuthenticationError } from '@sdkwork/search-app-sdk';
 
 try {
-  const result = await client.search.indexes.list();
+  const params = {
+    q: 'q',
+    page: 2,
+    page_size: 3,
+  };
+  const result = await client.search.indexes.list(params);
 } catch (error) {
   if (error instanceof AuthenticationError) {
     console.error('Authentication failed:', error.message);

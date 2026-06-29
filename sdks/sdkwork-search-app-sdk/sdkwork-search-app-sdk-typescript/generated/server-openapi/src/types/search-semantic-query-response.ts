@@ -1,7 +1,9 @@
-import type { SearchSemanticHit } from './search-semantic-hit';
+import type { SearchSemanticResult } from './search-semantic-result';
 
 export interface SearchSemanticQueryResponse {
-  hits: SearchSemanticHit[];
-  /** Semantic search execution time in milliseconds. */
-  tookMs: number;
+  embeddingProvider: string;
+  items: SearchSemanticResult[];
+  mode: 'hybrid' | 'semantic';
+  q: string;
+  semanticProfileId: string;
 }

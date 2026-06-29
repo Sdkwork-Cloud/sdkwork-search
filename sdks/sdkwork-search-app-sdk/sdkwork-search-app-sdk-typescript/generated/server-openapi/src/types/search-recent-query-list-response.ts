@@ -1,4 +1,5 @@
+import type { SearchRecentQuery } from './search-recent-query';
+
 export interface SearchRecentQueryListResponse {
-  /** Recent query texts for the current principal. */
-  queries: string[];
+  items: SearchRecentQuery[];
 }

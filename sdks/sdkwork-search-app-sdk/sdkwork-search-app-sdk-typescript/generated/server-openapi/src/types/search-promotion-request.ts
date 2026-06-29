@@ -1,5 +1,8 @@
+import type { SearchPromotionContext } from './search-promotion-context';
+
 export interface SearchPromotionRequest {
-  promotionId: string;
-  /** Target user id (string form of i64). */
-  userId: string;
+  context: SearchPromotionContext;
+  limit?: number;
+  providerId?: string;
+  providerKind?: 'algolia' | 'custom' | 'elasticsearch' | 'meilisearch' | 'memory' | 'opensearch' | 'postgresql' | 'typesense' | 'vector';
 }

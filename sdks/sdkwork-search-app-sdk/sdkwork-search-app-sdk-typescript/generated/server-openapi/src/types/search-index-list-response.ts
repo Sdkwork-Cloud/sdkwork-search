@@ -1,4 +1,7 @@
+import type { SearchIndex } from './search-index';
+import type { SearchPageInfo } from './search-page-info';
+
 export interface SearchIndexListResponse {
-  /** Index keys visible to the current principal. */
-  indexes: string[];
+  items: SearchIndex[];
+  pageInfo: SearchPageInfo;
 }

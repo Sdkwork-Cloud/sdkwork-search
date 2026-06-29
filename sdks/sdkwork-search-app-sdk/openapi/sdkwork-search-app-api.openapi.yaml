@@ -42,7 +42,38 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SearchQueryResponse"
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SdkWorkApiResponse"
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "data"
+                      ],
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "items",
+                            "pageInfo"
+                          ],
+                          "properties": {
+                            "items": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/SearchResult"
+                              }
+                            },
+                            "pageInfo": {
+                              "$ref": "#/components/schemas/PageInfo"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -147,14 +178,76 @@
         ],
         "summary": "List search indexes visible to the current app principal.",
         "operationId": "search.indexes.list",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Standard free-text search query."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 20
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SearchIndexListResponse"
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SdkWorkApiResponse"
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "data"
+                      ],
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "items",
+                            "pageInfo"
+                          ],
+                          "properties": {
+                            "items": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/SearchIndex"
+                              }
+                            },
+                            "pageInfo": {
+                              "$ref": "#/components/schemas/PageInfo"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -251,22 +344,13 @@
         "operationId": "search.suggestions.list",
         "parameters": [
           {
-            "name": "indexKey",
+            "name": "q",
             "in": "query",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             },
-            "description": "Target index key to retrieve suggestions from."
-          },
-          {
-            "name": "prefix",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Prefix text to match against indexed terms and titles."
+            "description": "Standard free-text search query."
           },
           {
             "name": "limit",
@@ -274,12 +358,78 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "format": "int32",
               "minimum": 1,
               "maximum": 50,
               "default": 10
+            }
+          },
+          {
+            "name": "provider_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
             },
-            "description": "Maximum number of suggestions to return."
+            "description": "Optional search provider id for provider-routed suggestions."
+          },
+          {
+            "name": "provider_kind",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "algolia",
+                "custom",
+                "elasticsearch",
+                "meilisearch",
+                "memory",
+                "opensearch",
+                "postgresql",
+                "typesense",
+                "vector"
+              ]
+            },
+            "description": "Optional search provider kind for provider-routed suggestions."
+          },
+          {
+            "name": "capability_ids",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "style": "form",
+            "explode": true
+          },
+          {
+            "name": "group_ids",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "style": "form",
+            "explode": true
+          },
+          {
+            "name": "scope_ids",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "style": "form",
+            "explode": true
           }
         ],
         "responses": {
@@ -288,7 +438,38 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SearchSuggestionsResponse"
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SdkWorkApiResponse"
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "data"
+                      ],
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "items",
+                            "pageInfo"
+                          ],
+                          "properties": {
+                            "items": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/SearchSuggestion"
+                              }
+                            },
+                            "pageInfo": {
+                              "$ref": "#/components/schemas/PageInfo"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -390,7 +571,38 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SearchRecommendationResponse"
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SdkWorkApiResponse"
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "data"
+                      ],
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "items",
+                            "pageInfo"
+                          ],
+                          "properties": {
+                            "items": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/SearchRecommendationItem"
+                              }
+                            },
+                            "pageInfo": {
+                              "$ref": "#/components/schemas/PageInfo"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -502,7 +714,38 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SearchPromotionResponse"
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SdkWorkApiResponse"
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "data"
+                      ],
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "items",
+                            "pageInfo"
+                          ],
+                          "properties": {
+                            "items": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/SearchPromotionItem"
+                              }
+                            },
+                            "pageInfo": {
+                              "$ref": "#/components/schemas/PageInfo"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -614,7 +857,30 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SearchUserEventResponse"
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SdkWorkApiResponse"
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "data"
+                      ],
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "required": [
+                            "item"
+                          ],
+                          "properties": {
+                            "item": {
+                              "$ref": "#/components/schemas/SearchUserEventResponse"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -721,17 +987,34 @@
         "operationId": "search.recentQueries.list",
         "parameters": [
           {
-            "name": "limit",
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Standard free-text search query."
+          },
+          {
+            "name": "page",
             "in": "query",
             "required": false,
             "schema": {
               "type": "integer",
-              "format": "int32",
               "minimum": 1,
-              "maximum": 100,
-              "default": 10
-            },
-            "description": "Maximum number of recent queries to return."
+              "default": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 20
+            }
           }
         ],
         "responses": {
@@ -740,7 +1023,38 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SearchRecentQueryListResponse"
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SdkWorkApiResponse"
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "data"
+                      ],
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "items",
+                            "pageInfo"
+                          ],
+                          "properties": {
+                            "items": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/SearchRecentQuery"
+                              }
+                            },
+                            "pageInfo": {
+                              "$ref": "#/components/schemas/PageInfo"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -842,7 +1156,38 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SearchSemanticQueryResponse"
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SdkWorkApiResponse"
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "data"
+                      ],
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "items",
+                            "pageInfo"
+                          ],
+                          "properties": {
+                            "items": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/SearchSemanticResult"
+                              }
+                            },
+                            "pageInfo": {
+                              "$ref": "#/components/schemas/PageInfo"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -963,7 +1308,9 @@
         "required": [
           "type",
           "title",
-          "status"
+          "status",
+          "code",
+          "traceId"
         ],
         "properties": {
           "type": {
@@ -985,12 +1332,9 @@
             "type": "string"
           },
           "code": {
-            "type": "string"
+            "$ref": "#/components/schemas/SdkWorkPlatformErrorCode"
           },
           "traceId": {
-            "type": "string"
-          },
-          "requestId": {
             "type": "string",
             "format": "uuid",
             "description": "Server-owned request correlation id."
@@ -1018,7 +1362,10 @@
             "type": "string"
           },
           "code": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32",
+            "minimum": 40011,
+            "maximum": 40099
           }
         }
       },
@@ -1026,17 +1373,11 @@
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "indexKey",
           "q"
         ],
         "properties": {
-          "indexKey": {
-            "type": "string",
-            "description": "Target index key to search within."
-          },
           "q": {
-            "type": "string",
-            "description": "Free-text query (supports websearch syntax: AND, OR, NOT, \"phrase\")."
+            "type": "string"
           },
           "page": {
             "type": "integer",
@@ -1051,44 +1392,40 @@
             "maximum": 200,
             "default": 20
           },
-          "filters": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "description": "Structured filters: field name -> list of accepted values (OR within a field)."
+          "providerId": {
+            "type": "string"
           },
-          "facets": {
+          "providerKind": {
+            "type": "string",
+            "enum": [
+              "algolia",
+              "custom",
+              "elasticsearch",
+              "meilisearch",
+              "memory",
+              "opensearch",
+              "postgresql",
+              "typesense",
+              "vector"
+            ]
+          },
+          "capabilityIds": {
             "type": "array",
             "items": {
               "type": "string"
-            },
-            "description": "Facet field names to aggregate counts for."
+            }
           },
-          "sort": {
+          "groupIds": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/SortClause"
-            },
-            "description": "Sort clauses applied in order; absent fields default to relevance rank."
+              "type": "string"
+            }
           },
-          "highlight": {
-            "$ref": "#/components/schemas/HighlightConfig",
-            "description": "Highlight configuration; when omitted, no highlight snippets are returned."
-          },
-          "minScore": {
-            "type": "number",
-            "format": "double",
-            "description": "Minimum relevance score threshold; hits below this value are filtered out."
-          },
-          "timeoutMs": {
-            "type": "integer",
-            "format": "int32",
-            "minimum": 1,
-            "description": "Query timeout in milliseconds; partial results are returned on timeout."
+          "scopeIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },
@@ -1096,162 +1433,22 @@
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "total",
-          "hits",
-          "tookMs"
+          "items",
+          "pageInfo",
+          "q"
         ],
         "properties": {
-          "total": {
-            "type": "integer",
-            "format": "int32",
-            "minimum": 0,
-            "description": "True total count of matching documents (independent of pagination)."
-          },
-          "hits": {
+          "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/SearchHit"
+              "$ref": "#/components/schemas/SearchResult"
             }
           },
-          "facets": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/FacetBucket"
-              }
-            },
-            "description": "Facet aggregations: field name -> list of value/count buckets."
+          "pageInfo": {
+            "$ref": "#/components/schemas/SearchPageInfo"
           },
-          "tookMs": {
-            "type": "integer",
-            "format": "int32",
-            "description": "Query execution time in milliseconds."
-          },
-          "maxScore": {
-            "type": "number",
-            "format": "double",
-            "nullable": true,
-            "description": "Maximum relevance score among the returned hits; null when no hits."
-          },
-          "requestId": {
-            "type": "string",
-            "format": "uuid",
-            "description": "Server-owned request correlation id."
-          }
-        }
-      },
-      "SearchHit": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "documentId",
-          "score"
-        ],
-        "properties": {
-          "documentId": {
+          "q": {
             "type": "string"
-          },
-          "score": {
-            "type": "number",
-            "format": "double",
-            "description": "Relevance score; higher is more relevant."
-          },
-          "source": {
-            "type": "object",
-            "additionalProperties": true,
-            "description": "Original document payload (includes title and indexed fields)."
-          },
-          "highlight": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "description": "Highlight snippets: field name -> list of highlighted fragments."
-          },
-          "indexKey": {
-            "type": "string",
-            "nullable": true,
-            "description": "Index key the hit belongs to (useful for cross-index search)."
-          }
-        }
-      },
-      "FacetBucket": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "value",
-          "count"
-        ],
-        "properties": {
-          "value": {
-            "type": "string"
-          },
-          "count": {
-            "type": "integer",
-            "format": "int32",
-            "minimum": 0
-          }
-        }
-      },
-      "SortClause": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "field",
-          "order"
-        ],
-        "properties": {
-          "field": {
-            "type": "string",
-            "description": "Field name to sort by (must be a safe identifier: alphanumeric + underscore)."
-          },
-          "order": {
-            "type": "string",
-            "enum": [
-              "asc",
-              "desc"
-            ]
-          }
-        }
-      },
-      "HighlightConfig": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "fields"
-        ],
-        "properties": {
-          "fields": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "Fields to generate highlight snippets for."
-          },
-          "preTag": {
-            "type": "string",
-            "default": "<em>"
-          },
-          "postTag": {
-            "type": "string",
-            "default": "</em>"
-          },
-          "fragmentSize": {
-            "type": "integer",
-            "format": "int32",
-            "minimum": 1,
-            "default": 100,
-            "description": "Maximum number of words per highlight fragment."
-          },
-          "maxFragments": {
-            "type": "integer",
-            "format": "int32",
-            "minimum": 1,
-            "description": "Maximum number of fragments to return per field."
           }
         }
       },
@@ -1259,15 +1456,18 @@
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "indexes"
+          "items",
+          "pageInfo"
         ],
         "properties": {
-          "indexes": {
+          "items": {
             "type": "array",
             "items": {
-              "type": "string"
-            },
-            "description": "Index keys visible to the current principal."
+              "$ref": "#/components/schemas/SearchIndex"
+            }
+          },
+          "pageInfo": {
+            "$ref": "#/components/schemas/SearchPageInfo"
           }
         }
       },
@@ -1275,77 +1475,27 @@
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "suggestions",
-          "tookMs"
+          "items",
+          "q"
         ],
         "properties": {
-          "suggestions": {
+          "items": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/SearchSuggestion"
             }
           },
-          "tookMs": {
-            "type": "integer",
-            "format": "int32",
-            "description": "Suggestion retrieval time in milliseconds."
-          }
-        }
-      },
-      "SearchSuggestion": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "text",
-          "score"
-        ],
-        "properties": {
-          "text": {
+          "q": {
             "type": "string"
-          },
-          "score": {
-            "type": "number",
-            "format": "double",
-            "description": "Similarity score; higher is more relevant."
-          },
-          "payload": {
-            "type": "object",
-            "additionalProperties": true,
-            "nullable": true,
-            "description": "Optional metadata associated with the suggestion."
           }
         }
-      },
-      "RecommendationStrategyType": {
-        "type": "string",
-        "enum": [
-          "collaborative_filtering",
-          "content_based",
-          "hybrid",
-          "trending",
-          "personalized"
-        ],
-        "description": "Recommendation algorithm strategy."
       },
       "SearchRecommendationRequest": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "userId",
-          "indexKey",
-          "strategy"
-        ],
         "properties": {
-          "userId": {
-            "type": "string",
-            "description": "Target user id (string form of i64) for personalized recommendations."
-          },
-          "indexKey": {
-            "type": "string",
-            "description": "Index key to recommend documents from."
-          },
-          "strategy": {
-            "$ref": "#/components/schemas/RecommendationStrategyType"
+          "context": {
+            "$ref": "#/components/schemas/SearchRecommendationContext"
           },
           "limit": {
             "type": "integer",
@@ -1353,6 +1503,27 @@
             "minimum": 1,
             "maximum": 100,
             "default": 10
+          },
+          "providerId": {
+            "type": "string"
+          },
+          "providerKind": {
+            "type": "string",
+            "enum": [
+              "algolia",
+              "custom",
+              "elasticsearch",
+              "meilisearch",
+              "memory",
+              "opensearch",
+              "postgresql",
+              "typesense",
+              "vector"
+            ]
+          },
+          "strategyId": {
+            "type": "string",
+            "default": "default"
           }
         }
       },
@@ -1361,8 +1532,7 @@
         "additionalProperties": false,
         "required": [
           "items",
-          "strategy",
-          "tookMs"
+          "strategyId"
         ],
         "properties": {
           "items": {
@@ -1371,41 +1541,8 @@
               "$ref": "#/components/schemas/SearchRecommendationItem"
             }
           },
-          "strategy": {
-            "$ref": "#/components/schemas/RecommendationStrategyType"
-          },
-          "tookMs": {
-            "type": "integer",
-            "format": "int32",
-            "description": "Recommendation computation time in milliseconds."
-          }
-        }
-      },
-      "SearchRecommendationItem": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "documentId",
-          "score"
-        ],
-        "properties": {
-          "documentId": {
+          "strategyId": {
             "type": "string"
-          },
-          "score": {
-            "type": "number",
-            "format": "double",
-            "description": "Recommendation score; higher is more relevant."
-          },
-          "source": {
-            "type": "object",
-            "additionalProperties": true,
-            "description": "Original document payload."
-          },
-          "reason": {
-            "type": "string",
-            "nullable": true,
-            "description": "Optional human-readable reason for the recommendation."
           }
         }
       },
@@ -1413,57 +1550,112 @@
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "promotionId",
-          "userId"
+          "context"
         ],
         "properties": {
-          "promotionId": {
+          "context": {
+            "$ref": "#/components/schemas/SearchPromotionContext"
+          },
+          "limit": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1,
+            "maximum": 50,
+            "default": 10
+          },
+          "providerId": {
             "type": "string"
           },
-          "userId": {
+          "providerKind": {
             "type": "string",
-            "description": "Target user id (string form of i64)."
+            "enum": [
+              "algolia",
+              "custom",
+              "elasticsearch",
+              "meilisearch",
+              "memory",
+              "opensearch",
+              "postgresql",
+              "typesense",
+              "vector"
+            ]
           }
         }
       },
       "SearchPromotionResponse": {
         "type": "object",
-        "additionalProperties": true,
-        "description": "Promotion delivery result; shape depends on the promotion service response."
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "placement"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchPromotionItem"
+            }
+          },
+          "placement": {
+            "type": "string"
+          }
+        }
       },
       "SearchUserEvent": {
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "eventType"
+          "eventType",
+          "occurredAt",
+          "surface"
         ],
         "properties": {
+          "documentId": {
+            "type": "string"
+          },
           "eventType": {
             "type": "string",
-            "description": "Event kind (e.g. view, click, conversion)."
+            "enum": [
+              "click",
+              "conversion",
+              "dismiss",
+              "impression",
+              "save",
+              "view"
+            ]
           },
           "indexId": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
-          "documentId": {
-            "type": "string",
-            "nullable": true
+          "metadata": {
+            "type": "object",
+            "additionalProperties": true
           },
-          "queryText": {
+          "occurredAt": {
             "type": "string",
-            "nullable": true
+            "format": "date-time"
+          },
+          "placement": {
+            "type": "string"
+          },
+          "providerId": {
+            "type": "string"
+          },
+          "q": {
+            "type": "string"
           },
           "resultPosition": {
             "type": "integer",
             "format": "int32",
-            "minimum": 0,
-            "nullable": true
+            "minimum": 0
           },
-          "metadata": {
-            "type": "object",
-            "additionalProperties": true,
-            "nullable": true
+          "surface": {
+            "type": "string",
+            "enum": [
+              "app",
+              "backend",
+              "local"
+            ]
           }
         }
       },
@@ -1475,8 +1667,7 @@
         ],
         "properties": {
           "accepted": {
-            "type": "boolean",
-            "description": "Whether the event was accepted for persistence."
+            "type": "boolean"
           }
         }
       },
@@ -1484,15 +1675,14 @@
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "queries"
+          "items"
         ],
         "properties": {
-          "queries": {
+          "items": {
             "type": "array",
             "items": {
-              "type": "string"
-            },
-            "description": "Recent query texts for the current principal."
+              "$ref": "#/components/schemas/SearchRecentQuery"
+            }
           }
         }
       },
@@ -1500,52 +1690,61 @@
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "indexKey",
           "q"
         ],
         "properties": {
-          "indexKey": {
-            "type": "string",
-            "description": "Target index key for semantic search."
-          },
           "q": {
+            "type": "string"
+          },
+          "embeddingProvider": {
             "type": "string",
-            "description": "Query text for lexical fallback and embedding generation."
+            "default": "postgresql"
           },
-          "queryEmbedding": {
-            "type": "array",
-            "items": {
-              "type": "number",
-              "format": "float"
-            },
-            "description": "Pre-computed query embedding vector; if empty, the server generates one from q."
-          },
-          "topK": {
+          "limit": {
             "type": "integer",
             "format": "int32",
             "minimum": 1,
-            "maximum": 1000,
-            "default": 10,
-            "description": "Number of top results to return."
+            "maximum": 100,
+            "default": 10
           },
-          "filters": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+          "providerId": {
+            "type": "string"
+          },
+          "providerKind": {
+            "type": "string",
+            "enum": [
+              "algolia",
+              "custom",
+              "elasticsearch",
+              "meilisearch",
+              "memory",
+              "opensearch",
+              "postgresql",
+              "typesense",
+              "vector"
+            ]
+          },
+          "semanticProfileId": {
+            "type": "string",
+            "default": "default"
+          },
+          "capabilityIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
             }
           },
-          "minScore": {
-            "type": "number",
-            "format": "float",
-            "description": "Minimum semantic similarity score threshold."
+          "groupIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
-          "timeoutMs": {
-            "type": "integer",
-            "format": "int32",
-            "minimum": 1
+          "scopeIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },
@@ -1553,45 +1752,585 @@
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "hits",
-          "tookMs"
+          "embeddingProvider",
+          "items",
+          "mode",
+          "q",
+          "semanticProfileId"
         ],
         "properties": {
-          "hits": {
+          "embeddingProvider": {
+            "type": "string"
+          },
+          "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/SearchSemanticHit"
+              "$ref": "#/components/schemas/SearchSemanticResult"
             }
           },
-          "tookMs": {
-            "type": "integer",
-            "format": "int32",
-            "description": "Semantic search execution time in milliseconds."
+          "mode": {
+            "type": "string",
+            "enum": [
+              "hybrid",
+              "semantic"
+            ]
+          },
+          "q": {
+            "type": "string"
+          },
+          "semanticProfileId": {
+            "type": "string"
           }
         }
       },
-      "SearchSemanticHit": {
+      "SearchResult": {
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "documentId",
+          "document",
+          "matchedOn",
           "score"
         ],
         "properties": {
-          "documentId": {
-            "type": "string"
+          "document": {
+            "$ref": "#/components/schemas/SearchDocument"
+          },
+          "matchedOn": {
+            "type": "string",
+            "enum": [
+              "title",
+              "keyword",
+              "description",
+              "group",
+              "scope"
+            ]
           },
           "score": {
-            "type": "number",
-            "format": "float",
-            "description": "Semantic similarity score (1 - cosine distance)."
-          },
-          "source": {
-            "type": "object",
-            "additionalProperties": true,
-            "description": "Original document payload."
+            "type": "integer",
+            "format": "int32"
           }
         }
+      },
+      "SearchPageInfo": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "page",
+          "pageSize",
+          "totalItems",
+          "totalPages"
+        ],
+        "properties": {
+          "page": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1,
+            "maximum": 200
+          },
+          "totalItems": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1
+          }
+        }
+      },
+      "SearchIndex": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "indexId",
+          "name",
+          "documentCount",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "indexId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "analyzer": {
+            "type": "string"
+          },
+          "documentCount": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SearchSuggestion": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "text",
+          "source",
+          "score"
+        ],
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "document",
+              "query"
+            ]
+          },
+          "score": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "SearchRecommendationContext": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "q": {
+            "type": "string"
+          },
+          "capabilityIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "groupIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "scopeIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "recentDocumentIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "placement": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          }
+        }
+      },
+      "SearchRecommendationItem": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "document",
+          "reasonCodes",
+          "score"
+        ],
+        "properties": {
+          "document": {
+            "$ref": "#/components/schemas/SearchDocument"
+          },
+          "reasonCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "score": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "SearchPromotionContext": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "placement"
+        ],
+        "properties": {
+          "placement": {
+            "type": "string"
+          },
+          "q": {
+            "type": "string"
+          },
+          "capabilityIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "groupIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "scopeIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "SearchPromotionItem": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "document",
+          "placement",
+          "reasonCodes",
+          "score"
+        ],
+        "properties": {
+          "document": {
+            "$ref": "#/components/schemas/SearchDocument"
+          },
+          "placement": {
+            "type": "string"
+          },
+          "reasonCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "score": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "SearchRecentQuery": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "q",
+          "lastUsedAt",
+          "resultCount"
+        ],
+        "properties": {
+          "q": {
+            "type": "string"
+          },
+          "lastUsedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "resultCount": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          }
+        }
+      },
+      "SearchSemanticResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "document",
+          "lexicalScore",
+          "reasonCodes",
+          "score"
+        ],
+        "properties": {
+          "document": {
+            "$ref": "#/components/schemas/SearchDocument"
+          },
+          "lexicalScore": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "semanticScore": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "reasonCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "score": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "SearchDocument": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean",
+            "default": true
+          },
+          "group": {
+            "type": "string"
+          },
+          "groupOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "order": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "kind": {
+            "type": "string"
+          },
+          "capability": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SdkWorkApiResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "code",
+          "data",
+          "traceId"
+        ],
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32",
+            "enum": [
+              0
+            ],
+            "default": 0,
+            "minimum": 0,
+            "maximum": 0
+          },
+          "data": {
+            "description": "Operation-specific payload typed per response schema."
+          },
+          "traceId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id."
+          }
+        }
+      },
+      "SdkWorkResourceData": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "item"
+        ],
+        "properties": {
+          "item": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Typed domain resource for the operation."
+          }
+        }
+      },
+      "SdkWorkPageData": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "pageInfo"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "pageInfo": {
+            "$ref": "#/components/schemas/PageInfo"
+          }
+        }
+      },
+      "SdkWorkCommandData": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "accepted"
+        ],
+        "properties": {
+          "accepted": {
+            "type": "boolean",
+            "const": true
+          },
+          "resourceId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "PageInfo": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "mode"
+        ],
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "offset",
+              "cursor"
+            ]
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "pageSize": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200
+          },
+          "totalItems": {
+            "type": "string",
+            "pattern": "^[0-9]+$"
+          },
+          "totalPages": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "nextCursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "hasMore": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SdkWorkPlatformErrorCode": {
+        "type": "integer",
+        "format": "int32",
+        "minimum": 40001,
+        "maximum": 79999,
+        "description": "Platform or domain error code per API_SPEC.md §15.3."
+      },
+      "SdkWorkResourceResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SdkWorkApiResponse"
+          },
+          {
+            "type": "object",
+            "required": [
+              "data"
+            ],
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/SdkWorkResourceData"
+              }
+            }
+          }
+        ]
+      },
+      "SdkWorkListResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SdkWorkApiResponse"
+          },
+          {
+            "type": "object",
+            "required": [
+              "data"
+            ],
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/SdkWorkPageData"
+              }
+            }
+          }
+        ]
+      },
+      "SdkWorkCommandResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SdkWorkApiResponse"
+          },
+          {
+            "type": "object",
+            "required": [
+              "data"
+            ],
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/SdkWorkCommandData"
+              }
+            }
+          }
+        ]
       }
     }
   },

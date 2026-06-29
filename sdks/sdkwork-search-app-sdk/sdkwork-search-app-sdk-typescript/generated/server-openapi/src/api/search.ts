@@ -1,7 +1,7 @@
 import { appApiPath } from './paths';
 import type { HttpClient } from '../http/client';
 
-import type { SearchIndexListResponse, SearchPromotionRequest, SearchPromotionResponse, SearchQueryRequest, SearchQueryResponse, SearchRecentQueryListResponse, SearchRecommendationRequest, SearchRecommendationResponse, SearchSemanticQueryRequest, SearchSemanticQueryResponse, SearchSuggestionsResponse, SearchUserEvent, SearchUserEventResponse } from '../types';
+import type { PageInfo, SearchIndex, SearchPromotionItem, SearchPromotionRequest, SearchQueryRequest, SearchRecentQuery, SearchRecommendationItem, SearchRecommendationRequest, SearchResult, SearchSemanticQueryRequest, SearchSemanticResult, SearchSuggestion, SearchUserEvent, SearchUserEventResponse } from '../types';
 
 
 export class SearchSemanticQueriesApi {
@@ -13,13 +13,15 @@ export class SearchSemanticQueriesApi {
 
 
 /** Create a semantic search query with lexical fallback. */
-  async create(body: SearchSemanticQueryRequest): Promise<SearchSemanticQueryResponse> {
-    return this.client.post<SearchSemanticQueryResponse>(appApiPath(`/search/semantic_queries`), body, undefined, undefined, 'application/json');
+  async create(body: SearchSemanticQueryRequest): Promise<Record<string, unknown>> {
+    return this.client.post<Record<string, unknown>>(appApiPath(`/search/semantic_queries`), body, undefined, undefined, 'application/json');
   }
 }
 
 export interface SearchRecentQueriesListParams {
-  limit?: number;
+  q?: string;
+  page?: number;
+  pageSize?: number;
 }
 
 export class SearchRecentQueriesApi {
@@ -31,11 +33,13 @@ export class SearchRecentQueriesApi {
 
 
 /** List recent search queries for the current app principal. */
-  async list(params?: SearchRecentQueriesListParams): Promise<SearchRecentQueryListResponse> {
+  async list(params?: SearchRecentQueriesListParams): Promise<Record<string, unknown>> {
     const query = buildQueryString([
-      { name: 'limit', value: params?.limit, style: 'form', explode: true, allowReserved: false },
+      { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+      { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+      { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
     ]);
-    return this.client.get<SearchRecentQueryListResponse>(appendQueryString(appApiPath(`/search/recent_queries`), query));
+    return this.client.get<Record<string, unknown>>(appendQueryString(appApiPath(`/search/recent_queries`), query));
   }
 }
 
@@ -62,8 +66,8 @@ export class SearchPromotionsApi {
 
 
 /** Create a promotion delivery response for an app placement. */
-  async create(body: SearchPromotionRequest): Promise<SearchPromotionResponse> {
-    return this.client.post<SearchPromotionResponse>(appApiPath(`/search/promotions`), body, undefined, undefined, 'application/json');
+  async create(body: SearchPromotionRequest): Promise<Record<string, unknown>> {
+    return this.client.post<Record<string, unknown>>(appApiPath(`/search/promotions`), body, undefined, undefined, 'application/json');
   }
 }
 
@@ -76,15 +80,19 @@ export class SearchRecommendationsApi {
 
 
 /** Create an explainable recommendation response. */
-  async create(body: SearchRecommendationRequest): Promise<SearchRecommendationResponse> {
-    return this.client.post<SearchRecommendationResponse>(appApiPath(`/search/recommendations`), body, undefined, undefined, 'application/json');
+  async create(body: SearchRecommendationRequest): Promise<Record<string, unknown>> {
+    return this.client.post<Record<string, unknown>>(appApiPath(`/search/recommendations`), body, undefined, undefined, 'application/json');
   }
 }
 
 export interface SearchSuggestionsListParams {
-  indexKey: string;
-  prefix: string;
+  q?: string;
   limit?: number;
+  providerId?: string;
+  providerKind?: 'algolia' | 'custom' | 'elasticsearch' | 'meilisearch' | 'memory' | 'opensearch' | 'postgresql' | 'typesense' | 'vector';
+  capabilityIds?: string[];
+  groupIds?: string[];
+  scopeIds?: string[];
 }
 
 export class SearchSuggestionsApi {
@@ -96,14 +104,24 @@ export class SearchSuggestionsApi {
 
 
 /** List search suggestions for app clients. */
-  async list(params: SearchSuggestionsListParams): Promise<SearchSuggestionsResponse> {
+  async list(params?: SearchSuggestionsListParams): Promise<Record<string, unknown>> {
     const query = buildQueryString([
-      { name: 'indexKey', value: params.indexKey, style: 'form', explode: true, allowReserved: false },
-      { name: 'prefix', value: params.prefix, style: 'form', explode: true, allowReserved: false },
-      { name: 'limit', value: params.limit, style: 'form', explode: true, allowReserved: false },
+      { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+      { name: 'limit', value: params?.limit, style: 'form', explode: true, allowReserved: false },
+      { name: 'provider_id', value: params?.providerId, style: 'form', explode: true, allowReserved: false },
+      { name: 'provider_kind', value: params?.providerKind, style: 'form', explode: true, allowReserved: false },
+      { name: 'capability_ids', value: params?.capabilityIds, style: 'form', explode: true, allowReserved: false },
+      { name: 'group_ids', value: params?.groupIds, style: 'form', explode: true, allowReserved: false },
+      { name: 'scope_ids', value: params?.scopeIds, style: 'form', explode: true, allowReserved: false },
     ]);
-    return this.client.get<SearchSuggestionsResponse>(appendQueryString(appApiPath(`/search/suggestions`), query));
+    return this.client.get<Record<string, unknown>>(appendQueryString(appApiPath(`/search/suggestions`), query));
   }
+}
+
+export interface SearchIndexesListParams {
+  q?: string;
+  page?: number;
+  pageSize?: number;
 }
 
 export class SearchIndexesApi {
@@ -115,8 +133,13 @@ export class SearchIndexesApi {
 
 
 /** List search indexes visible to the current app principal. */
-  async list(): Promise<SearchIndexListResponse> {
-    return this.client.get<SearchIndexListResponse>(appApiPath(`/search/indexes`));
+  async list(params?: SearchIndexesListParams): Promise<Record<string, unknown>> {
+    const query = buildQueryString([
+      { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
+      { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
+      { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
+    ]);
+    return this.client.get<Record<string, unknown>>(appendQueryString(appApiPath(`/search/indexes`), query));
   }
 }
 
@@ -129,8 +152,8 @@ export class SearchQueriesApi {
 
 
 /** Create a search query. */
-  async create(body: SearchQueryRequest): Promise<SearchQueryResponse> {
-    return this.client.post<SearchQueryResponse>(appApiPath(`/search/queries`), body, undefined, undefined, 'application/json');
+  async create(body: SearchQueryRequest): Promise<Record<string, unknown>> {
+    return this.client.post<Record<string, unknown>>(appApiPath(`/search/queries`), body, undefined, undefined, 'application/json');
   }
 }
 

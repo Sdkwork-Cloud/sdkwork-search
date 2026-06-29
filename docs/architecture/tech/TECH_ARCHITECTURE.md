@@ -13,7 +13,7 @@ Specs: ARCHITECTURE_DECISION_SPEC.md, DOCUMENTATION_SPEC.md
 
 sdkwork-search is a layered search engine and recommendation system composed of 14 Rust crates under a single Cargo workspace. The layers flow top-down as:
 
-HTTP route crates (`sdkwork-routes-search-{app,backend}-api`) → gateway assembly (`sdkwork-search-gateway-assembly`) → API server process (`sdkwork-search-standalone-gateway`) → service crates (indexing / query / recommendation / promotion) → `SearchProvider` SPI → concrete providers (memory / postgresql) → repository ports → SQLx repository → PostgreSQL.
+HTTP route crates (`sdkwork-routes-search-{app,backend}-api`) → gateway assembly (`sdkwork-search-gateway-assembly`) → API server process (`sdkwork-search-api-server`) → service crates (indexing / query / recommendation / promotion) → `SearchProvider` SPI → concrete providers (memory / postgresql) → repository ports → SQLx repository → PostgreSQL.
 
 The `SearchProviderRegistry` is the central pluggability seam: service crates depend only on the `SearchProvider` trait and `SearchProviderRegistry`, never on concrete provider implementations. Provider selection is config-driven and capability-based (highest-priority enabled provider that supports the requested `SearchProviderCapability`). Drive file upload is abstracted behind `DocumentUploadPort` so the indexing service never imports Drive SDK types directly.
 
@@ -46,7 +46,7 @@ The workspace declares 14 member crates with the following boundaries:
 8. **sdkwork-search-indexing-repository-sqlx** — SQLx repository implementation: 18-table migration, 4 repositories (`SearchIndexRepository`, `SearchDocumentRepository`, `SearchSuggestionRepository`, `SearchUserEventRepository`).
 9. **sdkwork-search-database-host** — Database host crate coordinating migrations.
 10. **sdkwork-search-gateway-assembly** — Assembles `assemble_application_router` and exposes the route-crate inventory.
-11. **sdkwork-search-standalone-gateway** — HTTP API server process: bootstrap (config / state / database / providers / services / routers / document uploader) + server (listen / shutdown) + preflight + health.
+11. **sdkwork-search-api-server** — HTTP API server process: bootstrap (config / state / database / providers / services / routers / document uploader) + server (listen / shutdown) + preflight + health.
 12. **sdkwork-search-service-host** — Service container and runtime.
 13. **sdkwork-routes-search-app-api** — App API route crate (8 routes, `HttpRoute::dual_token` standard).
 14. **sdkwork-routes-search-backend-api** — Backend API route crate (route-manifest contract covering indexes, documents, providers, synonyms, ranking profiles, recommendation strategies, promotions, embedding jobs, A/B experiments, analytics, and jobs).
@@ -67,7 +67,7 @@ sdkwork-search/
 │   ├── sdkwork-search-indexing-repository-sqlx/  # SQLx repos + migrations
 │   ├── sdkwork-search-database-host/         # migration host
 │   ├── sdkwork-search-gateway-assembly/      # router assembly
-│   ├── sdkwork-search-standalone-gateway/            # HTTP server process
+│   ├── sdkwork-search-api-server/            # HTTP server process
 │   ├── sdkwork-search-service-host/          # service container
 │   ├── sdkwork-routes-search-app-api/        # app API routes
 │   └── sdkwork-routes-search-backend-api/    # backend API routes
@@ -85,7 +85,7 @@ Two API surfaces are owned by this repository, each declared as a route manifest
 - **App API** (`sdkwork-search-app-api`, prefix `/app/v3/api`): 8 routes including `search/queries`, `search/indexes`, `search/suggestions`, `search/recommendations`, `search/promotions`, `search/events`, `search/recent_queries`, and `search/semantic_queries`. All use `dual-token` auth with tenant/organization scoping.
 - **Backend API** (`sdkwork-search-backend-api`, prefix `/backend/v3/api`): route manifest covering indexes CRUD, document upsert/bulk/delete, synonyms, ranking profiles, recommendation strategies, promotions CRUD, embedding jobs, A/B experiments, analytics overview, providers management, and rebuild jobs — all `dual-token` with `BackendRequestContext`.
 
-A multipart document upload endpoint `POST /backend/search/documents/upload` is mounted directly on the application router in `sdkwork-search-standalone-gateway::bootstrap::routers` (outside the route-manifest crate). It parses multipart fields (`index_key`, `document_id`, `tenant_id`, `organization_id`, `file`) and delegates to `IndexingService::ingest_document_from_upload`.
+A multipart document upload endpoint `POST /backend/search/documents/upload` is mounted directly on the application router in `sdkwork-search-api-server::bootstrap::routers` (outside the route-manifest crate). It parses multipart fields (`index_key`, `document_id`, `tenant_id`, `organization_id`, `file`) and delegates to `IndexingService::ingest_document_from_upload`.
 
 Data ownership: all 18 tables use the `search_` prefix and carry `tenant_id` + `organization_id` columns for multi-tenant isolation. The `search_document` table owns `search_vector` (tsvector), `embedding_json` (JSONB), and `payload_json` (JSONB).
 
@@ -99,7 +99,7 @@ Data ownership: all 18 tables use the `search_` prefix and carry `tenant_id` + `
 
 ## 7. Deployment And Runtime Topology
 
-The single deployable is `sdkwork-search-standalone-gateway` (binary `main.rs`). The bootstrap sequence is:
+The single deployable is `sdkwork-search-api-server` (binary `main.rs`). The bootstrap sequence is:
 
 1. Load `SearchApiServerConfig`.
 2. Build the PostgreSQL `PgPool`.
@@ -116,7 +116,7 @@ The single deployable is `sdkwork-search-standalone-gateway` (binary `main.rs`).
 
 - **ADR-1 Pluggable provider SPI**: service crates depend on `SearchProvider` trait + `SearchProviderRegistry`, never on concrete providers. Enables swapping Memory → PostgreSQL → Elasticsearch without service changes.
 - **ADR-2 Capability-based selection**: `SearchProviderRegistry::select_for_capability` picks the highest-priority enabled provider supporting the requested `SearchProviderCapability`, keeping wiring config-driven.
-- **ADR-3 Port-adapter for Drive**: `DocumentUploadPort` is defined in `indexing-service`; `DriveDocumentUploader` adapter lives in `standalone-gateway` bootstrap, isolating the Drive SDK dependency to the infrastructure layer.
+- **ADR-3 Port-adapter for Drive**: `DocumentUploadPort` is defined in `indexing-service`; `DriveDocumentUploader` adapter lives in `api-server` bootstrap, isolating the Drive SDK dependency to the infrastructure layer.
 - **ADR-4 Route manifest as API authority**: each surface (`app-api`, `backend-api`) has a `sdkwork.route.manifest` JSON under `sdks/_route-manifests/` that drives OpenAPI generation and SDK materialization; route crates implement the manifest contract.
 - **ADR-5 PostgreSQL as multi-mechanism backend**: a single PostgreSQL instance serves full-text (`tsvector`), fuzzy (`pg_trgm`), and semantic (`pgvector`, optional) search to avoid a separate search cluster for Phase 1.
 
@@ -125,5 +125,5 @@ The single deployable is `sdkwork-search-standalone-gateway` (binary `main.rs`).
 - `cargo check --workspace` — compile all 14 crates.
 - `cargo clippy --workspace -- -D warnings` — lint per `RUST_CODE_SPEC.md`.
 - `cargo test --workspace` — run unit and smoke tests (e.g. `repository_smoke`, route standard conformance tests).
-- `cargo run -p sdkwork-search-standalone-gateway` — boot the server; verify `/healthz` and `/readyz` return 200.
+- `cargo run -p sdkwork-search-api-server` — boot the server; verify `/healthz` and `/readyz` return 200.
 - Database validation: the 18-table migration (`0001_search_storage.sql`) enables `pg_trgm`; the PostgreSQL provider lazily enables `vector` on first health check.

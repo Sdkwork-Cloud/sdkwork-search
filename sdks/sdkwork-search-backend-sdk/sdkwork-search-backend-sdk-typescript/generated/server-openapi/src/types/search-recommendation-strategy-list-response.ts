@@ -4,6 +4,4 @@ import type { SearchRecommendationStrategy } from './search-recommendation-strat
 export interface SearchRecommendationStrategyListResponse {
   items: SearchRecommendationStrategy[];
   pageInfo: SearchPageInfo;
-  /** Server-owned request correlation id. */
-  requestId: string;
 }

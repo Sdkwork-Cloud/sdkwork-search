@@ -4,6 +4,4 @@ import type { SearchPromotionAdmin } from './search-promotion-admin';
 export interface SearchPromotionListResponse {
   items: SearchPromotionAdmin[];
   pageInfo: SearchPageInfo;
-  /** Server-owned request correlation id. */
-  requestId: string;
 }

@@ -5,7 +5,5 @@ export interface SearchAnalyticsOverview {
   indexedDocuments: number;
   promotionClicks: number;
   recommendationClicks: number;
-  /** Server-owned request correlation id. */
-  requestId: string;
   searchQueries: number;
 }

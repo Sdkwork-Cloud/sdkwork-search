@@ -11,7 +11,7 @@ members = [
     "crates/sdkwork-search-provider-spi",
     "crates/sdkwork-search-provider-postgresql",
     "crates/sdkwork-search-provider-memory",
-    "crates/sdkwork-search-standalone-gateway",
+    "crates/sdkwork-search-api-server",
     "crates/sdkwork-search-service-host",
     "crates/sdkwork-routes-search-app-api",
     "crates/sdkwork-routes-search-backend-api",

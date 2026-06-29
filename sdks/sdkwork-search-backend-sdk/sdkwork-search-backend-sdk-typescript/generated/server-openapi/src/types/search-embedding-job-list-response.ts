@@ -4,6 +4,4 @@ import type { SearchPageInfo } from './search-page-info';
 export interface SearchEmbeddingJobListResponse {
   items: SearchEmbeddingJob[];
   pageInfo: SearchPageInfo;
-  /** Server-owned request correlation id. */
-  requestId: string;
 }

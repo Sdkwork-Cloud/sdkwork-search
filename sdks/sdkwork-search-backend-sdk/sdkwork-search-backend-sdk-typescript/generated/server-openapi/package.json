@@ -1,7 +1,8 @@
 {
   "name": "@sdkwork/search-backend-sdk",
   "version": "1.0.0",
-  "description": "sdkwork-search-backend-sdk",
+  "private": true,
+  "description": "Generator-owned TypeScript transport SDK for sdkwork-search-backend-sdk.",
   "author": "SDKWork Team",
   "license": "MIT",
   "type": "module",

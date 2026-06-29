@@ -1,7 +1,5 @@
 export interface SearchSuggestion {
   text: string;
-  /** Similarity score; higher is more relevant. */
+  source: 'document' | 'query';
   score: number;
-  /** Optional metadata associated with the suggestion. */
-  payload?: Record<string, unknown> | null;
 }
