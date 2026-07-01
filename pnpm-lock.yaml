@@ -55,37 +55,63 @@ importers:
         specifier: ^8.0.10
         version: 8.0.16(@types/node@25.9.2)
 
+  ../sdkwork-utils/packages/sdkwork-utils-typescript:
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.2
+        version: 22.20.0
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+
+  apps/sdkwork-search-common/packages/sdkwork-search-contracts:
+    dependencies:
+      '@sdkwork/utils':
+        specifier: workspace:*
+        version: link:../../../../../sdkwork-utils/packages/sdkwork-utils-typescript
+
+  apps/sdkwork-search-common/packages/sdkwork-search-service:
+    dependencies:
+      '@sdkwork/search-contracts':
+        specifier: workspace:*
+        version: link:../sdkwork-search-contracts
+      '@sdkwork/utils':
+        specifier: workspace:*
+        version: link:../../../../../sdkwork-utils/packages/sdkwork-utils-typescript
+
+  apps/sdkwork-search-h5/packages/sdkwork-search-h5-core: {}
+
   apps/sdkwork-search-h5/packages/sdkwork-search-h5-react:
     dependencies:
       '@sdkwork/search-contracts':
         specifier: workspace:*
-        version: link:../../../../packages/common/search/sdkwork-search-contracts
+        version: link:../../../sdkwork-search-common/packages/sdkwork-search-contracts
       react:
         specifier: '>=18.2.0 <20.0.0'
         version: 19.2.7
       react-dom:
         specifier: '>=18.2.0 <20.0.0'
         version: 19.2.7(react@19.2.7)
+
+  apps/sdkwork-search-h5/packages/sdkwork-search-mobile-react:
+    dependencies:
+      '@sdkwork/search-contracts':
+        specifier: workspace:*
+        version: link:../../../sdkwork-search-common/packages/sdkwork-search-contracts
+
+  apps/sdkwork-search-pc/packages/sdkwork-search-pc-core: {}
 
   apps/sdkwork-search-pc/packages/sdkwork-search-pc-react:
     dependencies:
       '@sdkwork/search-contracts':
         specifier: workspace:*
-        version: link:../../../../packages/common/search/sdkwork-search-contracts
+        version: link:../../../sdkwork-search-common/packages/sdkwork-search-contracts
       react:
         specifier: '>=18.2.0 <20.0.0'
         version: 19.2.7
       react-dom:
         specifier: '>=18.2.0 <20.0.0'
         version: 19.2.7(react@19.2.7)
-
-  packages/common/search/sdkwork-search-contracts: {}
-
-  packages/common/search/sdkwork-search-service:
-    dependencies:
-      '@sdkwork/search-contracts':
-        specifier: workspace:*
-        version: link:../sdkwork-search-contracts
 
   sdks/sdkwork-search-app-sdk/sdkwork-search-app-sdk-typescript/generated/server-openapi:
     dependencies:
@@ -455,6 +481,9 @@ packages:
 
   '@types/node@20.19.43':
     resolution: {integrity: sha512-6oYBAi5ikg4Pl+kGsoYtawUMBT2zZMCvPNF7pVLnHZfd1zf38DRiWn/gT01RYCdUqkv7Fhr+C9ot4/tb+2sVvA==}
+
+  '@types/node@22.20.0':
+    resolution: {integrity: sha512-QWlFW2wf3nTjC13/DqRnBpR4ZO36VJH/JVBkA/vcnmbTBNQIlnObqyqZE1tUR7+Ni23Lda8R1BxMfbXRpCUx5g==}
 
   '@types/node@25.9.2':
     resolution: {integrity: sha512-G05zqtJhcDLb8uslf5EjCxXg9G1KQxiV8OS0R26IC//Eoyitzqe8z37I7cqvnZlrlSfgocQRfSn/AHBZJJFyGw==}
@@ -1310,6 +1339,10 @@ snapshots:
   '@types/json-schema@7.0.15': {}
 
   '@types/node@20.19.43':
+    dependencies:
+      undici-types: 6.21.0
+
+  '@types/node@22.20.0':
     dependencies:
       undici-types: 6.21.0
 

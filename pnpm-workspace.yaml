@@ -1,5 +1,10 @@
 packages:
-  - "packages/common/*/*"
+  - "apps/sdkwork-search-common"
+  - "apps/sdkwork-search-common/packages/*"
+  - "apps/sdkwork-search-pc"
+  - "apps/sdkwork-search-h5"
+  - "apps/sdkwork-search-flutter-mobile"
+  - "apps/sdkwork-search-flutter-mobile/packages/*"
   - "apps/sdkwork-search-pc/packages/*"
   - "apps/sdkwork-search-h5/packages/*"
   - "../sdkwork-sdk-commons/sdkwork-sdk-common-typescript"

@@ -1,4 +1,5 @@
 # sdkwork-search
+repository-kind: application
 
 `sdkwork-search` owns SDKWork search contracts, service facades, UI wrappers, Rust storage, Rust route manifests, OpenAPI authority contracts, and generated SDK workspaces.
 

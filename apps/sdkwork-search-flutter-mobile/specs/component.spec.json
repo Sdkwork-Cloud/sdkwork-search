@@ -80,8 +80,7 @@
     "events": [],
     "configKeys": [
       "sdkwork.app.config.json"
-    ],
-    "dependencyComposition": "specs/dependency.composition.json"
+    ]
   },
   "verification": {
     "commands": [
