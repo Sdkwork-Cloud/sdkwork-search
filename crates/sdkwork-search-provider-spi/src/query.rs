@@ -164,8 +164,8 @@ pub struct SearchSuggestionQuery {
     pub organization_id: i64,
     pub index_key: String,
     pub prefix: String,
-    #[serde(default = "default_suggestion_limit")]
-    pub limit: u32,
+    #[serde(default = "default_suggestion_limit", rename = "page_size")]
+    page_size: u32,
     #[serde(default)]
     pub filters: HashMap<String, Vec<String>>,
 }

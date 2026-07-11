@@ -70,8 +70,8 @@ pub(crate) async fn list_search_indexes(State(state): State<SearchAppState>) -> 
 pub(crate) struct SuggestionParams {
     index_key: String,
     prefix: String,
-    #[serde(default = "default_suggestion_limit")]
-    limit: u32,
+    #[serde(default = "default_suggestion_limit", rename = "page_size")]
+    page_size: u32,
 }
 
 fn default_suggestion_limit() -> u32 {
@@ -88,7 +88,7 @@ pub(crate) async fn list_search_suggestions(
         organization_id: ctx.organization_id,
         index_key: params.index_key,
         prefix: params.prefix,
-        limit: params.limit,
+        limit: params.page_size,
         filters: Default::default(),
     };
     let response = state
@@ -106,8 +106,8 @@ pub(crate) struct CreateRecommendationBody {
     strategy: RecommendationStrategyType,
     user_id: String,
     index_key: String,
-    #[serde(default = "default_recommendation_limit")]
-    limit: u32,
+    #[serde(default = "default_recommendation_limit", rename = "page_size")]
+    page_size: u32,
 }
 
 fn default_recommendation_limit() -> u32 {
@@ -190,8 +190,8 @@ pub(crate) async fn create_search_user_event(
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub(crate) struct RecentQueriesParams {
-    #[serde(default = "default_recent_limit")]
-    limit: u32,
+    #[serde(default = "default_recent_limit", rename = "page_size")]
+    page_size: u32,
 }
 
 fn default_recent_limit() -> u32 {
@@ -205,7 +205,7 @@ pub(crate) async fn list_search_recent_queries(
     let ctx = provider_context();
     let queries = state
         .query_service
-        .list_recent_queries(&ctx, params.limit)
+        .list_recent_queries(&ctx, params.page_size)
         .await
         .map_err(service_error)?;
     Ok(Json(json!({ "queries": queries })))

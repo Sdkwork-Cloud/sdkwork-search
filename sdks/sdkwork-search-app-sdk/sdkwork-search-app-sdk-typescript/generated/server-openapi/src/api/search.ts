@@ -107,7 +107,7 @@ export class SearchSuggestionsApi {
   async list(params?: SearchSuggestionsListParams): Promise<Record<string, unknown>> {
     const query = buildQueryString([
       { name: 'q', value: params?.q, style: 'form', explode: true, allowReserved: false },
-      { name: 'limit', value: params?.limit, style: 'form', explode: true, allowReserved: false },
+      { name: 'page_size', value: params?.limit, style: 'form', explode: true, allowReserved: false },
       { name: 'provider_id', value: params?.providerId, style: 'form', explode: true, allowReserved: false },
       { name: 'provider_kind', value: params?.providerKind, style: 'form', explode: true, allowReserved: false },
       { name: 'capability_ids', value: params?.capabilityIds, style: 'form', explode: true, allowReserved: false },

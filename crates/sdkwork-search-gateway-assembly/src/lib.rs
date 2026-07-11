@@ -9,8 +9,3 @@ pub use bootstrap::{assemble_application_router, ApplicationAssembly};
 pub fn assembly_route_count() -> usize {
     generated::ROUTE_CRATE_COUNT
 }
-
-/// Returns the ordered list of route crate package names assembled by this gateway.
-pub fn assembly_route_packages() -> &'static [&'static str] {
-    generated::ROUTE_CRATE_PACKAGES
-}

@@ -968,10 +968,10 @@ export function createSdkworkSearchIndexSyncPlan(
   const batchSize = clampPositiveInteger(options.batchSize, 100, 1000);
   const batches: SdkworkSearchIndexSyncBatch[] = [];
 
-  for (let offset = 0; offset < documents.length; offset += batchSize) {
+  for (let pos = 0; pos < documents.length; pos += batchSize) {
     batches.push({
       batchNumber: batches.length + 1,
-      documents: documents.slice(offset, offset + batchSize),
+      documents: documents.slice(pos, pos + batchSize),
     });
   }
 
@@ -1507,8 +1507,8 @@ export function createSdkworkSearchQueryResponse(
   const pageSize = Math.min(200, Math.max(1, Math.trunc(request.pageSize ?? 20)));
   const q = normalizeSdkworkSearchQuery(request.q ?? "");
   const results = searchSdkworkSearchCatalog(input, q, request);
-  const offset = (page - 1) * pageSize;
-  const items = results.slice(offset, offset + pageSize);
+  const pos = (page - 1) * pageSize;
+  const items = results.slice(pos, pos + pageSize);
 
   return {
     items,

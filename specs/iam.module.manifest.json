@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.iam.module",
+  "moduleId": "search",
+  "domain": "search",
+  "permissions": {
+    "catalog": [
+      {
+        "code": "search.ab_experiments.read",
+        "description": "Permission search.ab_experiments.read",
+        "source": "openapi"
+      },
+      {
+        "code": "search.ab_experiments.write",
+        "description": "Permission search.ab_experiments.write",
+        "source": "openapi"
+      },
+      {
+        "code": "search.analytics.read",
+        "description": "Permission search.analytics.read",
+        "source": "openapi"
+      },
+      {
+        "code": "search.documents.write",
+        "description": "Permission search.documents.write",
+        "source": "openapi"
+      },
+      {
+        "code": "search.embedding_jobs.read",
+        "description": "Permission search.embedding_jobs.read",
+        "source": "openapi"
+      },
+      {
+        "code": "search.embedding_jobs.write",
+        "description": "Permission search.embedding_jobs.write",
+        "source": "openapi"
+      },
+      {
+        "code": "search.events.create",
+        "description": "Permission search.events.create",
+        "source": "openapi"
+      },
+      {
+        "code": "search.indexes.read",
+        "description": "Permission search.indexes.read",
+        "source": "openapi"
+      },
+      {
+        "code": "search.indexes.write",
+        "description": "Permission search.indexes.write",
+        "source": "openapi"
+      },
+      {
+        "code": "search.jobs.write",
+        "description": "Permission search.jobs.write",
+        "source": "openapi"
+      },
+      {
+        "code": "search.promotions.create",
+        "description": "Permission search.promotions.create",
+        "source": "openapi"
+      },
+      {
+        "code": "search.promotions.read",
+        "description": "Permission search.promotions.read",
+        "source": "openapi"
+      },
+      {
+        "code": "search.promotions.write",
+        "description": "Permission search.promotions.write",
+        "source": "openapi"
+      },
+      {
+        "code": "search.providers.read",
+        "description": "Permission search.providers.read",
+        "source": "openapi"
+      },
+      {
+        "code": "search.providers.write",
+        "description": "Permission search.providers.write",
+        "source": "openapi"
+      },
+      {
+        "code": "search.queries.create",
+        "description": "Permission search.queries.create",
+        "source": "openapi"
+      },
+      {
+        "code": "search.ranking_profiles.read",
+        "description": "Permission search.ranking_profiles.read",
+        "source": "openapi"
+      },
+      {
+        "code": "search.ranking_profiles.write",
+        "description": "Permission search.ranking_profiles.write",
+        "source": "openapi"
+      },
+      {
+        "code": "search.recent_queries.read",
+        "description": "Permission search.recent_queries.read",
+        "source": "openapi"
+      },
+      {
+        "code": "search.recommendation_strategies.read",
+        "description": "Permission search.recommendation_strategies.read",
+        "source": "openapi"
+      },
+      {
+        "code": "search.recommendation_strategies.write",
+        "description": "Permission search.recommendation_strategies.write",
+        "source": "openapi"
+      },
+      {
+        "code": "search.recommendations.create",
+        "description": "Permission search.recommendations.create",
+        "source": "openapi"
+      },
+      {
+        "code": "search.semantic_queries.create",
+        "description": "Permission search.semantic_queries.create",
+        "source": "openapi"
+      },
+      {
+        "code": "search.suggestions.read",
+        "description": "Permission search.suggestions.read",
+        "source": "openapi"
+      },
+      {
+        "code": "search.synonyms.read",
+        "description": "Permission search.synonyms.read",
+        "source": "openapi"
+      },
+      {
+        "code": "search.synonyms.write",
+        "description": "Permission search.synonyms.write",
+        "source": "openapi"
+      }
+    ]
+  }
+}
