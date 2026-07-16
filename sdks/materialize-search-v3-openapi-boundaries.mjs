@@ -2,6 +2,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { bootstrapOpenApiEnvelope } from "../../sdkwork-specs/tools/lib/migrate-openapi-legacy-envelope.mjs";
+import { alignOpenApiOperationPatterns } from "../../sdkwork-specs/tools/lib/align-api-operation-patterns.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const GENERATOR_PATH = path.resolve(ROOT, "../sdkwork-sdk-generator/bin/sdkgen.js");
@@ -164,10 +165,10 @@ function suggestionQueryParameters() {
       description: "Standard free-text search query.",
     },
     {
-      name: "limit",
+      name: "page_size",
       in: "query",
       required: false,
-      schema: { type: "integer", minimum: 1, maximum: 50, default: 10 },
+      schema: { type: "integer", minimum: 1, maximum: 200, default: 10 },
     },
     {
       name: "provider_id",
@@ -2437,11 +2438,15 @@ async function main() {
   ];
 
   for (const family of families) {
+    const openApi = alignOpenApiOperationPatterns(bootstrapOpenApiEnvelope(buildOpenApi({
+      ...family,
+      sdkFamily: family.family,
+    }))).document;
     const normalizedRoutes = family.routes.map((route) =>
       manifestRoute({
         method: route.method,
         routePath: route.path,
-        operationId: route.operationId,
+        operationId: openApi.paths[route.path][route.method.toLowerCase()].operationId,
         requestSchema: route.requestSchema,
         responseSchema: route.responseSchema,
         apiAuthority: family.apiAuthority,
@@ -2480,10 +2485,6 @@ async function main() {
       routeManifest,
     );
 
-    const openApi = bootstrapOpenApiEnvelope(buildOpenApi({
-      ...family,
-      sdkFamily: family.family,
-    }));
     const derivedOpenApi = {
       ...openApi,
       "x-sdkwork-derived-from": `openapi/${family.apiAuthority}.openapi.yaml`,
@@ -2492,7 +2493,7 @@ async function main() {
     await writeJson(path.join(familyRoot, "openapi", `${family.apiAuthority}.openapi.yaml`), openApi);
     await writeJson(path.join(familyRoot, "openapi", `${family.apiAuthority}.sdkgen.yaml`), derivedOpenApi);
     await writeJson(
-      path.join(familyRoot, ".sdkwork-assembly.json"),
+      path.join(familyRoot, "sdk-manifest.json"),
       buildAssembly(family),
     );
     await writeJson(

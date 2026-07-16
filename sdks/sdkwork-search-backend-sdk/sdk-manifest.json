@@ -1,15 +1,4 @@
 {
-  "schemaVersion": 1,
-  "sdkFamily": "sdkwork-search-backend-sdk",
-  "sdkName": "sdkwork-search-backend-sdk",
-  "packageName": "@sdkwork/search-backend-sdk",
-  "transportPackageName": "sdkwork-search-backend-sdk-generated-typescript",
-  "typescript": {
-    "composedRoot": "sdkwork-search-backend-sdk-typescript",
-    "composedEntry": "sdkwork-search-backend-sdk-typescript/src/index.ts",
-    "transportRoot": "sdkwork-search-backend-sdk-typescript/generated/server-openapi",
-    "transportEntry": "sdkwork-search-backend-sdk-typescript/generated/server-openapi/src/index.ts"
-  },
   "workspace": "sdkwork-search-backend-sdk",
   "title": "SDKWork Search Backend API",
   "apiVersion": "1.0.0",
@@ -21,6 +10,7 @@
   },
   "sdkOwner": "sdkwork-search",
   "apiAuthority": "sdkwork-search-backend-api",
+  "sdkDependencies": [],
   "discoverySurface": {
     "sdkTarget": "backend",
     "apiPrefix": "/backend/v3/api",
@@ -30,11 +20,6 @@
     ],
     "manualTransports": []
   },
-  "sdkDependencies": [],
-  "metadata": {
-    "managedBy": "sdks/materialize-search-v3-openapi-boundaries.mjs",
-    "standardVersion": "2026-06-06"
-  },
   "languages": [
     {
       "language": "typescript",
@@ -43,11 +28,14 @@
       "releaseState": "not_published",
       "packagePath": "sdkwork-search-backend-sdk-typescript/generated/server-openapi",
       "manifestPath": "sdkwork-search-backend-sdk-typescript/generated/server-openapi/package.json",
+      "name": "@sdkwork/search-backend-sdk",
       "version": "1.0.0",
       "description": "Generator-owned typescript transport SDK for SDKWork Search Backend API.",
-      "generatedPath": "sdkwork-search-backend-sdk-typescript/generated/server-openapi",
-      "consumerPackageName": "@sdkwork/search-backend-sdk",
-      "transportPackageName": "sdkwork-search-backend-sdk-generated-typescript"
+      "generatedPath": "sdkwork-search-backend-sdk-typescript/generated/server-openapi"
     }
-  ]
+  ],
+  "metadata": {
+    "managedBy": "sdks/materialize-search-v3-openapi-boundaries.mjs",
+    "standardVersion": "2026-06-06"
+  }
 }

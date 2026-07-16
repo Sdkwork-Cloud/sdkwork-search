@@ -161,7 +161,7 @@
     {
       "method": "PUT",
       "path": "/backend/v3/api/search/indexes/{indexId}/documents/{documentId}",
-      "operationId": "search.documents.upsert",
+      "operationId": "search.documents.update",
       "tags": [
         "search"
       ],
@@ -174,7 +174,7 @@
       },
       "handler": {
         "module": "crate::handlers",
-        "name": "search_documents_upsert"
+        "name": "search_documents_update"
       },
       "schemas": {
         "request": "SearchDocumentUpsertRequest",
@@ -953,7 +953,7 @@
     {
       "method": "POST",
       "path": "/backend/v3/api/search/ab_experiments/{experimentId}/assignments",
-      "operationId": "search.abExperiments.assign",
+      "operationId": "search.abExperiments.create",
       "tags": [
         "search"
       ],
@@ -966,7 +966,7 @@
       },
       "handler": {
         "module": "crate::handlers",
-        "name": "search_abExperiments_assign"
+        "name": "search_abExperiments_create"
       },
       "schemas": {
         "request": "SearchAbAssignmentRequest",
@@ -989,7 +989,7 @@
     {
       "method": "POST",
       "path": "/backend/v3/api/search/jobs/rebuild",
-      "operationId": "search.jobs.rebuild.create",
+      "operationId": "search.jobs.rebuild.rebuild",
       "tags": [
         "search"
       ],
@@ -1002,7 +1002,7 @@
       },
       "handler": {
         "module": "crate::handlers",
-        "name": "search_jobs_rebuild_create"
+        "name": "search_jobs_rebuild_rebuild"
       },
       "schemas": {
         "request": "SearchRebuildJobRequest",
