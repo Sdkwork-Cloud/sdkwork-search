@@ -268,11 +268,11 @@ function checkCurrentRepoOwnership() {
 function checkSearchProviderSolutionArchitecture() {
   const servicePath = path.join(
     ROOT,
-    "packages/common/search/sdkwork-search-service/src/searchService.ts",
+    "apps/sdkwork-search-common/packages/sdkwork-search-service/src/searchService.ts",
   );
   const contractsPath = path.join(
     ROOT,
-    "packages/common/search/sdkwork-search-contracts/src/search.ts",
+    "apps/sdkwork-search-common/packages/sdkwork-search-contracts/src/search.ts",
   );
   const service = readFileSync(servicePath, "utf8");
   const contracts = readFileSync(contractsPath, "utf8");
@@ -395,14 +395,14 @@ function checkRecommendationStrategyGovernance() {
   const contractsTest = readFileSync(
     path.join(
       ROOT,
-      "packages/common/search/sdkwork-search-contracts/tests/searchContracts.test.ts",
+      "apps/sdkwork-search-common/packages/sdkwork-search-contracts/tests/searchContracts.test.ts",
     ),
     "utf8",
   );
   const serviceTest = readFileSync(
     path.join(
       ROOT,
-      "packages/common/search/sdkwork-search-service/tests/searchService.test.ts",
+      "apps/sdkwork-search-common/packages/sdkwork-search-service/tests/searchService.test.ts",
     ),
     "utf8",
   );

@@ -287,11 +287,11 @@ export type SdkworkRecommendationStrategyStatus =
   | "paused";
 
 export type SdkworkRecommendationStrategyType =
-  | "collaborative_filtering"
-  | "content_based"
+  | "collaborative"
+  | "content"
   | "hybrid"
-  | "trending"
-  | "personalized";
+  | "popular"
+  | "semantic";
 
 export interface SdkworkRecommendationStrategyDefinition {
   config?: Record<string, unknown>;
@@ -496,11 +496,11 @@ const SDKWORK_SEARCH_PROVIDER_STATUSES: readonly SdkworkSearchProviderStatus[] =
 ];
 
 const SDKWORK_RECOMMENDATION_STRATEGY_TYPES: readonly SdkworkRecommendationStrategyType[] = [
-  "collaborative_filtering",
-  "content_based",
+  "collaborative",
+  "content",
   "hybrid",
-  "trending",
-  "personalized",
+  "popular",
+  "semantic",
 ];
 
 const SDKWORK_RECOMMENDATION_STRATEGY_STATUSES: readonly SdkworkRecommendationStrategyStatus[] = [
@@ -1199,7 +1199,7 @@ export const SDKWORK_POSTGRESQL_RECOMMENDATION_STRATEGIES: readonly SdkworkRecom
     status: "active",
     strategyId: "postgresql-content",
     strategyKey: "postgresql_content",
-    strategyType: "content_based",
+    strategyType: "content",
     title: "PostgreSQL Content Recommendation",
   }),
   normalizeSdkworkRecommendationStrategyDefinition({
@@ -1212,7 +1212,7 @@ export const SDKWORK_POSTGRESQL_RECOMMENDATION_STRATEGIES: readonly SdkworkRecom
     status: "active",
     strategyId: "postgresql-popular",
     strategyKey: "postgresql_popular",
-    strategyType: "trending",
+    strategyType: "popular",
     title: "PostgreSQL Trending Recommendation",
   }),
   normalizeSdkworkRecommendationStrategyDefinition({
@@ -1226,7 +1226,7 @@ export const SDKWORK_POSTGRESQL_RECOMMENDATION_STRATEGIES: readonly SdkworkRecom
     status: "active",
     strategyId: "postgresql-semantic",
     strategyKey: "postgresql_semantic",
-    strategyType: "personalized",
+    strategyType: "semantic",
     title: "PostgreSQL Personalized Recommendation",
   }),
   normalizeSdkworkRecommendationStrategyDefinition({
@@ -1239,7 +1239,7 @@ export const SDKWORK_POSTGRESQL_RECOMMENDATION_STRATEGIES: readonly SdkworkRecom
     status: "active",
     strategyId: "postgresql-collaborative",
     strategyKey: "postgresql_collaborative",
-    strategyType: "collaborative_filtering",
+    strategyType: "collaborative",
     title: "PostgreSQL Collaborative Filtering Recommendation",
   }),
 ];
@@ -1609,8 +1609,8 @@ export function createSdkworkRecommendationResponse(
     }
 
     if (
-      strategy.strategyType === "trending" ||
-      strategy.strategyType === "collaborative_filtering" ||
+      strategy.strategyType === "popular" ||
+      strategy.strategyType === "collaborative" ||
       (strategy.strategyType === "hybrid" && recentDocumentIds.has(document.id))
     ) {
       addReasonCode(reasonCodes, "popular_signal");
@@ -1618,7 +1618,7 @@ export function createSdkworkRecommendationResponse(
     }
 
     if (
-      strategy.strategyType === "collaborative_filtering" ||
+      strategy.strategyType === "collaborative" ||
       (strategy.strategyType === "hybrid" && context.userId)
     ) {
       addReasonCode(reasonCodes, "collaborative_signal");
@@ -1626,16 +1626,16 @@ export function createSdkworkRecommendationResponse(
     }
 
     if (
-      strategy.strategyType === "content_based" ||
+      strategy.strategyType === "content" ||
       strategy.strategyType === "hybrid" ||
-      strategy.strategyType === "personalized"
+      strategy.strategyType === "semantic"
     ) {
       addReasonCode(reasonCodes, "content_signal");
       score += Math.max(1, 20 - index);
     }
 
     if (
-      strategy.strategyType === "personalized" ||
+      strategy.strategyType === "semantic" ||
       (strategy.strategyType === "hybrid" && queryScore !== undefined)
     ) {
       addReasonCode(reasonCodes, "semantic_signal");

@@ -54,6 +54,9 @@ sdkwork-search-promotion-service = { path = "crates/sdkwork-search-promotion-ser
 sdkwork-search-provider-spi = { path = "crates/sdkwork-search-provider-spi" }
 sdkwork-search-provider-postgresql = { path = "crates/sdkwork-search-provider-postgresql" }
 sdkwork-search-provider-memory = { path = "crates/sdkwork-search-provider-memory" }
+sdkwork_search_gateway_assembly = { package = "sdkwork-search-gateway-assembly", path = "crates/sdkwork-search-gateway-assembly" }
+sdkwork_routes_search_app_api = { package = "sdkwork-routes-search-app-api", path = "crates/sdkwork-routes-search-app-api" }
+sdkwork_routes_search_backend_api = { package = "sdkwork-routes-search-backend-api", path = "crates/sdkwork-routes-search-backend-api" }
 
 # Common third-party dependencies (aligned with sdkwork-web-framework versions)
 async-trait = "0.1"

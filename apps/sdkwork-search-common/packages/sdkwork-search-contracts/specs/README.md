@@ -2,7 +2,7 @@
 
 This directory is the local SDKWork component contract for `@sdkwork/search-contracts`.
 
-- Component root: `sdkwork-search/packages/common/search/sdkwork-search-contracts`
+- Component root: `sdkwork-search/apps/sdkwork-search-common/packages/sdkwork-search-contracts`
 - Canonical standards: `../../../../../sdkwork-specs/README.md`
 - Machine-readable contract: `specs/component.spec.json`
 

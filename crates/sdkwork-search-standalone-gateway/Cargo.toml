@@ -31,7 +31,7 @@ sdkwork-drive-workspace-service = { workspace = true }
 sdkwork-drive-storage-contract = { workspace = true }
 sdkwork-drive-storage-local = { workspace = true }
 sdkwork-utils-rust = { workspace = true }
-sdkwork-search-gateway-assembly = { package = "sdkwork-search-gateway-assembly", path = "../sdkwork-search-gateway-assembly" }
+sdkwork_search_gateway_assembly.workspace = true
 axum = { workspace = true, features = ["multipart"] }
 tokio = { workspace = true }
 tower.workspace = true
