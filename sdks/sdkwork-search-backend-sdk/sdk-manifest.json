@@ -10,6 +10,16 @@
   },
   "sdkOwner": "sdkwork-search",
   "apiAuthority": "sdkwork-search-backend-api",
+  "sdkFamily": "sdkwork-search-backend-sdk",
+  "sdkName": "sdkwork-search-backend-sdk",
+  "packageName": "@sdkwork/search-backend-sdk",
+  "transportPackageName": "sdkwork-search-backend-sdk-generated-typescript",
+  "typescript": {
+    "composedRoot": "sdkwork-search-backend-sdk-typescript",
+    "composedEntry": "sdkwork-search-backend-sdk-typescript/src/index.ts",
+    "transportRoot": "sdkwork-search-backend-sdk-typescript/generated/server-openapi",
+    "transportEntry": "sdkwork-search-backend-sdk-typescript/generated/server-openapi/src/index.ts"
+  },
   "sdkDependencies": [],
   "discoverySurface": {
     "sdkTarget": "backend",
