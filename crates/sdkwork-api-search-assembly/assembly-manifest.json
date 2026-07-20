@@ -1,0 +1,32 @@
+{
+  "kind": "sdkwork.api.assembly",
+  "schemaVersion": 1,
+  "applicationCode": "search",
+  "apiMode": "served",
+  "packageName": "sdkwork-api-search-assembly",
+  "crateDir": "crates/sdkwork-api-search-assembly",
+  "routeCrates": [
+    {
+      "packageName": "sdkwork-routes-search-app-api",
+      "memberDir": "crates/sdkwork-routes-search-app-api",
+      "libName": "sdkwork_routes_search_app_api",
+      "surface": "app-api",
+      "pathPrefix": null,
+      "mountOrder": 0,
+      "componentRef": "crates/sdkwork-routes-search-app-api/specs/component.spec.json",
+      "routeManifestRef": "crates/sdkwork-routes-search-app-api/sdks/_route-manifests/<surface>/<packageName>.route-manifest.json",
+      "sourceRef": "crates/sdkwork-routes-search-app-api/Cargo.toml"
+    },
+    {
+      "packageName": "sdkwork-routes-search-backend-api",
+      "memberDir": "crates/sdkwork-routes-search-backend-api",
+      "libName": "sdkwork_routes_search_backend_api",
+      "surface": "backend-api",
+      "pathPrefix": null,
+      "mountOrder": 1,
+      "componentRef": "crates/sdkwork-routes-search-backend-api/specs/component.spec.json",
+      "routeManifestRef": "crates/sdkwork-routes-search-backend-api/sdks/_route-manifests/<surface>/<packageName>.route-manifest.json",
+      "sourceRef": "crates/sdkwork-routes-search-backend-api/Cargo.toml"
+    }
+  ]
+}

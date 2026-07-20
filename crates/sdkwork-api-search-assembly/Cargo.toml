@@ -1,0 +1,16 @@
+[package]
+name = "sdkwork-api-search-assembly"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+description = "Generated API assembly for sdkwork-search application HTTP plane."
+
+[lib]
+name = "sdkwork_api_search_assembly"
+path = "src/lib.rs"
+
+[dependencies]
+axum.workspace = true
+tokio.workspace = true
+sdkwork-routes-search-app-api = { path = "../sdkwork-routes-search-app-api" }
+sdkwork-routes-search-backend-api = { path = "../sdkwork-routes-search-backend-api" }
