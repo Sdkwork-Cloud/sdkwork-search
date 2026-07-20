@@ -2,8 +2,8 @@
 
 use std::net::SocketAddr;
 
-use sdkwork_search_standalone_gateway::bootstrap::{build_application_state, SearchApiServerConfig};
-use sdkwork_search_standalone_gateway::listen;
+use sdkwork_api_search_standalone_gateway::bootstrap::{build_application_state, SearchApiServerConfig};
+use sdkwork_api_search_standalone_gateway::listen;
 use sdkwork_web_bootstrap::init_tracing_from_env;
 
 #[tokio::main]
@@ -17,7 +17,7 @@ async fn main() -> anyhow::Result<()> {
 
     let state = build_application_state(&config).await?;
 
-    tracing::info!(bind_addr = %config.bind_addr, "starting sdkwork-search-standalone-gateway");
+    tracing::info!(bind_addr = %config.bind_addr, "starting sdkwork-api-search-standalone-gateway");
     listen(addr, state).await?;
     Ok(())
 }

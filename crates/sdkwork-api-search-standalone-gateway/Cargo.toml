@@ -1,5 +1,5 @@
 [package]
-name = "sdkwork-search-standalone-gateway"
+name = "sdkwork-api-search-standalone-gateway"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
@@ -9,7 +9,7 @@ description = "HTTP API server process for SDKWork Search."
 path = "src/lib.rs"
 
 [[bin]]
-name = "sdkwork-search-standalone-gateway"
+name = "sdkwork-api-search-standalone-gateway"
 path = "src/main.rs"
 
 [dependencies]
@@ -31,7 +31,7 @@ sdkwork-drive-workspace-service = { workspace = true }
 sdkwork-drive-storage-contract = { workspace = true }
 sdkwork-drive-storage-local = { workspace = true }
 sdkwork-utils-rust = { workspace = true }
-sdkwork_search_gateway_assembly.workspace = true
+sdkwork_api_search_assembly.workspace = true
 axum = { workspace = true, features = ["multipart"] }
 tokio = { workspace = true }
 tower.workspace = true

@@ -11,7 +11,7 @@ use axum::{
 use sdkwork_search_indexing_service::ports::UploadDocumentRequest;
 use sdkwork_search_indexing_service::IndexingService;
 use sdkwork_search_provider_spi::{SearchProviderContext, SearchProviderContextBuilder};
-use sdkwork_search_gateway_assembly::{assemble_application_router, SearchAppState, SearchBackendState};
+use sdkwork_api_search_assembly::{assemble_api_router, SearchAppState, SearchBackendState};
 use sdkwork_web_bootstrap::{mount_infra_routes, ReadinessCheck, ServiceRouterConfig};
 use serde::Serialize;
 
@@ -188,7 +188,7 @@ pub fn build_application_router(state: ApplicationState) -> Router {
     );
     let indexing_service = state.indexing_service.clone();
 
-    let assembly = sdkwork_search_gateway_assembly::assemble_application_router(
+    let assembly = sdkwork_api_search_assembly::assemble_api_router(
         app_state,
         backend_state,
     );

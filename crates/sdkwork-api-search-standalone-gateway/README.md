@@ -1,4 +1,4 @@
-# sdkwork-search-standalone-gateway
+# sdkwork-api-search-standalone-gateway
 
 HTTP API server process for SDKWork Search.
 
@@ -21,6 +21,6 @@ and runs preflight checks before serving traffic.
 ## Verification
 
 ```sh
-cargo check -p sdkwork-search-standalone-gateway
-cargo clippy -p sdkwork-search-standalone-gateway -- -D warnings
+cargo check -p sdkwork-api-search-standalone-gateway
+cargo clippy -p sdkwork-api-search-standalone-gateway -- -D warnings
 ```

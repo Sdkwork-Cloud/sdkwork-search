@@ -13,7 +13,7 @@ Specs: ARCHITECTURE_DECISION_SPEC.md, DOCUMENTATION_SPEC.md
 
 sdkwork-search is a layered search engine and recommendation system composed of 14 Rust crates under a single Cargo workspace. The layers flow top-down as:
 
-HTTP route crates (`sdkwork-routes-search-{app,backend}-api`) → gateway assembly (`sdkwork-search-gateway-assembly`) → API server process (`sdkwork-search-api-server`) → service crates (indexing / query / recommendation / promotion) → `SearchProvider` SPI → concrete providers (memory / postgresql) → repository ports → SQLx repository → PostgreSQL.
+HTTP route crates (`sdkwork-routes-search-{app,backend}-api`) → gateway assembly (`sdkwork-api-search-assembly`) → API server process (`sdkwork-search-api-server`) → service crates (indexing / query / recommendation / promotion) → `SearchProvider` SPI → concrete providers (memory / postgresql) → repository ports → SQLx repository → PostgreSQL.
 
 The `SearchProviderRegistry` is the central pluggability seam: service crates depend only on the `SearchProvider` trait and `SearchProviderRegistry`, never on concrete provider implementations. Provider selection is config-driven and capability-based (highest-priority enabled provider that supports the requested `SearchProviderCapability`). Drive file upload is abstracted behind `DocumentUploadPort` so the indexing service never imports Drive SDK types directly.
 
@@ -45,7 +45,7 @@ The workspace declares 14 member crates with the following boundaries:
 7. **sdkwork-search-promotion-service** — `PromotionService` and `PromotionRepositoryPort` with 4 placements: `Top`, `Inline`, `Banner`, `Sidebar`.
 8. **sdkwork-search-indexing-repository-sqlx** — SQLx repository implementation: 18-table migration, 4 repositories (`SearchIndexRepository`, `SearchDocumentRepository`, `SearchSuggestionRepository`, `SearchUserEventRepository`).
 9. **sdkwork-search-database-host** — Database host crate coordinating migrations.
-10. **sdkwork-search-gateway-assembly** — Assembles `assemble_application_router` and exposes the route-crate inventory.
+10. **sdkwork-api-search-assembly** — Assembles `assemble_api_router` and exposes the route-crate inventory.
 11. **sdkwork-search-api-server** — HTTP API server process: bootstrap (config / state / database / providers / services / routers / document uploader) + server (listen / shutdown) + preflight + health.
 12. **sdkwork-search-service-host** — Service container and runtime.
 13. **sdkwork-routes-search-app-api** — App API route crate (8 routes, `HttpRoute::dual_token` standard).
@@ -66,7 +66,7 @@ sdkwork-search/
 │   ├── sdkwork-search-promotion-service/     # promotion service
 │   ├── sdkwork-search-indexing-repository-sqlx/  # SQLx repos + migrations
 │   ├── sdkwork-search-database-host/         # migration host
-│   ├── sdkwork-search-gateway-assembly/      # router assembly
+│   ├── sdkwork-api-search-assembly/      # router assembly
 │   ├── sdkwork-search-api-server/            # HTTP server process
 │   ├── sdkwork-search-service-host/          # service container
 │   ├── sdkwork-routes-search-app-api/        # app API routes
@@ -110,7 +110,7 @@ The single deployable is `sdkwork-search-api-server` (binary `main.rs`). The boo
 7. Assemble `build_application_router` merging app + backend route crates, the upload route, and infra routes.
 8. `listen` on the configured address; `shutdown` on Tokio signal.
 
-`sdkwork-search-service-host` provides the container/runtime abstraction. `sdkwork-search-gateway-assembly` exposes `assemble_application_router` and the route-crate package inventory for tooling.
+`sdkwork-search-service-host` provides the container/runtime abstraction. `sdkwork-api-search-assembly` exposes `assemble_api_router` and the route-crate package inventory for tooling.
 
 ## 8. Architecture Decision Index
 

@@ -16,7 +16,7 @@ pub async fn run_preflight(
     provider_registry: &Arc<SearchProviderRegistry>,
     config: &SearchApiServerConfig,
 ) -> anyhow::Result<()> {
-    tracing::info!("running sdkwork-search-standalone-gateway preflight checks");
+    tracing::info!("running sdkwork-api-search-standalone-gateway preflight checks");
     database::check_database(pool).await?;
     providers::check_providers(provider_registry).await?;
     let _ = config;
