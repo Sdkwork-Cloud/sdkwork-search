@@ -1,4 +1,4 @@
-[workspace]
+﻿[workspace]
 resolver = "2"
 members = [
     "crates/sdkwork-api-search-assembly",
@@ -21,7 +21,7 @@ members = [
 [workspace.package]
 edition = "2021"
 version = "0.1.0"
-license = "Apache-2.0"
+license = "AGPL-3.0-or-later"
 
 [workspace.dependencies]
 # SDKWork database framework (DATABASE_FRAMEWORK_SPEC.md)
