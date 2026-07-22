@@ -2,7 +2,9 @@
 
 use std::net::SocketAddr;
 
-use sdkwork_api_search_standalone_gateway::bootstrap::{build_application_state, SearchApiServerConfig};
+use sdkwork_api_search_standalone_gateway::bootstrap::{
+    build_application_state, SearchApiServerConfig,
+};
 use sdkwork_api_search_standalone_gateway::listen;
 use sdkwork_web_bootstrap::init_tracing_from_env;
 

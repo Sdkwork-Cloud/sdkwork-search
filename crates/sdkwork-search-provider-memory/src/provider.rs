@@ -226,7 +226,7 @@ impl SearchProvider for MemorySearchProvider {
             }
         }
 
-        suggestions.truncate(query.limit.max(1) as usize);
+        suggestions.truncate(query.page_size.max(1) as usize);
         Ok(SearchSuggestionResponse {
             suggestions,
             took_ms: start.elapsed().as_millis() as u64,

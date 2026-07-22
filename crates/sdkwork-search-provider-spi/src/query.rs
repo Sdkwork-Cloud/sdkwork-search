@@ -164,13 +164,13 @@ pub struct SearchSuggestionQuery {
     pub organization_id: i64,
     pub index_key: String,
     pub prefix: String,
-    #[serde(default = "default_suggestion_limit", rename = "page_size")]
-    page_size: u32,
+    #[serde(default = "default_suggestion_page_size", rename = "page_size")]
+    pub page_size: u32,
     #[serde(default)]
     pub filters: HashMap<String, Vec<String>>,
 }
 
-fn default_suggestion_limit() -> u32 {
+fn default_suggestion_page_size() -> u32 {
     10
 }
 
@@ -181,7 +181,7 @@ impl Default for SearchSuggestionQuery {
             organization_id: 0,
             index_key: String::new(),
             prefix: String::new(),
-            limit: 10,
+            page_size: 10,
             filters: HashMap::new(),
         }
     }

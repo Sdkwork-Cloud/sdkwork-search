@@ -45,7 +45,9 @@
     "publicExports": [
       "."
     ],
-    "runtimeEntrypoints": [],
+    "runtimeEntrypoints": [
+      "src/bootstrap.rs#assemble_api_router"
+    ],
     "routeManifest": "assembly-manifest.json",
     "sdkClients": [],
     "sdkDependencies": [],

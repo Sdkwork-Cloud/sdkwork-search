@@ -1644,6 +1644,52 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "94143f37725109f92c262ed2cf5e59bce7498c01bcc1502d7b9afe439a4e9f49"
 
 [[package]]
+name = "sdkwork-api-search-assembly"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "sdkwork-routes-search-app-api",
+ "sdkwork-routes-search-backend-api",
+ "tokio",
+]
+
+[[package]]
+name = "sdkwork-api-search-standalone-gateway"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "axum",
+ "chrono",
+ "sdkwork-api-search-assembly",
+ "sdkwork-drive-storage-contract",
+ "sdkwork-drive-storage-local",
+ "sdkwork-drive-uploader-service",
+ "sdkwork-drive-workspace-service",
+ "sdkwork-search-database-host",
+ "sdkwork-search-indexing-repository-sqlx",
+ "sdkwork-search-indexing-service",
+ "sdkwork-search-promotion-service",
+ "sdkwork-search-provider-memory",
+ "sdkwork-search-provider-postgresql",
+ "sdkwork-search-provider-spi",
+ "sdkwork-search-query-service",
+ "sdkwork-search-recommendation-service",
+ "sdkwork-utils-rust",
+ "sdkwork-web-axum",
+ "sdkwork-web-bootstrap",
+ "sdkwork-web-contract",
+ "sdkwork-web-core",
+ "serde",
+ "serde_json",
+ "sqlx",
+ "tokio",
+ "tower",
+ "tracing",
+ "uuid",
+]
+
+[[package]]
 name = "sdkwork-database-config"
 version = "0.1.0"
 dependencies = [
@@ -1664,6 +1710,7 @@ dependencies = [
  "sha2",
  "sqlx",
  "thiserror 2.0.18",
+ "tokio",
 ]
 
 [[package]]
@@ -1731,12 +1778,14 @@ dependencies = [
 name = "sdkwork-database-sqlx"
 version = "0.1.0"
 dependencies = [
+ "libsqlite3-sys",
  "sdkwork-database-config",
  "serde",
  "sqlx",
  "thiserror 2.0.18",
  "tokio",
  "tracing",
+ "url",
 ]
 
 [[package]]
@@ -1752,6 +1801,7 @@ name = "sdkwork-drive-contract"
 version = "0.1.0"
 dependencies = [
  "sdkwork-drive-storage-contract",
+ "sdkwork-utils-rust",
  "serde",
  "serde_json",
 ]
@@ -1765,6 +1815,7 @@ dependencies = [
  "sdkwork-database-lifecycle",
  "sdkwork-database-spi",
  "sdkwork-database-sqlx",
+ "sdkwork-drive-config",
 ]
 
 [[package]]
@@ -1780,13 +1831,12 @@ dependencies = [
 name = "sdkwork-drive-security"
 version = "0.1.0"
 dependencies = [
- "hmac",
  "http",
  "jsonwebtoken",
  "reqwest",
+ "sdkwork-utils-rust",
  "serde",
  "serde_json",
- "sha2",
  "tokio",
  "tracing",
 ]
@@ -1826,7 +1876,6 @@ version = "0.1.0"
 dependencies = [
  "async-trait",
  "chrono",
- "hmac",
  "reqwest",
  "sdkwork-database-config",
  "sdkwork-database-id",
@@ -1841,7 +1890,6 @@ dependencies = [
  "sdkwork-utils-rust",
  "serde",
  "serde_json",
- "sha2",
  "sqlx",
  "tokio",
  "tracing",
@@ -1890,44 +1938,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "sdkwork-search-api-server"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "axum",
- "chrono",
- "sdkwork-drive-storage-contract",
- "sdkwork-drive-storage-local",
- "sdkwork-drive-uploader-service",
- "sdkwork-drive-workspace-service",
- "sdkwork-routes-search-app-api",
- "sdkwork-routes-search-backend-api",
- "sdkwork-search-database-host",
- "sdkwork-search-gateway-assembly",
- "sdkwork-search-indexing-repository-sqlx",
- "sdkwork-search-indexing-service",
- "sdkwork-search-promotion-service",
- "sdkwork-search-provider-memory",
- "sdkwork-search-provider-postgresql",
- "sdkwork-search-provider-spi",
- "sdkwork-search-query-service",
- "sdkwork-search-recommendation-service",
- "sdkwork-utils-rust",
- "sdkwork-web-axum",
- "sdkwork-web-bootstrap",
- "sdkwork-web-contract",
- "sdkwork-web-core",
- "serde",
- "serde_json",
- "sqlx",
- "tokio",
- "tower",
- "tracing",
- "uuid",
-]
-
-[[package]]
 name = "sdkwork-search-database-host"
 version = "0.1.0"
 dependencies = [
@@ -1936,17 +1946,6 @@ dependencies = [
  "sdkwork-database-lifecycle",
  "sdkwork-database-spi",
  "sdkwork-database-sqlx",
-]
-
-[[package]]
-name = "sdkwork-search-gateway-assembly"
-version = "0.1.0"
-dependencies = [
- "axum",
- "sdkwork-routes-search-app-api",
- "sdkwork-routes-search-backend-api",
- "sdkwork-search-provider-spi",
- "tokio",
 ]
 
 [[package]]
@@ -2079,6 +2078,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "sdkwork-search-storage-sqlx"
+version = "0.1.0"
+dependencies = [
+ "sdkwork-database-config",
+ "sdkwork-database-sqlx",
+ "sdkwork-search-database-host",
+]
+
+[[package]]
 name = "sdkwork-utils-rust"
 version = "0.10.0"
 dependencies = [
@@ -2108,6 +2116,7 @@ dependencies = [
  "serde_json",
  "tokio",
  "tower",
+ "tower-http",
  "tracing",
 ]
 
@@ -2126,6 +2135,7 @@ dependencies = [
  "serde_json",
  "sqlx",
  "tokio",
+ "tower-http",
  "tracing",
  "tracing-subscriber",
 ]
@@ -2147,7 +2157,9 @@ dependencies = [
  "getrandom 0.2.17",
  "hmac",
  "http",
+ "percent-encoding",
  "rsa",
+ "sdkwork-utils-rust",
  "sdkwork-web-contract",
  "serde",
  "serde_json",

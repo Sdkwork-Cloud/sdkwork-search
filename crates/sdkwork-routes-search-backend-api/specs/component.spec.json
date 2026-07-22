@@ -6,9 +6,10 @@
     "displayName": "Sdkwork Routes Search Backend Api",
     "version": "0.1.0",
     "type": "rust-route-crate",
-    "root": "sdkwork-search/crates/sdkwork-routes-search-backend-api",
+    "root": "crates/sdkwork-routes-search-backend-api",
     "domain": "intelligence",
-    "capability": "routes-search-backend-api",
+    "capability": "search",
+    "surface": "backend-api",
     "languages": [
       "rust"
     ],
@@ -78,8 +79,12 @@
     "publicExports": [
       "."
     ],
-    "runtimeEntrypoints": [],
-    "routeManifest": "sdks/_route-manifests/<surface>/<packageName>.route-manifest.json",
+    "runtimeEntrypoints": [
+      "src/lib.rs#gateway_mount",
+      "src/lib.rs#gateway_route_manifest",
+      "src/routes.rs#build_backend_router"
+    ],
+    "routeManifest": "src/lib.rs#gateway_route_manifest",
     "sdkClients": [],
     "events": [],
     "configKeys": []

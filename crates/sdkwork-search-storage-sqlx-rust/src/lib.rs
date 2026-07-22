@@ -3,13 +3,13 @@ pub const SEARCH_STORAGE_MIGRATION: &str = "0001_search_storage.sql";
 mod bootstrap;
 
 pub use bootstrap::{
-    bootstrap_search_database, bootstrap_search_database_from_env, connect_and_bootstrap_search_database_from_env,
-    connect_and_bootstrap_search_database_from_url, connect_search_database_pool_from_env,
-    connect_search_database_pool_from_url, SearchDatabaseHost, SearchDatabasePool,
+    bootstrap_search_database, bootstrap_search_database_from_env,
+    connect_and_bootstrap_search_database_from_env, connect_and_bootstrap_search_database_from_url,
+    connect_search_database_pool_from_env, connect_search_database_pool_from_url,
+    SearchDatabaseHost, SearchDatabasePool,
 };
 
-const SEARCH_INITIAL_MIGRATION_SQL: &str =
-    include_str!("../migrations/0001_search_storage.sql");
+const SEARCH_INITIAL_MIGRATION_SQL: &str = include_str!("../migrations/0001_search_storage.sql");
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct SearchRepositoryBinding {

@@ -7,7 +7,9 @@ use crate::state::SearchBackendState;
 use axum::extract::{Path, Query, State};
 use axum::http::StatusCode;
 use axum::Json;
-use sdkwork_search_promotion_service::domain::{CreatePromotionInput, PromotionPlacement, UpdatePromotionInput};
+use sdkwork_search_promotion_service::domain::{
+    CreatePromotionInput, PromotionPlacement, UpdatePromotionInput,
+};
 use sdkwork_search_provider_spi::{
     DeleteDocument, IndexDocument, IndexDocumentBatch, SearchProviderContext,
 };
@@ -65,9 +67,7 @@ pub(crate) async fn create_index(
         .create_index(&ctx, &body.index_key, &body.schema)
         .await
         .map_err(service_error)?;
-    Ok(Json(
-        json!({ "created": true, "indexKey": body.index_key }),
-    ))
+    Ok(Json(json!({ "created": true, "indexKey": body.index_key })))
 }
 
 /// `DELETE /backend/v3/api/search/indexes/{index_key}` — 删除索引。
@@ -133,7 +133,9 @@ pub(crate) async fn rebuild_index(
         .rebuild_index(&ctx, &index_key, &body.schema)
         .await
         .map_err(service_error)?;
-    Ok(Json(json!({ "jobId": job_uuid, "indexKey": index_key, "status": "completed" })))
+    Ok(Json(
+        json!({ "jobId": job_uuid, "indexKey": index_key, "status": "completed" }),
+    ))
 }
 
 /// `GET /backend/v3/api/search/providers` — 列出所有已注册的 provider。

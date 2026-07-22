@@ -20,9 +20,10 @@ pub async fn connect_search_database_pool_from_url(
     database_url: &str,
 ) -> Result<SearchDatabasePool, PoolError> {
     let normalized = database_url.trim();
-    let engine = sdkwork_database_config::DatabaseEngine::from_url(normalized).ok_or_else(|| {
-        PoolError::InvalidUrl(format!("unsupported search database url: {normalized}"))
-    })?;
+    let engine =
+        sdkwork_database_config::DatabaseEngine::from_url(normalized).ok_or_else(|| {
+            PoolError::InvalidUrl(format!("unsupported search database url: {normalized}"))
+        })?;
     create_pool_from_config(DatabaseConfig {
         engine,
         url: normalized.to_string(),
@@ -32,8 +33,8 @@ pub async fn connect_search_database_pool_from_url(
     .await
 }
 
-pub async fn connect_and_bootstrap_search_database_from_env(
-) -> Result<SearchDatabaseHost, String> {
+pub async fn connect_and_bootstrap_search_database_from_env() -> Result<SearchDatabaseHost, String>
+{
     let pool = connect_search_database_pool_from_env()
         .await
         .map_err(|error| error.to_string())?;

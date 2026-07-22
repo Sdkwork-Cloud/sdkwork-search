@@ -2,7 +2,7 @@
 resolver = "2"
 members = [
     "crates/sdkwork-api-search-assembly",
-    "crates/sdkwork-api-search-assembly",
+    "crates/sdkwork-api-search-standalone-gateway",
     "crates/sdkwork-search-database-host",
     "crates/sdkwork-search-indexing-repository-sqlx",
     "crates/sdkwork-search-indexing-service",
@@ -12,8 +12,8 @@ members = [
     "crates/sdkwork-search-provider-spi",
     "crates/sdkwork-search-provider-postgresql",
     "crates/sdkwork-search-provider-memory",
-    "crates/sdkwork-search-api-server",
     "crates/sdkwork-search-service-host",
+    "crates/sdkwork-search-storage-sqlx-rust",
     "crates/sdkwork-routes-search-app-api",
     "crates/sdkwork-routes-search-backend-api",
 ]
@@ -55,9 +55,10 @@ sdkwork-search-promotion-service = { path = "crates/sdkwork-search-promotion-ser
 sdkwork-search-provider-spi = { path = "crates/sdkwork-search-provider-spi" }
 sdkwork-search-provider-postgresql = { path = "crates/sdkwork-search-provider-postgresql" }
 sdkwork-search-provider-memory = { path = "crates/sdkwork-search-provider-memory" }
-sdkwork_api_search_assembly = { package = "sdkwork-api-search-assembly", path = "crates/sdkwork-api-search-assembly" }
-sdkwork_routes_search_app_api = { package = "sdkwork-routes-search-app-api", path = "crates/sdkwork-routes-search-app-api" }
-sdkwork_routes_search_backend_api = { package = "sdkwork-routes-search-backend-api", path = "crates/sdkwork-routes-search-backend-api" }
+sdkwork-search-storage-sqlx = { path = "crates/sdkwork-search-storage-sqlx-rust" }
+sdkwork-api-search-assembly = { path = "crates/sdkwork-api-search-assembly" }
+sdkwork-routes-search-app-api = { path = "crates/sdkwork-routes-search-app-api" }
+sdkwork-routes-search-backend-api = { path = "crates/sdkwork-routes-search-backend-api" }
 
 # Common third-party dependencies (aligned with sdkwork-web-framework versions)
 async-trait = "0.1"

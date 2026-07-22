@@ -1,5 +1,5 @@
 [package]
-name = "sdkwork_search_storage_sqlx"
+name = "sdkwork-search-storage-sqlx"
 version = "0.1.0"
 edition = "2021"
 license = "Apache-2.0"

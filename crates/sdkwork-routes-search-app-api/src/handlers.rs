@@ -88,7 +88,7 @@ pub(crate) async fn list_search_suggestions(
         organization_id: ctx.organization_id,
         index_key: params.index_key,
         prefix: params.prefix,
-        limit: params.page_size,
+        page_size: params.page_size,
         filters: Default::default(),
     };
     let response = state
@@ -127,7 +127,13 @@ pub(crate) async fn create_search_recommendation(
     })?;
     let response = state
         .recommendation_service
-        .recommend(&ctx, body.strategy, user_id, &body.index_key, body.limit)
+        .recommend(
+            &ctx,
+            body.strategy,
+            user_id,
+            &body.index_key,
+            body.page_size,
+        )
         .await
         .map_err(service_error)?;
     Ok(ok_json(response))

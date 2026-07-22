@@ -363,7 +363,7 @@ impl SearchProvider for PostgresqlSearchProvider {
         query: &SearchSuggestionQuery,
     ) -> SearchProviderResult<SearchSuggestionResponse> {
         let start = std::time::Instant::now();
-        let limit = query.limit.max(1) as i64;
+        let limit = query.page_size.max(1) as i64;
 
         let rows: Vec<(String, f32)> = sqlx::query_as(
             r#"

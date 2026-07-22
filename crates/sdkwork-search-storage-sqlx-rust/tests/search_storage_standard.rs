@@ -1,8 +1,8 @@
 use sdkwork_search_storage_sqlx::{
-    search_management_tables, search_optional_postgresql_extension_names,
-    search_postgresql_extension_names, search_recommendation_tables,
-    search_database_tables, search_document_tables, search_initial_migration_sql,
-    search_index_tables, search_operational_tables, search_storage_capability_manifest,
+    search_database_tables, search_document_tables, search_index_tables,
+    search_initial_migration_sql, search_management_tables, search_operational_tables,
+    search_optional_postgresql_extension_names, search_postgresql_extension_names,
+    search_recommendation_tables, search_storage_capability_manifest,
 };
 
 #[test]
@@ -82,14 +82,8 @@ fn splits_index_document_and_operational_tables() {
 
 #[test]
 fn declares_postgresql_search_extensions() {
-    assert_eq!(
-        search_postgresql_extension_names(),
-        vec!["pg_trgm"],
-    );
-    assert_eq!(
-        search_optional_postgresql_extension_names(),
-        vec!["vector"],
-    );
+    assert_eq!(search_postgresql_extension_names(), vec!["pg_trgm"],);
+    assert_eq!(search_optional_postgresql_extension_names(), vec!["vector"],);
 }
 
 #[test]
@@ -168,7 +162,10 @@ fn manifest_declares_search_storage_contract() {
     assert_eq!(manifest.document_tables, search_document_tables());
     assert_eq!(manifest.operational_tables, search_operational_tables());
     assert_eq!(manifest.management_tables, search_management_tables());
-    assert_eq!(manifest.recommendation_tables, search_recommendation_tables());
+    assert_eq!(
+        manifest.recommendation_tables,
+        search_recommendation_tables()
+    );
     assert_eq!(
         manifest.postgresql_extensions,
         search_postgresql_extension_names(),
