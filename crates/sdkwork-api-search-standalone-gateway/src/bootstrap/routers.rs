@@ -8,7 +8,9 @@ use axum::{
     routing::post,
     Extension, Json, Router,
 };
-use sdkwork_api_search_assembly::{assemble_api_router, SearchAppState, SearchBackendState};
+use sdkwork_api_search_assembly::assemble_api_router;
+use sdkwork_routes_search_app_api::SearchAppState;
+use sdkwork_routes_search_backend_api::SearchBackendState;
 use sdkwork_search_indexing_service::ports::UploadDocumentRequest;
 use sdkwork_search_indexing_service::IndexingService;
 use sdkwork_search_provider_spi::{SearchProviderContext, SearchProviderContextBuilder};

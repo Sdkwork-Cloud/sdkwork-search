@@ -1650,6 +1650,7 @@ dependencies = [
  "axum",
  "sdkwork-routes-search-app-api",
  "sdkwork-routes-search-backend-api",
+ "sdkwork-web-bootstrap",
  "tokio",
 ]
 
@@ -1662,10 +1663,13 @@ dependencies = [
  "axum",
  "chrono",
  "sdkwork-api-search-assembly",
+ "sdkwork-database-config",
  "sdkwork-drive-storage-contract",
  "sdkwork-drive-storage-local",
  "sdkwork-drive-uploader-service",
  "sdkwork-drive-workspace-service",
+ "sdkwork-routes-search-app-api",
+ "sdkwork-routes-search-backend-api",
  "sdkwork-search-database-host",
  "sdkwork-search-indexing-repository-sqlx",
  "sdkwork-search-indexing-service",
@@ -1698,6 +1702,7 @@ dependencies = [
  "thiserror 2.0.18",
  "toml",
  "tracing",
+ "url",
 ]
 
 [[package]]

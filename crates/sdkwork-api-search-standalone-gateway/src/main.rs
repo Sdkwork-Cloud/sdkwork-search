@@ -12,7 +12,7 @@ use sdkwork_web_bootstrap::init_tracing_from_env;
 async fn main() -> anyhow::Result<()> {
     init_tracing_from_env();
 
-    let config = SearchApiServerConfig::from_env();
+    let config = SearchApiServerConfig::from_env()?;
     let addr: SocketAddr = config.bind_addr.parse().map_err(|err| {
         anyhow::anyhow!("invalid SEARCH_API_BIND_ADDR {:?}: {err}", config.bind_addr)
     })?;

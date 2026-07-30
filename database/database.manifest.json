@@ -1,6 +1,7 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "kind": "sdkwork.database.module",
+  "databaseRole": "authoritative-server",
   "moduleId": "search",
   "serviceCode": "SEARCH",
   "displayName": "SEARCH Database",
@@ -12,9 +13,10 @@
   "tablePrefix": "search_",
   "contractVersion": "1.0.0",
   "baselineStrategy": "baseline-plus-migrations",
+  "baselineAnchorTable": "search_index",
   "modules": [],
   "lifecycle": {
-    "autoMigrate": true,
+    "autoMigrate": false,
     "seedOnBoot": false,
     "defaultSeedLocale": "zh-CN",
     "defaultSeedProfile": "standard",

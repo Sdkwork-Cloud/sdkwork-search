@@ -20,14 +20,21 @@ impl SearchApiServerConfig {
     /// Load configuration from environment variables with safe development defaults.
     ///
     /// - `SEARCH_API_BIND_ADDR` (default `0.0.0.0:8080`)
-    /// - `SEARCH_DATABASE_URL` (default local PostgreSQL URL)
+    /// - `SDKWORK_DATABASE_*` (canonical workspace PostgreSQL profile)
     /// - `SEARCH_UPLOAD_ROOT_DIR` (default `var/search-uploads`)
-    pub fn from_env() -> Self {
+    pub fn from_env() -> anyhow::Result<Self> {
         let bind_addr =
             std::env::var("SEARCH_API_BIND_ADDR").unwrap_or_else(|_| "0.0.0.0:8080".to_owned());
-        let database_url = std::env::var("SEARCH_DATABASE_URL").unwrap_or_else(|_| {
-            "postgres://sdkwork:sdkwork@localhost:5432/sdkwork_search".to_owned()
-        });
+        let database =
+            sdkwork_database_config::DatabaseConfig::from_env("search").map_err(|error| {
+                anyhow::anyhow!("invalid SDKWORK_DATABASE_* configuration: {error}")
+            })?;
+        if database.engine != sdkwork_database_config::DatabaseEngine::Postgres {
+            anyhow::bail!(
+                "search standalone gateway authoritative persistence requires PostgreSQL"
+            );
+        }
+        let database_url = database.url;
         let upload_root_dir = std::env::var("SEARCH_UPLOAD_ROOT_DIR")
             .unwrap_or_else(|_| "var/search-uploads".to_owned());
         let provider_configs = vec![SearchProviderConfig {
@@ -38,11 +45,11 @@ impl SearchApiServerConfig {
             connection: json!({}),
             options: json!({}),
         }];
-        Self {
+        Ok(Self {
             bind_addr,
             database_url,
             provider_configs,
             upload_root_dir,
-        }
+        })
     }
 }
