@@ -10,8 +10,30 @@ name = "sdkwork_api_search_assembly"
 path = "src/lib.rs"
 
 [dependencies]
-axum.workspace = true
+axum = { workspace = true, features = ["multipart"] }
 tokio.workspace = true
+tracing.workspace = true
+sqlx.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+anyhow.workspace = true
+async-trait.workspace = true
+uuid.workspace = true
+chrono.workspace = true
 sdkwork-web-bootstrap.workspace = true
+sdkwork-web-core.workspace = true
+sdkwork-database-config.workspace = true
+sdkwork-utils-rust.workspace = true
+sdkwork-drive-storage-local.workspace = true
+sdkwork-drive-uploader-service.workspace = true
+sdkwork-drive-workspace-service.workspace = true
+sdkwork-search-provider-spi.workspace = true
+sdkwork-search-provider-memory.workspace = true
+sdkwork-search-provider-postgresql.workspace = true
+sdkwork-search-indexing-repository-sqlx.workspace = true
+sdkwork-search-indexing-service.workspace = true
+sdkwork-search-query-service.workspace = true
+sdkwork-search-recommendation-service.workspace = true
+sdkwork-search-promotion-service.workspace = true
 sdkwork-routes-search-app-api.workspace = true
 sdkwork-routes-search-backend-api.workspace = true
