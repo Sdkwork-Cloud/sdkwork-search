@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 3,
+  "kind": "sdkwork.app",
+  "app": {
+    "key": "sdkwork-search",
+    "name": "Search",
+    "displayName": "SDKWork Search",
+    "description": "SDKWork Search application (bootstrap deploy layout).",
+    "appType": "SDK"
+  },
+  "backend": {
+    "primaryLanguage": "rust",
+    "framework": "axum",
+    "appId": "sdkwork-search",
+    "serviceId": "sdkwork-search",
+    "owner": "sdkwork-search",
+    "domain": "search"
+  },
+  "runtime": {
+    "family": "server",
+    "framework": "rust-axum",
+    "supportedDeploymentProfiles": [
+      "standalone",
+      "cloud"
+    ],
+    "defaultDeploymentProfile": "standalone"
+  }
+}
